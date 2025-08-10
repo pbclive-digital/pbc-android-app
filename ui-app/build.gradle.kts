@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.google.android.hilt)
 }
 
 // App Properties
@@ -61,8 +63,11 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)
 
-    //implementation(libs.androidx.appcompat)
-    //implementation(libs.material)
+    // DI Hilt
+    implementation(libs.google.android.hilt)
+    kapt(libs.google.android.hilt.compiler)
+    implementation(libs.google.android.hilt.navigation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
