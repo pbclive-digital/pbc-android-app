@@ -1,5 +1,15 @@
 import java.net.URI
 
+listOf(
+    ":ui-splash",
+    ":lib-common-ui",
+    ":lib-parent",
+    ":ui-app"
+).forEach {
+    include(it)
+}
+rootProject.name = "pbc-android-app"
+
 pluginManagement {
     resolutionStrategy {
         eachPlugin {
@@ -38,7 +48,4 @@ dependencyResolutionManagement {
         maven { url = URI("https://jitpack.io") }
     }
 }
-
-rootProject.name = "pbc-android-app"
-include(":ui-app")
  

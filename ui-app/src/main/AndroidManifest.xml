@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application
-        android:name=".PbcLiveApp"
+        android:name=".PBCLiveApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -10,6 +10,18 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Pbcandroidapp" />
+        android:theme="@style/Theme.Pbcandroidapp">
 
+        <activity
+            android:name="com.kavi.pbc.droid.app.ui.PBCActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.PBCAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 </manifest>
