@@ -9,6 +9,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,25 +30,26 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
-fun SplashUI() {
+fun SplashUI(navController: NavController) {
     Box (
         modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ) {
         Column(modifier = Modifier
-            .padding(8.dp)
             .fillMaxSize()
+            .padding(16.dp)
         ) {
-            PulsarIcon()
+            PulsarIcon(navController = navController)
         }
     }
 }
 
 @Composable
-private fun PulsarIcon(pulseCount: Int = 2) {
+private fun PulsarIcon(pulseCount: Int = 2, navController: NavController) {
     var iconSize by remember { mutableStateOf(IntSize(0, 0)) }
-    val pulsarRadius = 140f
+    val pulsarRadius = 200f
     val effects: List<Pair<Float, Float>> = List(pulseCount) {
         pulsarBuilder(pulsarRadius = pulsarRadius, size = iconSize.width, it * 500)
     }
@@ -62,8 +64,8 @@ private fun PulsarIcon(pulseCount: Int = 2) {
         })
 
         Image(
-            painter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.pbc_icon),
-            contentDescription = "avatar",
+            painter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
+            contentDescription = "Dhamma chakra icon",
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(pulsarRadius.dp)
@@ -72,6 +74,9 @@ private fun PulsarIcon(pulseCount: Int = 2) {
                     if (it.isAttached) {
                         iconSize = it.size
                     }
+                }
+                .clickable {
+                    navController.navigate("splash/auth")
                 }
         )
     }

@@ -1,10 +1,19 @@
 package com.kavi.pbc.droid.lib.common.ui.theme
 
 import androidx.compose.material3.Typography
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.kavi.pbc.droid.lib.common.ui.R
+
+val PBCNameFontFamily = FontFamily(
+    Font(R.font.font_roboto_variable,  style = FontStyle.Normal),
+    Font(R.font.font_roboto_variable_italic, style = FontStyle.Italic)
+)
 
 val AppTypography = Typography(
     bodyLarge = TextStyle(

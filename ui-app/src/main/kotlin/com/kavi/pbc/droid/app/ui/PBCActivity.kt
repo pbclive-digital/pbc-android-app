@@ -19,7 +19,7 @@ class PBCActivity: ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             PBCAppTheme {
-                splashContract.GetNavGraph()
+                splashContract.RetrieveNavGraph()
             }
         }
     }

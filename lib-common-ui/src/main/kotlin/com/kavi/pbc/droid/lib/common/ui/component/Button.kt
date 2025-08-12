@@ -23,7 +23,7 @@ import com.kavi.pbc.droid.lib.common.ui.theme.GrayText
 @Composable
 fun AppBlueFilledButton(label: String,
                         labelTextSize: TextUnit? = null,
-                        modifier: Modifier,
+                        modifier: Modifier = Modifier,
                         onClick: () -> Unit) {
     Button(
         onClick = onClick,

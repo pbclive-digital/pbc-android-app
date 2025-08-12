@@ -10,7 +10,7 @@ class SplashContractImpl @Inject constructor(): SplashContract {
     lateinit var splashNavigation: SplashNavigation
 
     @Composable
-    override fun GetNavGraph() {
+    override fun RetrieveNavGraph() {
         splashNavigation.SplashNavGraph()
     }
 }

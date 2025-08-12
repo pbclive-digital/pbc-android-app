@@ -4,5 +4,5 @@ import androidx.compose.runtime.Composable
 
 interface CommonContract {
     @Composable
-    fun GetNavGraph()
+    fun RetrieveNavGraph()
 }

@@ -1,6 +1,7 @@
 import java.net.URI
 
 listOf(
+    ":ui-auth",
     ":ui-splash",
     ":lib-common-ui",
     ":lib-parent",
