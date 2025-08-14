@@ -9,7 +9,6 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -56,7 +55,7 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            PulsarIcon(navController = navController)
+            PulsarIcon()
         }
     }
 
@@ -74,7 +73,7 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
 }
 
 @Composable
-private fun PulsarIcon(pulseCount: Int = 2, navController: NavController) {
+private fun PulsarIcon(pulseCount: Int = 2) {
     var iconSize by remember { mutableStateOf(IntSize(0, 0)) }
     val pulsarRadius = 200f
     val effects: List<Pair<Float, Float>> = List(pulseCount) {

@@ -1,7 +1,6 @@
 package com.kavi.pbc.droid.app
 
 import android.app.Application
-import androidx.compose.ui.graphics.Color
 import com.kavi.droid.color.palette.KvColorPalette
 import com.kavi.pbc.droid.lib.common.ui.theme.BaseColor
 import com.kavi.pbc.droid.network.Network

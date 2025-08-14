@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
-import com.kavi.pbc.droid.splash.ui.SplashViewModel
 import com.kavi.pbc.droid.ui.splash.R
 
 @Composable
