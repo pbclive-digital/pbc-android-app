@@ -1,36 +1,33 @@
-package com.kavi.pbc.droid.auth.ui
+package com.kavi.pbc.droid.splash.ui.error
 
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kavi.droid.color.palette.extension.quaternary
-import com.kavi.pbc.droid.auth.R
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.splash.ui.SplashViewModel
+import com.kavi.pbc.droid.ui.splash.R
 
 @Composable
-fun AuthUI() {
+fun NoAPISupport(viewModel: SplashViewModel = hiltViewModel()) {
     Box (
         modifier = Modifier
             .fillMaxSize()
@@ -44,61 +41,47 @@ fun AuthUI() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_pbc),
+                painter = painterResource(R.drawable.image_update_required),
                 contentDescription = "Pittsburgh Buddhist Center icon",
                 modifier = Modifier
-                    .size(240.dp)
-                    .clip(CircleShape)
+                    .padding(16.dp)
             )
 
             Text(
-                stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_pbc_part_one),
+                stringResource(R.string.label_update_required),
                 fontFamily = PBCNameFontFamily,
                 fontSize = 32.sp,
-                color = MaterialTheme.colorScheme.quaternary,
+                color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 12.dp)
             )
 
             Text(
-                stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_pbc_part_two),
+                stringResource(R.string.phrase_update_required),
                 fontFamily = PBCNameFontFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = 32.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier.padding(top = 12.dp)
+                fontSize = 18.sp,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)
             )
         }
 
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 12.dp, end = 12.dp, bottom = 32.dp)
+                .padding(start = 16.dp, end = 16.dp, bottom = 40.dp)
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AppBlueFilledButton(
-                label = "Sign in with Google",
-                modifier = Modifier.padding(top = 12.dp)
+                label = stringResource(R.string.label_update_pbc),
             ) {
-                Log.d("Auth", "Login with Google")
+                Log.d("Splash", "Navigate user to Google Play store")
             }
-
-            Text(
-                text = stringResource(R.string.label_login_as_guest),
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.secondary,
-                modifier = Modifier
-                    .padding(top = 12.dp)
-                    .clickable {
-                        Log.d("Auth", "Login as Guest")
-                    }
-            )
         }
     }
 }
 
 @Preview
 @Composable
-fun AuthUI_Preview() {
-    AuthUI()
+fun NoAPISupport_Preview() {
+    NoAPISupport()
 }

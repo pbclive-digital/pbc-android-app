@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.splash.data.repository
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.dto.AppVersionStatus
 import com.kavi.pbc.droid.network.dto.BaseResponse
+import com.kavi.pbc.droid.network.dto.Config
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
@@ -15,5 +16,9 @@ class SplashRemoteRepository @Inject constructor(
 
     suspend fun getVersionSupportStatus(): ResultWrapper<BaseResponse<AppVersionStatus>> {
         return network.invokeApiCall(dispatcher) { splashServiceApi.getVersionSupportStatus() }
+    }
+
+    suspend fun getConfig(): ResultWrapper<BaseResponse<Config>> {
+        return network.invokeApiCall(dispatcher) { splashServiceApi.getConfiguration() }
     }
 }

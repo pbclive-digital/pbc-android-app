@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_update_required">Update Required!</string>
+    <string name="label_update_pbc">Update PBC</string>
+    <string name="phrase_update_required">You need to update your application. You are using older version of PBC app. Please go to Google Play-store to update the application</string>
+</resources>

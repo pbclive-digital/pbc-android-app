@@ -2,4 +2,6 @@
 <resources>
     <string name="label_name_short">PBC</string>
     <string name="label_name">Pittsburgh Buddhist Center</string>
+    <string name="label_pbc_part_one">Pittsburgh</string>
+    <string name="label_pbc_part_two">Buddhist Center</string>
 </resources>
