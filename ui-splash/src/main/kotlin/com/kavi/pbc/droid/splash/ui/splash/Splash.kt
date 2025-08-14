@@ -41,6 +41,8 @@ import com.kavi.pbc.droid.splash.ui.SplashViewModel
 fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltViewModel()) {
 
     val isNoSupport by viewModel.isNoSupport.collectAsState()
+    val isNoConnection by viewModel.isNoConnection.collectAsState()
+    val navigateToAuth by viewModel.navigateToAuth.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.fetchVersionSupportStatus() // Call your ViewModel function here
@@ -60,6 +62,14 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
 
     if (isNoSupport) {
         navController.navigate("splash/no-support")
+    }
+
+    if (isNoConnection) {
+        navController.navigate("splash/no-connection")
+    }
+
+    if (navigateToAuth) {
+        navController.navigate("splash/auth")
     }
 }
 
@@ -94,9 +104,6 @@ private fun PulsarIcon(pulseCount: Int = 2, navController: NavController) {
                     if (it.isAttached) {
                         iconSize = it.size
                     }
-                }
-                .clickable {
-                    navController.navigate("splash/auth")
                 }
         )
     }

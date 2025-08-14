@@ -18,19 +18,22 @@ class SplashViewModel @Inject constructor(
 
     private val _isNoSupport = MutableStateFlow(false)
     val isNoSupport: StateFlow<Boolean> = _isNoSupport
+    private val _isNoConnection = MutableStateFlow(false)
+    val isNoConnection: StateFlow<Boolean> = _isNoConnection
+    private val _navigateToAuth = MutableStateFlow(false)
+    val navigateToAuth: StateFlow<Boolean> = _navigateToAuth
 
     fun fetchVersionSupportStatus() {
         viewModelScope.launch {
             when(val response = remoteDataSource.getVersionSupportStatus()) {
                 is ResultWrapper.NetworkError -> {
-                    Log.d("NETWORK RESULT", "NetworkError")
+                    Log.e("NETWORK RESULT", "NetworkError")
+                    _isNoConnection.value = true
                 }
                 is ResultWrapper.HttpError -> {
                     Log.d("NETWORK RESULT", "HttpError")
                 }
-                is ResultWrapper.UnAuthError -> {
-                    Log.d("NETWORK RESULT", "UnAuthError")
-                }
+                is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
                         if (it.support) {
@@ -48,17 +51,16 @@ class SplashViewModel @Inject constructor(
         viewModelScope.launch {
             when(val response = remoteDataSource.getConfig()) {
                 is ResultWrapper.NetworkError -> {
-                    Log.d("NETWORK RESULT", "NetworkError")
+                    Log.e("NETWORK RESULT", "NetworkError")
+                    _isNoConnection.value = true
                 }
                 is ResultWrapper.HttpError -> {
                     Log.d("NETWORK RESULT", "HttpError")
                 }
-                is ResultWrapper.UnAuthError -> {
-                    Log.d("NETWORK RESULT", "UnAuthError")
-                }
+                is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
-                        Log.d("NETWORK RESULT", it.toString())
+                        _navigateToAuth.value = true
                     }
                 }
             }

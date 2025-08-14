@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import com.kavi.pbc.droid.splash.ui.error.NoAPISupport
+import com.kavi.pbc.droid.splash.ui.error.NoConnection
 import com.kavi.pbc.droid.splash.ui.splash.SplashUI
 import javax.inject.Inject
 
@@ -26,6 +27,9 @@ class SplashNavigation @Inject constructor() {
             }
             composable (route = "splash/no-support") {
                 NoAPISupport()
+            }
+            composable (route = "splash/no-connection") {
+                NoConnection()
             }
         }
     }

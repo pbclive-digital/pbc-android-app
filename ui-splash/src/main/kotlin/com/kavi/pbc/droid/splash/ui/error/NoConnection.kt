@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,16 +16,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
-import com.kavi.pbc.droid.splash.ui.SplashViewModel
 import com.kavi.pbc.droid.ui.splash.R
 
 @Composable
-fun NoAPISupport() {
+fun NoConnection() {
     Box (
         modifier = Modifier
             .fillMaxSize()
@@ -38,14 +37,15 @@ fun NoAPISupport() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = painterResource(R.drawable.image_update_required),
+                painter = painterResource(R.drawable.image_no_connection),
                 contentDescription = "Pittsburgh Buddhist Center icon",
                 modifier = Modifier
+                    .size(240.dp)
                     .padding(16.dp)
             )
 
             Text(
-                stringResource(R.string.label_update_required),
+                stringResource(R.string.label_no_connection),
                 fontFamily = PBCNameFontFamily,
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -53,7 +53,7 @@ fun NoAPISupport() {
             )
 
             Text(
-                stringResource(R.string.phrase_update_required),
+                stringResource(R.string.phrase_no_connection),
                 fontFamily = PBCNameFontFamily,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurface,
@@ -69,16 +69,10 @@ fun NoAPISupport() {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             AppBlueFilledButton(
-                label = stringResource(R.string.label_update_pbc),
+                label = stringResource(R.string.label_try_again),
             ) {
                 Log.d("Splash", "Navigate user to Google Play store")
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun NoAPISupport_Preview() {
-    NoAPISupport()
 }
