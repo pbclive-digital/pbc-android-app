@@ -19,6 +19,12 @@ junit = "4.13.2"
 androidXJunit = "1.2.1"
 espressoCore = "3.6.1"
 
+googleGsonVersion = "2.8.9"
+retrofitVersion = "2.9.0"
+okHttpLoginInterceptorVersion = "3.8.0"
+
+kotlinCoroutinesVersion = "1.5.2"
+
 kotlinxSerializationVersion = "1.9.0"
 kotlinxCoroutinesVersion = "1.10.2"
 
@@ -50,9 +56,15 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesVersion" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesVersion" }
 
+retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofitVersion" }
+retrofit-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
+okhttp3-loggin-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okHttpLoginInterceptorVersion" }
+#picasso = { module = "com.squareup.picasso:picasso", version.ref = "picassoVersion" }
+
 google-android-hilt = { module = "com.google.dagger:hilt-android", version.ref = "hiltVersion" }
 google-android-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
 google-android-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltComposeNavigation" }
+google-code-gson = { module = "com.google.code.gson:gson", version.ref = "googleGsonVersion" }
 
 kv-color-palette = { group = "com.github.KvColorPalette", name = "KvColorPalette-Android", version.ref = "kvColorPalette" }
 kv-color-picker = { group = "com.github.KvColorPalette", name = "KvColorPicker-Android", version.ref = "kvColorPicker" }

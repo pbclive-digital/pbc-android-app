@@ -11,7 +11,8 @@
         android:icon="@mipmap/ic_app_icon"
         android:roundIcon="@mipmap/ic_app_icon"
         android:label="@string/app_name"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:usesCleartextTraffic="true">
 
         <activity
             android:name="com.kavi.pbc.droid.app.ui.PBCActivity"

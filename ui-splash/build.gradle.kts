@@ -58,8 +58,19 @@ dependencies {
     kapt(libs.google.android.hilt.compiler)
     implementation(libs.google.android.hilt.navigation)
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp3.loggin.interceptor)
+
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
+
     implementation(libs.kv.color.palette)
 
+    implementation(project(":lib-network"))
     implementation(project(":lib-common-ui"))
     implementation(project(":lib-parent"))
 

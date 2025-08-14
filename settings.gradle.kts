@@ -3,9 +3,10 @@ import java.net.URI
 listOf(
     ":ui-auth",
     ":ui-splash",
+    ":ui-app",
+    ":lib-network",
     ":lib-common-ui",
     ":lib-parent",
-    ":ui-app"
 ).forEach {
     include(it)
 }
@@ -19,7 +20,7 @@ pluginManagement {
                     "com.google.gms.google-services"
                 ) -> useModule("com.google.gms:google-services:${requested.version}")
                 in listOf(
-                    "kotlin-serialization"
+                    "kotlin-serialization",
                 ) -> useModule("org.jetbrains.kotlin:kotlin-serialization:${requested.version}")
                 in listOf(
                     "kotlin-kapt"

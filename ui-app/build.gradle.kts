@@ -26,8 +26,21 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix = ".debug"
+            isMinifyEnabled = false
+            isDebuggable = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        create("staging") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".debug"
+
+            matchingFallbacks.add("debug")
+        }
         release {
             isMinifyEnabled = false
+            isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -39,10 +52,6 @@ android {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
     }
-
-    /*kotlinOptions {
-        jvmTarget = libs.versions.jvmVersion.get()
-    }*/
 
     buildFeatures {
         compose = true
@@ -73,6 +82,7 @@ dependencies {
     implementation(project(":ui-auth"))
     implementation(project(":ui-splash"))
     implementation(project(":lib-common-ui"))
+    implementation(project(":lib-network"))
     implementation(project(":lib-parent"))
 
     testImplementation(libs.junit)
