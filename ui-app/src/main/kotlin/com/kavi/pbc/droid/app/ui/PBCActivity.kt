@@ -37,7 +37,7 @@ class PBCActivity: ComponentActivity() {
 
     private fun evaluateDeviceFormFactor() {
         val deviceFactor = getDeviceFormFactor(this)
-        Session.getInstance()?.deviceFactor = DeviceFactor.valueOf(deviceFactor)
+        Session.deviceFactor = DeviceFactor.valueOf(deviceFactor)
     }
 
     private fun evaluateAppVersion() {
@@ -47,6 +47,6 @@ class PBCActivity: ComponentActivity() {
         } catch (ex: PackageManager.NameNotFoundException) {
             "0"
         }
-        Session.getInstance()?.appVersion = appVersion
+        Session.appVersion = appVersion
     }
 }

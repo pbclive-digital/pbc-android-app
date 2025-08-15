@@ -49,7 +49,7 @@ class Network {
         client.apply {
             addInterceptor(Interceptor { chain ->
                 val builder = chain.request().newBuilder()
-                Session.getInstance()?.authToken?.token?.let {
+                Session.authToken?.token?.let {
                     builder.header("Authorization", "Bearer $it")
                 }
                 return@Interceptor chain.proceed(builder.build())
@@ -61,16 +61,14 @@ class Network {
             addInterceptor(Interceptor { chain ->
                 val builder = chain.request().newBuilder()
                 builder.header("X-app-os", "android")
-                Session.getInstance()?.let { session ->
-                    session.user?.let {
-                        builder.header("X-app-user", Json.encodeToString(it))
-                    }
-                    session.deviceFactor?.let {
-                        builder.header("X-app-device-factor", it.toString())
-                    }
-                    session.appVersion?.let {
-                        builder.header("X-app-version", it)
-                    }
+                Session.user?.let {
+                    builder.header("X-app-user", Json.encodeToString(it))
+                }
+                Session.deviceFactor?.let {
+                    builder.header("X-app-device-factor", it.toString())
+                }
+                Session.appVersion?.let {
+                    builder.header("X-app-version", it)
                 }
                 return@Interceptor chain.proceed(builder.build())
             })

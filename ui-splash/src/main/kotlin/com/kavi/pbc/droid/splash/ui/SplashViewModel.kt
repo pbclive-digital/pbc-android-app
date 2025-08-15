@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.network.model.ResultWrapper
+import com.kavi.pbc.droid.network.session.Session
 import com.kavi.pbc.droid.splash.data.repository.SplashRemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +60,8 @@ class SplashViewModel @Inject constructor(
                 }
                 is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
-                    response.value.body?.let {
+                    response.value.body?.let { config ->
+                        Session.config = config
                         _navigateToAuth.value = true
                     }
                 }
