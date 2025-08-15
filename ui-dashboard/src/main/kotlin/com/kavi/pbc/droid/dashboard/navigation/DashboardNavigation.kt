@@ -7,20 +7,21 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.dashboard.ui.Dashboard
+import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
 import javax.inject.Inject
 
 class DashboardNavigation @Inject constructor() {
 
     @Composable
     fun DashboardNavGraph() {
+        val navController = rememberNavController()
         NavHost(
-            navController = rememberNavController(), startDestination = "dashboard/dashboard-ui",
+            navController = navController, startDestination = "dashboard/dashboard-ui",
             enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
             composable (route = "dashboard/dashboard-ui") {
-                Dashboard()
+                Dashboard(navController = navController)
             }
         }
     }
