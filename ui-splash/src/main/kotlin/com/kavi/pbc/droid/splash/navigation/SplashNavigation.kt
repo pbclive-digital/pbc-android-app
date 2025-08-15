@@ -1,5 +1,8 @@
 package com.kavi.pbc.droid.splash.navigation
 
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,11 +21,15 @@ class SplashNavigation @Inject constructor() {
     @Composable
     fun SplashNavGraph() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = "splash/splash-anim") {
+        NavHost(
+            navController = navController, startDestination = "splash/splash-anim",
+            enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
+            exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
+        ) {
             composable(route = "splash/splash-anim") {
                 SplashUI(navController)
             }
-            composable(route = "splash/auth") {
+            composable(route = "splash/to/auth") {
                 authContract.RetrieveNavGraph()
             }
             composable (route = "splash/no-support") {

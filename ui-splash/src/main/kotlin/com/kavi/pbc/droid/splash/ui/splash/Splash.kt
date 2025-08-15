@@ -68,7 +68,12 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
     }
 
     if (navigateToAuth) {
-        navController.navigate("splash/auth")
+        navController.navigate("splash/to/auth") {
+            // Remove SplashUI from backstack
+            popUpTo("splash/splash-anim") {
+                inclusive = true
+            }
+        }
     }
 }
 

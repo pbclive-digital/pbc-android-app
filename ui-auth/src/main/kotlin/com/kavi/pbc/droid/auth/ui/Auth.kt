@@ -23,13 +23,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.auth.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
 
 @Composable
-fun AuthUI() {
+fun AuthUI(navController: NavController) {
     Box (
         modifier = Modifier
             .fillMaxSize()
@@ -90,6 +92,12 @@ fun AuthUI() {
                     .padding(top = 12.dp)
                     .clickable {
                         Log.d("Auth", "Login as Guest")
+                        navController.navigate("auth/to/dashboard") {
+                            // Remove AuthUI from backstack
+                            popUpTo("auth/auth-ui") {
+                                inclusive = true
+                            }
+                        }
                     }
             )
         }
@@ -99,5 +107,5 @@ fun AuthUI() {
 @Preview
 @Composable
 fun AuthUI_Preview() {
-    AuthUI()
+    AuthUI(navController = rememberNavController())
 }
