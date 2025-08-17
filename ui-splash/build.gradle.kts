@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -35,6 +37,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(libs.versions.jvmVersion.get())
+        }
+    }
 }
 
 dependencies {
@@ -50,8 +58,8 @@ dependencies {
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.navigation.compose)
 
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.tooling.preview)
+    implementation(libs.androidx.ui.tooling)
+    implementation(libs.androidx.ui.tooling.preview)
 
     // DI Hilt
     implementation(libs.google.android.hilt)
@@ -71,6 +79,7 @@ dependencies {
     implementation(libs.kv.color.palette)
 
     implementation(project(":lib-network"))
+    implementation(project(":lib-data"))
     implementation(project(":lib-common-ui"))
     implementation(project(":lib-parent"))
 

@@ -2,8 +2,10 @@ package com.kavi.pbc.droid.app.di
 
 import com.kavi.pbc.droid.auth.AuthContractImpl
 import com.kavi.pbc.droid.dashboard.DashboardContractImpl
+import com.kavi.pbc.droid.event.EventContractImpl
 import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.module.DashboardContract
+import com.kavi.pbc.droid.lib.parent.module.EventContract
 import com.kavi.pbc.droid.lib.parent.module.SplashContract
 import com.kavi.pbc.droid.splash.SplashContractImpl
 import dagger.Binds
@@ -22,4 +24,7 @@ abstract class UIModuleBinding {
 
     @Binds
     abstract fun callDashboardContract(dashboardContractImpl: DashboardContractImpl): DashboardContract
+
+    @Binds
+    abstract fun callEventContract(eventContactImpl: EventContractImpl): EventContract
 }

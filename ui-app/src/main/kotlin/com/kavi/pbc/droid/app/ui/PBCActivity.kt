@@ -5,10 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.kavi.pbc.droid.data.dto.DeviceFactor
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCAppTheme
 import com.kavi.pbc.droid.lib.parent.extension.getDeviceFormFactor
 import com.kavi.pbc.droid.lib.parent.module.SplashContract
-import com.kavi.pbc.droid.network.dto.DeviceFactor
 import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

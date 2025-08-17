@@ -1,7 +1,7 @@
 package com.kavi.pbc.droid.network.model
 
-import com.kavi.pbc.droid.network.dto.Error
-import com.kavi.pbc.droid.network.dto.BaseResponse
+import com.kavi.pbc.droid.data.dto.BaseResponse
+import com.kavi.pbc.droid.data.dto.Error
 
 sealed class ResultWrapper<out T> {
     data class Success<out T>(val value: BaseResponse<@UnsafeVariance T>): ResultWrapper<BaseResponse<@UnsafeVariance T>>()

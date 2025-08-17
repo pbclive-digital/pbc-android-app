@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.network.dto.auth
+package com.kavi.pbc.droid.data.dto.auth
 
 import kotlinx.serialization.Serializable
 

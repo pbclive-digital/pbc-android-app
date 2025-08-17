@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.network.dto
+package com.kavi.pbc.droid.data.dto
 
 import kotlinx.serialization.Serializable
 

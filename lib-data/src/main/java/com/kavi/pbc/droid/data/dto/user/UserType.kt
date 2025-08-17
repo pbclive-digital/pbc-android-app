@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.network.dto.user
+package com.kavi.pbc.droid.data.dto.user
 
 enum class UserType(val type: Int) {
     ADMIN(101),

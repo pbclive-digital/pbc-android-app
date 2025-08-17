@@ -1,9 +1,9 @@
 package com.kavi.pbc.droid.network.session
 
-import com.kavi.pbc.droid.network.dto.Config
-import com.kavi.pbc.droid.network.dto.DeviceFactor
-import com.kavi.pbc.droid.network.dto.auth.AuthToken
-import com.kavi.pbc.droid.network.dto.user.User
+import com.kavi.pbc.droid.data.dto.Config
+import com.kavi.pbc.droid.data.dto.DeviceFactor
+import com.kavi.pbc.droid.data.dto.auth.AuthToken
+import com.kavi.pbc.droid.data.dto.user.User
 
 object Session {
     var authToken: AuthToken? = null

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -33,6 +35,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(libs.versions.jvmVersion.get())
+        }
+    }
 }
 
 dependencies {
@@ -42,6 +50,8 @@ dependencies {
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
+
+    implementation(project(":lib-data"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

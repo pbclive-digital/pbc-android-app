@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -56,6 +58,12 @@ android {
     buildFeatures {
         compose = true
     }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.fromTarget(libs.versions.jvmVersion.get())
+        }
+    }
 }
 
 dependencies {
@@ -79,10 +87,12 @@ dependencies {
 
     implementation(libs.kv.color.palette)
 
+    implementation(project(":ui-event"))
     implementation(project(":ui-dashboard"))
     implementation(project(":ui-auth"))
     implementation(project(":ui-splash"))
     implementation(project(":lib-common-ui"))
+    implementation(project(":lib-data"))
     implementation(project(":lib-network"))
     implementation(project(":lib-parent"))
 

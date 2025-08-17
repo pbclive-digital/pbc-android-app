@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.network.dto.user
+package com.kavi.pbc.droid.data.dto.user
 
 enum class UserAuthType(val authType: Int) {
     GOOGLE(101),

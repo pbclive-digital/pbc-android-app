@@ -1,6 +1,6 @@
 package com.kavi.pbc.droid.network
 
-import com.kavi.pbc.droid.network.dto.BaseResponse
+import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.network.model.NetConfig
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.util.concurrent.TimeUnit
-import com.kavi.pbc.droid.network.dto.Error
+import com.kavi.pbc.droid.data.dto.Error
 
 class Network {
 

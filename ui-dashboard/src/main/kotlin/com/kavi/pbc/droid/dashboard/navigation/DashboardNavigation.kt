@@ -12,6 +12,9 @@ import javax.inject.Inject
 
 class DashboardNavigation @Inject constructor() {
 
+    @Inject
+    lateinit var dashboard: Dashboard
+
     @Composable
     fun DashboardNavGraph() {
         val navController = rememberNavController()
@@ -21,7 +24,7 @@ class DashboardNavigation @Inject constructor() {
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
             composable (route = "dashboard/dashboard-ui") {
-                Dashboard(navController = navController)
+                dashboard.DashboardUI(navController = navController)
             }
         }
     }

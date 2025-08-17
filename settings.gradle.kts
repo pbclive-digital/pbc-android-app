@@ -1,11 +1,13 @@
 import java.net.URI
 
 listOf(
+    ":ui-event",
     ":ui-dashboard",
     ":ui-auth",
     ":ui-splash",
     ":ui-app",
     ":lib-network",
+    ":lib-data",
     ":lib-common-ui",
     ":lib-parent",
 ).forEach {
