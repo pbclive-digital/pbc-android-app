@@ -4,13 +4,19 @@ import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -77,11 +84,32 @@ fun AuthUI(navController: NavController) {
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            AppBlueFilledButton(
-                label = "Sign in with Google",
-                modifier = Modifier.padding(top = 12.dp)
+            Button(
+                modifier = Modifier.fillMaxWidth().height(50.dp),
+                shape = RoundedCornerShape(5.dp),
+                onClick = {
+                    Log.d("Auth", "Login with Google")
+                }
             ) {
-                Log.d("Auth", "Login with Google")
+                Row (
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_google),
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(4.dp)
+                    )
+                    Text(
+                        text = "Sign in with Google",
+                        fontSize = 18.sp,
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(4.dp),
+                    )
+                }
             }
 
             Text(
