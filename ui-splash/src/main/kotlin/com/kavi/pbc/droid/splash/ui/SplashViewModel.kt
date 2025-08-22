@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.splash.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import com.kavi.pbc.droid.splash.data.repository.SplashRemoteRepository
@@ -17,12 +18,17 @@ class SplashViewModel @Inject constructor(
     private val remoteDataSource: SplashRemoteRepository
 ): ViewModel() {
 
+    @Inject
+    lateinit var authContract: AuthContract
+
     private val _isNoSupport = MutableStateFlow(false)
     val isNoSupport: StateFlow<Boolean> = _isNoSupport
     private val _isNoConnection = MutableStateFlow(false)
     val isNoConnection: StateFlow<Boolean> = _isNoConnection
     private val _navigateToAuth = MutableStateFlow(false)
     val navigateToAuth: StateFlow<Boolean> = _navigateToAuth
+    private val _navigateToDashboard = MutableStateFlow(false)
+    val navigateToDashboard: StateFlow<Boolean> = _navigateToDashboard
 
     fun fetchVersionSupportStatus() {
         viewModelScope.launch {
@@ -50,7 +56,7 @@ class SplashViewModel @Inject constructor(
 
     fun fetchConfig() {
         viewModelScope.launch {
-            when(val response = remoteDataSource.getConfig()) {
+            when(val response = remoteDataSource.getConfig(configVersion = "v1")) {
                 is ResultWrapper.NetworkError -> {
                     Log.e("NETWORK RESULT", "NetworkError")
                     _isNoConnection.value = true
@@ -62,7 +68,11 @@ class SplashViewModel @Inject constructor(
                 is ResultWrapper.Success -> {
                     response.value.body?.let { config ->
                         Session.config = config
-                        _navigateToAuth.value = true
+                        authContract.signInWithLastSignInAcc(onSignedIn = {
+                            _navigateToDashboard.value = true
+                        }, onNoSignIn = {
+                            _navigateToAuth.value = true
+                        })
                     }
                 }
             }

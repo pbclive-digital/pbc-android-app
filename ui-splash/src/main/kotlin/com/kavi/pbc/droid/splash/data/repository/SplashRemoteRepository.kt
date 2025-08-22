@@ -18,7 +18,7 @@ class SplashRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { splashServiceApi.getVersionSupportStatus() }
     }
 
-    suspend fun getConfig(): ResultWrapper<BaseResponse<Config>> {
-        return network.invokeApiCall(dispatcher) { splashServiceApi.getConfiguration() }
+    suspend fun getConfig(configVersion: String): ResultWrapper<BaseResponse<Config>> {
+        return network.invokeApiCall(dispatcher) { splashServiceApi.getConfiguration(configVersion = configVersion) }
     }
 }

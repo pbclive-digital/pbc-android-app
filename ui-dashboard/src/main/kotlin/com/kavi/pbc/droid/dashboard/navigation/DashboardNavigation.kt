@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
+import com.kavi.pbc.droid.dashboard.ui.screen.home.Home
+import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import javax.inject.Inject
 
 class DashboardNavigation @Inject constructor() {
@@ -25,6 +27,9 @@ class DashboardNavigation @Inject constructor() {
         ) {
             composable (route = "dashboard/dashboard-ui") {
                 dashboard.DashboardUI(navController = navController)
+            }
+            composable (route = "dashboard/to/auth") {
+                //authContract.RetrieveNavGraph()
             }
         }
     }

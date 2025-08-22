@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.google.android.hilt)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 // App Properties
@@ -84,6 +85,12 @@ dependencies {
     implementation(libs.google.android.hilt)
     kapt(libs.google.android.hilt.compiler)
     implementation(libs.google.android.hilt.navigation)
+
+    // Firebase
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     implementation(libs.kv.color.palette)
 

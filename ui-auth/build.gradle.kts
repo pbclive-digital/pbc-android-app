@@ -20,6 +20,10 @@ android {
     }
 
     buildTypes {
+        create("staging") {
+            initWith(getByName("debug"))
+            matchingFallbacks.add("debug")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -66,8 +70,26 @@ dependencies {
     kapt(libs.google.android.hilt.compiler)
     implementation(libs.google.android.hilt.navigation)
 
-    implementation(libs.kv.color.palette)
+    // Firebase
+    implementation(libs.firebase.auth)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp3.loggin.interceptor)
+
+    // Kotlin Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.serialization.json)
+
+    implementation(libs.kv.color.palette)
+    implementation(libs.coil.compose)
+
+    implementation(project(":lib-network"))
     implementation(project(":lib-data"))
     implementation(project(":lib-common-ui"))
     implementation(project(":lib-parent"))

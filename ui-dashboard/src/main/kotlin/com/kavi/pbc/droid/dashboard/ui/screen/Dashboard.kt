@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.pbc.droid.dashboard.R
-import com.kavi.pbc.droid.dashboard.ui.screen.home.HomeUI
 import com.kavi.pbc.droid.dashboard.ui.model.TabItem
 import com.kavi.pbc.droid.dashboard.ui.screen.event.Event
+import com.kavi.pbc.droid.dashboard.ui.screen.home.Home
 import com.kavi.pbc.droid.dashboard.ui.screen.meditation.MeditationUI
 import com.kavi.pbc.droid.dashboard.ui.screen.temple.TempleUI
 import javax.inject.Inject
@@ -36,6 +36,9 @@ class Dashboard @Inject constructor() {
 
     @Inject
     lateinit var event: Event
+
+    @Inject
+    lateinit var home: Home
 
     @Composable
     fun DashboardUI(navController: NavHostController) {
@@ -100,7 +103,7 @@ class Dashboard @Inject constructor() {
         modifier: Modifier = Modifier
     ) {
         when (selectedTabIndex) {
-            0 -> HomeUI(navController = navController, modifier = modifier)
+            0 -> home.HomeUI(navController = navController, modifier = modifier)
             1 -> event.EventUI(navController = navController, modifier = modifier)
             2 -> MeditationUI(navController = navController, modifier = modifier)
             3 -> TempleUI(navController = navController, modifier = modifier)

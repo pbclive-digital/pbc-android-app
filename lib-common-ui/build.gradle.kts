@@ -58,6 +58,7 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
 
     implementation(libs.kv.color.palette)
+    implementation(libs.coil.compose)
 
     implementation(project(":lib-data"))
 

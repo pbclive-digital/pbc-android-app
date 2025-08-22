@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "722741687634",
+    "project_id": "pbc-live-qa",
+    "storage_bucket": "pbc-live-qa.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:722741687634:android:6a62832d9e0efbb033b68b",
+        "android_client_info": {
+          "package_name": "com.kavi.pbc.droid.app.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "722741687634-slucpore86cj6lt5shjoepor95974nis.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kavi.pbc.droid.app.debug",
+            "certificate_hash": "5b8131e9f6fec6437ff9ad16fd9a768575e5569b"
+          }
+        },
+        {
+          "client_id": "722741687634-88gu8bk7f49ol1m3tep39p2o0ordaj1l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDklXAAqDQnh_knddBqIvUzJqIirUoegso"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "722741687634-88gu8bk7f49ol1m3tep39p2o0ordaj1l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

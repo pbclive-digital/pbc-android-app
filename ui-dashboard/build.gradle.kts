@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     implementation(libs.kv.color.palette)
+    implementation(libs.coil.compose)
 
     implementation(project(":lib-network"))
     implementation(project(":lib-data"))

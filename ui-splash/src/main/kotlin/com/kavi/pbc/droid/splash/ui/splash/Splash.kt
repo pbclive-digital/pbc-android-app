@@ -42,6 +42,7 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
     val isNoSupport by viewModel.isNoSupport.collectAsState()
     val isNoConnection by viewModel.isNoConnection.collectAsState()
     val navigateToAuth by viewModel.navigateToAuth.collectAsState()
+    val navigateToDashboard by viewModel.navigateToDashboard.collectAsState()
 
     LaunchedEffect(Unit) {
         viewModel.fetchVersionSupportStatus() // Call your ViewModel function here
@@ -69,6 +70,15 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
 
     if (navigateToAuth) {
         navController.navigate("splash/to/auth") {
+            // Remove SplashUI from backstack
+            popUpTo("splash/splash-anim") {
+                inclusive = true
+            }
+        }
+    }
+
+    if (navigateToDashboard) {
+        navController.navigate("splash/to/dashboard") {
             // Remove SplashUI from backstack
             popUpTo("splash/splash-anim") {
                 inclusive = true
