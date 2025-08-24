@@ -5,8 +5,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.kavi.pbc.droid.app.ContractConfig
 import com.kavi.pbc.droid.data.dto.DeviceFactor
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCAppTheme
+import com.kavi.pbc.droid.lib.parent.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.extension.getDeviceFormFactor
 import com.kavi.pbc.droid.lib.parent.module.SplashContract
 import com.kavi.pbc.droid.network.session.Session
@@ -15,12 +17,19 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class PBCActivity: ComponentActivity() {
+    
     @Inject
-    lateinit var splashContract: SplashContract
+    lateinit var contractRegistry: ContractRegistry
+
+    @Inject
+    lateinit var contractConfig: ContractConfig
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Register UI contracts
+        contractConfig.registerContracts()
 
         // Evaluate device form factor
         evaluateDeviceFormFactor()
@@ -30,7 +39,8 @@ class PBCActivity: ComponentActivity() {
 
         setContent {
             PBCAppTheme {
-                splashContract.RetrieveNavGraph()
+                contractRegistry.getContract<SplashContract>("splash").RetrieveNavGraph()
+                //splashContract.RetrieveNavGraph()
             }
         }
     }

@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.splash.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavi.pbc.droid.lib.parent.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -19,7 +20,7 @@ class SplashViewModel @Inject constructor(
 ): ViewModel() {
 
     @Inject
-    lateinit var authContract: AuthContract
+    lateinit var contractRegistry: ContractRegistry
 
     private val _isNoSupport = MutableStateFlow(false)
     val isNoSupport: StateFlow<Boolean> = _isNoSupport
@@ -55,6 +56,8 @@ class SplashViewModel @Inject constructor(
     }
 
     fun fetchConfig() {
+        val authContract = contractRegistry.getContract<AuthContract>("auth")
+
         viewModelScope.launch {
             when(val response = remoteDataSource.getConfig(configVersion = "v1")) {
                 is ResultWrapper.NetworkError -> {

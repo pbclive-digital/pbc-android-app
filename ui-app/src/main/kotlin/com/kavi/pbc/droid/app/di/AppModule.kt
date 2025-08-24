@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.app.di
 
+import com.kavi.pbc.droid.lib.parent.ContractRegistry
 import com.kavi.pbc.droid.network.Network
 import dagger.Module
 import dagger.Provides
@@ -22,5 +23,11 @@ object AppModule {
     @Singleton
     fun provideNetworkInstance(): Network {
         return Network()
+    }
+
+    @Provides
+    @Singleton
+    fun provideContractRegistry(): ContractRegistry {
+        return ContractRegistry()
     }
 }

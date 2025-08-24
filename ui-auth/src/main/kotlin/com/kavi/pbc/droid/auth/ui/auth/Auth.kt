@@ -156,7 +156,7 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
                 modifier = Modifier
                     .padding(top = 12.dp)
                     .clickable {
-                        navigateToDashboard(navController = navController)
+                        navigateToDashboard(navController = navController, keepBackStack = true)
                     }
             )
         }
@@ -180,11 +180,13 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
     }
 }
 
-private fun navigateToDashboard(navController: NavController) {
+private fun navigateToDashboard(navController: NavController, keepBackStack: Boolean = false) {
     navController.navigate("auth/to/dashboard") {
-        // Remove AuthUI from backstack
-        popUpTo("auth/auth-ui") {
-            inclusive = true
+        if (!keepBackStack) {
+            // Remove AuthUI from backstack
+            popUpTo("auth/auth-ui") {
+                inclusive = true
+            }
         }
     }
 }

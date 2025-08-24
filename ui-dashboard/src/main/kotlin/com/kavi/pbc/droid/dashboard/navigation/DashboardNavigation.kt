@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
-import com.kavi.pbc.droid.dashboard.ui.screen.home.Home
+import com.kavi.pbc.droid.lib.parent.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import javax.inject.Inject
 
@@ -16,6 +16,9 @@ class DashboardNavigation @Inject constructor() {
 
     @Inject
     lateinit var dashboard: Dashboard
+
+    @Inject
+    lateinit var contractRegistry: ContractRegistry
 
     @Composable
     fun DashboardNavGraph() {
@@ -30,6 +33,7 @@ class DashboardNavigation @Inject constructor() {
             }
             composable (route = "dashboard/to/auth") {
                 //authContract.RetrieveNavGraph()
+                contractRegistry.getContract<AuthContract>("auth").RetrieveNavGraph()
             }
         }
     }

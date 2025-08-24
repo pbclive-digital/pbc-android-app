@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.kavi.pbc.droid.lib.parent.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.module.DashboardContract
 import com.kavi.pbc.droid.splash.ui.error.NoAPISupport
@@ -17,10 +18,7 @@ import javax.inject.Inject
 class SplashNavigation @Inject constructor() {
 
     @Inject
-    lateinit var authContract: AuthContract
-
-    @Inject
-    lateinit var dashboardContract: DashboardContract
+    lateinit var contractRegistry: ContractRegistry
 
     @Composable
     fun SplashNavGraph() {
@@ -34,10 +32,12 @@ class SplashNavigation @Inject constructor() {
                 SplashUI(navController)
             }
             composable(route = "splash/to/auth") {
-                authContract.RetrieveNavGraph()
+                //authContract.RetrieveNavGraph()
+                contractRegistry.getContract<AuthContract>("auth").RetrieveNavGraph()
             }
             composable(route = "splash/to/dashboard") {
-                dashboardContract.RetrieveNavGraph()
+                //dashboardContract.RetrieveNavGraph()
+                contractRegistry.getContract<DashboardContract>("dashboard").RetrieveNavGraph()
             }
             composable (route = "splash/no-support") {
                 NoAPISupport()
