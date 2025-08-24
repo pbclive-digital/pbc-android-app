@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.lib.parent
+package com.kavi.pbc.droid.lib.parent.contract
 
 class ContractRegistry {
     private val contractRegistry = mutableMapOf<String, CommonContract>()

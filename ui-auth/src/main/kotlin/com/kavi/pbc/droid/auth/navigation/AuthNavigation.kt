@@ -9,8 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.auth.ui.auth.AuthUI
 import com.kavi.pbc.droid.auth.ui.register.RegisterUI
-import com.kavi.pbc.droid.lib.parent.ContractRegistry
-import com.kavi.pbc.droid.lib.parent.module.DashboardContract
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.DASHBOARD_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.module.DashboardContract
 import javax.inject.Inject
 
 class AuthNavigation @Inject constructor() {
@@ -34,8 +35,7 @@ class AuthNavigation @Inject constructor() {
                 RegisterUI(navController = navController, email = email!!)
             }
             composable (route = "auth/to/dashboard") {
-                //dashboardContract.RetrieveNavGraph()
-                contractRegistry.getContract<DashboardContract>("dashboard").RetrieveNavGraph()
+                contractRegistry.getContract<DashboardContract>(DASHBOARD_CONTRACT).RetrieveNavGraph()
             }
         }
     }

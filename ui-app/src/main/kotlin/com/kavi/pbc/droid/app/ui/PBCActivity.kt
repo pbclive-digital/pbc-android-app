@@ -8,9 +8,10 @@ import androidx.activity.enableEdgeToEdge
 import com.kavi.pbc.droid.app.ContractConfig
 import com.kavi.pbc.droid.data.dto.DeviceFactor
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCAppTheme
-import com.kavi.pbc.droid.lib.parent.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.SPLASH_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.extension.getDeviceFormFactor
-import com.kavi.pbc.droid.lib.parent.module.SplashContract
+import com.kavi.pbc.droid.lib.parent.contract.module.SplashContract
 import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -39,8 +40,7 @@ class PBCActivity: ComponentActivity() {
 
         setContent {
             PBCAppTheme {
-                contractRegistry.getContract<SplashContract>("splash").RetrieveNavGraph()
-                //splashContract.RetrieveNavGraph()
+                contractRegistry.getContract<SplashContract>(SPLASH_CONTRACT).RetrieveNavGraph()
             }
         }
     }

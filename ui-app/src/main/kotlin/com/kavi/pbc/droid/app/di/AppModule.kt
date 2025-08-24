@@ -1,6 +1,6 @@
 package com.kavi.pbc.droid.app.di
 
-import com.kavi.pbc.droid.lib.parent.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.network.Network
 import dagger.Module
 import dagger.Provides

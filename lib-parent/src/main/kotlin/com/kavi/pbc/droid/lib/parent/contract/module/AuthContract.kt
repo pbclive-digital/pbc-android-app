@@ -1,6 +1,6 @@
-package com.kavi.pbc.droid.lib.parent.module
+package com.kavi.pbc.droid.lib.parent.contract.module
 
-import com.kavi.pbc.droid.lib.parent.CommonContract
+import com.kavi.pbc.droid.lib.parent.contract.CommonContract
 
 interface AuthContract: CommonContract {
     fun signOut()

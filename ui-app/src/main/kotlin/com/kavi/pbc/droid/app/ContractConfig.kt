@@ -3,7 +3,8 @@ package com.kavi.pbc.droid.app
 import com.kavi.pbc.droid.auth.AuthContractImpl
 import com.kavi.pbc.droid.dashboard.DashboardContractImpl
 import com.kavi.pbc.droid.event.EventContractImpl
-import com.kavi.pbc.droid.lib.parent.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.ContractName
+import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.splash.SplashContractImpl
 import javax.inject.Inject
 
@@ -22,9 +23,9 @@ class ContractConfig @Inject constructor() {
     lateinit var eventContractImpl: EventContractImpl
 
     fun registerContracts() {
-        contractRegistry.registerContract("splash", splashContractImpl)
-        contractRegistry.registerContract("auth", authContractImpl)
-        contractRegistry.registerContract("dashboard", dashboardContractImpl)
-        contractRegistry.registerContract("event", eventContractImpl)
+        contractRegistry.registerContract(ContractName.SPLASH_CONTRACT, splashContractImpl)
+        contractRegistry.registerContract(ContractName.AUTH_CONTRACT, authContractImpl)
+        contractRegistry.registerContract(ContractName.DASHBOARD_CONTRACT, dashboardContractImpl)
+        contractRegistry.registerContract(ContractName.EVENT_CONTRACT, eventContractImpl)
     }
 }

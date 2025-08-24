@@ -1,17 +1,13 @@
 package com.kavi.pbc.droid.auth
 
-import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.kavi.pbc.droid.auth.data.repository.AuthRemoteRepository
 import com.kavi.pbc.droid.auth.navigation.AuthNavigation
-import com.kavi.pbc.droid.auth.ui.auth.AuthViewModel
 import com.kavi.pbc.droid.data.dto.auth.AuthToken
 import com.kavi.pbc.droid.data.dto.auth.TokenStatus
-import com.kavi.pbc.droid.lib.parent.module.AuthContract
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import kotlinx.coroutines.CoroutineScope

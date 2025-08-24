@@ -3,8 +3,9 @@ package com.kavi.pbc.droid.splash.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavi.pbc.droid.lib.parent.ContractRegistry
-import com.kavi.pbc.droid.lib.parent.module.AuthContract
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import com.kavi.pbc.droid.splash.data.repository.SplashRemoteRepository
@@ -56,7 +57,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun fetchConfig() {
-        val authContract = contractRegistry.getContract<AuthContract>("auth")
+        val authContract = contractRegistry.getContract<AuthContract>(AUTH_CONTRACT)
 
         viewModelScope.launch {
             when(val response = remoteDataSource.getConfig(configVersion = "v1")) {
