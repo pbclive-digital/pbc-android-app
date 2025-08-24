@@ -33,12 +33,20 @@ import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.dashboard.ui.screen.event.pager.EventPager
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
+import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
+import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
 class Event @Inject constructor() {
 
     @Inject
     lateinit var eventPager: EventPager
+
+    @Inject
+    lateinit var contractRegistry: ContractRegistry
 
     @Composable
     fun EventUI(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -61,12 +69,30 @@ class Event @Inject constructor() {
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                TitleWithAction(
-                    modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                    titleText = stringResource(R.string.label_event),
-                    icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
-                    iconAction = {}
-                )
+                Session.user?.profilePicUrl?.let {
+                    TitleWithProfile(
+                        modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                        titleText = stringResource(R.string.label_event),
+                        profilePicUrl = it,
+                        profileAction = {
+                            contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).signOut()
+                            navController.navigate("dashboard/to/auth") {
+                                // Remove SplashUI from backstack
+                                popUpTo("dashboard/dashboard-ui") {
+                                    inclusive = true
+                                }
+                            }
+
+                        }
+                    )
+                }?: run {
+                    TitleWithAction(
+                        modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                        titleText = stringResource(R.string.label_event),
+                        icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
+                        iconAction = {}
+                    )
+                }
 
                 Column {
                     Row(

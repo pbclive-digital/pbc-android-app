@@ -2,41 +2,101 @@ package com.kavi.pbc.droid.lib.common.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
 
 @Composable
 fun EventItem(modifier: Modifier = Modifier, event: Event) {
-    Row (
-        modifier = modifier
-            .padding(12.dp)
-            .fillMaxWidth()
-            //.height(80.dp)
-            .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
-            .shadow(
-                elevation = 10.dp,
-                shape = RoundedCornerShape(8.dp),
-            )
-            .background(MaterialTheme.colorScheme.background),
-        verticalAlignment = Alignment.CenterVertically
+    BoxWithConstraints (
+        modifier = Modifier.padding(top = 2.dp)
     ) {
-        Column (
+        val screenWidth = this.maxWidth
+
+        Row (
             modifier = modifier
-                .padding(12.dp)
+                .padding(4.dp)
+                .fillMaxWidth()
+                .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
+                .shadow(
+                    elevation = 8.dp,
+                    spotColor = MaterialTheme.colorScheme.shadow,
+                    shape = RoundedCornerShape(8.dp),
+                )
+                .background(MaterialTheme.colorScheme.background),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(text = event.name)
+            Column (
+                modifier = modifier
+                    .padding(12.dp)
+            ) {
+                Text(
+                    text = event.name,
+                    fontFamily = PBCNameFontFamily,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Row (
+                    modifier = Modifier.padding(top = 4.dp)
+                ) {
+                    Column {
+                        Text(
+                            modifier = Modifier
+                                .width((screenWidth.value * 0.65).dp),
+                            text = event.description,
+                            fontFamily = PBCNameFontFamily,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Light,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+
+                        Text(
+                            modifier = Modifier.padding(top = 4.dp),
+                            text = "on ${event.getFormatDate()} at ${event.getPlace()}",
+                            fontFamily = PBCNameFontFamily,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Light,
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    AsyncImage(
+                        model = event.eventImage,
+                        contentDescription = "Event image picture",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .size(75.dp)
+                            //.padding(3.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                    )
+                }
+            }
         }
     }
 }
