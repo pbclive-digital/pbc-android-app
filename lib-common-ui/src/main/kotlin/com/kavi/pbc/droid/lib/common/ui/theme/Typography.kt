@@ -15,6 +15,12 @@ val PBCNameFontFamily = FontFamily(
     Font(R.font.font_roboto_variable_italic, style = FontStyle.Italic)
 )
 
+val PBCFontFamily = FontFamily(
+    Font(R.font.font_pt_sans_regular, style = FontStyle.Normal),
+    Font(R.font.font_pt_sans_italic, style = FontStyle.Italic),
+    Font(R.font.font_pt_sans_bold, weight = FontWeight.Bold)
+)
+
 val AppTypography = Typography(
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,

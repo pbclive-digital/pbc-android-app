@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
-import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
 fun EventItem(modifier: Modifier = Modifier, event: Event) {
@@ -55,7 +55,7 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
             ) {
                 Text(
                     text = event.name,
-                    fontFamily = PBCNameFontFamily,
+                    fontFamily = PBCFontFamily,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -68,7 +68,7 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                             modifier = Modifier
                                 .width((screenWidth.value * 0.65).dp),
                             text = event.description,
-                            fontFamily = PBCNameFontFamily,
+                            fontFamily = PBCFontFamily,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Light,
                             maxLines = 2,
@@ -78,7 +78,7 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                         Text(
                             modifier = Modifier.padding(top = 4.dp),
                             text = "on ${event.getFormatDate()} at ${event.getPlace()}",
-                            fontFamily = PBCNameFontFamily,
+                            fontFamily = PBCFontFamily,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Light,
                         )
