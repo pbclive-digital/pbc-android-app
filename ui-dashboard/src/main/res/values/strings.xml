@@ -4,4 +4,6 @@
     <string name="label_event">Events</string>
     <string name="label_meditation">Meditation</string>
     <string name="label_temple">Temple</string>
+    <string name="label_upcoming">Upcoming</string>
+    <string name="label_past">Past</string>
 </resources>

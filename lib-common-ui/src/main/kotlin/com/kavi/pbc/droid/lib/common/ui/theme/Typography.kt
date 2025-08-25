@@ -10,11 +10,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.kavi.pbc.droid.lib.common.ui.R
 
-val PBCNameFontFamily = FontFamily(
-    Font(R.font.font_roboto_variable,  style = FontStyle.Normal),
-    Font(R.font.font_roboto_variable_italic, style = FontStyle.Italic)
-)
-
 val PBCFontFamily = FontFamily(
     Font(R.font.font_pt_sans_regular, style = FontStyle.Normal),
     Font(R.font.font_pt_sans_italic, style = FontStyle.Italic),

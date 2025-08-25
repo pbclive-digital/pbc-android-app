@@ -39,7 +39,7 @@ import com.kavi.pbc.droid.auth.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
 import com.kavi.pbc.droid.lib.common.ui.component.Loader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
-import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
 fun RegisterUI(navController: NavController, email: String, viewModel: RegistrationViewModel = hiltViewModel()) {
@@ -70,7 +70,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
             ) {
                 Text(
                     text = stringResource(R.string.phrase_welcome_msg),
-                    fontFamily = PBCNameFontFamily,
+                    fontFamily = PBCFontFamily,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Justify,
                     modifier = Modifier
@@ -113,7 +113,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
                         .padding(top = 20.dp)
                         .fillMaxWidth(),
                     text = signedUsed.email,
-                    fontFamily = PBCNameFontFamily,
+                    fontFamily = PBCFontFamily,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center

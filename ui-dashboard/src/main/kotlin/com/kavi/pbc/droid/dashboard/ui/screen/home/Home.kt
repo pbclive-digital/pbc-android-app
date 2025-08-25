@@ -116,8 +116,6 @@ class Home @Inject constructor() {
                         horizontalArrangement = Arrangement.Center
                     ) {
                         repeat(state.pageCount) { iteration ->
-                            //selectedPagerIndex = state.currentPage
-                            //viewModel.setOrUpdateSelectedPageIndex(state.currentPage)
                             val color = if (state.currentPage == iteration) Color.DarkGray else Color.LightGray
                             Box(
                                 modifier = Modifier

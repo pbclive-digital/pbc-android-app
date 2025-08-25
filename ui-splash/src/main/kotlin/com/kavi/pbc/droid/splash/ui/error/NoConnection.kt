@@ -19,7 +19,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
-import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.ui.splash.R
 
 @Composable
@@ -46,7 +46,7 @@ fun NoConnection() {
 
             Text(
                 stringResource(R.string.label_no_connection),
-                fontFamily = PBCNameFontFamily,
+                fontFamily = PBCFontFamily,
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 12.dp)
@@ -54,7 +54,7 @@ fun NoConnection() {
 
             Text(
                 stringResource(R.string.phrase_no_connection),
-                fontFamily = PBCNameFontFamily,
+                fontFamily = PBCFontFamily,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)

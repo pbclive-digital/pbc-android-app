@@ -34,6 +34,7 @@ import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.dashboard.ui.screen.event.pager.EventPager
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
@@ -108,7 +109,10 @@ class Event @Inject constructor() {
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Upcoming")
+                            Text(
+                                text = stringResource(R.string.label_upcoming),
+                                fontFamily = PBCFontFamily
+                            )
                         }
 
                         Column(
@@ -119,7 +123,10 @@ class Event @Inject constructor() {
                                 },
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Past")
+                            Text(
+                                text = stringResource(R.string.label_past),
+                                fontFamily = PBCFontFamily
+                            )
                         }
                     }
 
@@ -129,8 +136,6 @@ class Event @Inject constructor() {
                             .padding(start = 12.dp, end = 12.dp)
                     ) {
                         repeat(state.pageCount) { iteration ->
-                            //selectedPagerIndex = state.currentPage
-                            //viewModel.setOrUpdateSelectedPageIndex(state.currentPage)
                             val color = if (state.currentPage == iteration)
                                 MaterialTheme.colorScheme.quaternary else MaterialTheme.colorScheme.surface
 

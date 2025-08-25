@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
-import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.ui.splash.R
 
 @Composable
@@ -45,7 +45,7 @@ fun NoAPISupport() {
 
             Text(
                 stringResource(R.string.label_update_required),
-                fontFamily = PBCNameFontFamily,
+                fontFamily = PBCFontFamily,
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 12.dp)
@@ -53,7 +53,7 @@ fun NoAPISupport() {
 
             Text(
                 stringResource(R.string.phrase_update_required),
-                fontFamily = PBCNameFontFamily,
+                fontFamily = PBCFontFamily,
                 fontSize = 18.sp,
                 color = MaterialTheme.colorScheme.onSurface,
                 modifier = Modifier.padding(top = 8.dp, start = 16.dp, end = 16.dp)

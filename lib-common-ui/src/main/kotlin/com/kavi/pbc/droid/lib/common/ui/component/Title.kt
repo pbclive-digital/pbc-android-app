@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kavi.pbc.droid.lib.common.ui.R
-import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
 fun Title(modifier: Modifier = Modifier, titleText: String) {
@@ -38,7 +38,7 @@ fun Title(modifier: Modifier = Modifier, titleText: String) {
     ) {
         Text(
             text = titleText,
-            fontFamily = PBCNameFontFamily,
+            fontFamily = PBCFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 48.sp,
             color = MaterialTheme.colorScheme.onBackground
@@ -56,7 +56,7 @@ fun TitleWithAction(modifier: Modifier = Modifier, titleText: String, icon: Pain
     ) {
         Text(
             text = titleText,
-            fontFamily = PBCNameFontFamily,
+            fontFamily = PBCFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 48.sp,
             color = MaterialTheme.colorScheme.onBackground
@@ -85,7 +85,7 @@ fun TitleWithProfile(modifier: Modifier = Modifier, titleText: String, profilePi
     ) {
         Text(
             text = titleText,
-            fontFamily = PBCNameFontFamily,
+            fontFamily = PBCFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 48.sp,
             color = MaterialTheme.colorScheme.onBackground

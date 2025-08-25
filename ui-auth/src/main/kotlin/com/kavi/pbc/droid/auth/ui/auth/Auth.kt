@@ -53,7 +53,7 @@ import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.auth.AuthConstant
 import com.kavi.pbc.droid.auth.R
 import com.kavi.pbc.droid.lib.common.ui.component.Loader
-import com.kavi.pbc.droid.lib.common.ui.theme.PBCNameFontFamily
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import kotlinx.coroutines.launch
 
 @Composable
@@ -90,7 +90,7 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
 
             Text(
                 stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_pbc_part_one),
-                fontFamily = PBCNameFontFamily,
+                fontFamily = PBCFontFamily,
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.quaternary,
                 modifier = Modifier.padding(top = 12.dp)
@@ -98,7 +98,7 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
 
             Text(
                 stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_pbc_part_two),
-                fontFamily = PBCNameFontFamily,
+                fontFamily = PBCFontFamily,
                 fontWeight = FontWeight.Bold,
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.secondary,

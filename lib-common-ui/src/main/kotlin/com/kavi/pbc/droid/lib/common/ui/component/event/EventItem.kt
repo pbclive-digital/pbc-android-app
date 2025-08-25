@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
@@ -51,9 +53,12 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                 // 1. Background Image
                 AsyncImage(
                     model = event.eventImage,
+                    error = painterResource(R.drawable.icon_pbc),
                     contentDescription = null, // decorative image
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = MaterialTheme.colorScheme.background)
                 )
 
                 // 2. Gradient Overlay for text legibility
@@ -62,8 +67,8 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                         .fillMaxSize()
                         .background(
                             Brush.verticalGradient(
-                                colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.7f)),
-                                startY = 300f // Adjust as needed
+                                colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.8f)),
+                                startY = screenWidth.value / 2
                             )
                         )
                 )
@@ -91,7 +96,7 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                         color = MaterialTheme.colorScheme.onPrimary,
                         fontFamily = PBCFontFamily,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Light,
+                        fontWeight = FontWeight.Medium,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis
                     )
