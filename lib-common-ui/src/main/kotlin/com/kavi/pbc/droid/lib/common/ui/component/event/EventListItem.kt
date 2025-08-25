@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.lib.common.ui.component
+package com.kavi.pbc.droid.lib.common.ui.component.event
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,14 +30,14 @@ import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
-fun EventItem(modifier: Modifier = Modifier, event: Event) {
+fun EventListItem(modifier: Modifier = Modifier, event: Event) {
     BoxWithConstraints (
-        modifier = Modifier.padding(top = 2.dp)
+        modifier = modifier.padding(top = 2.dp)
     ) {
         val screenWidth = this.maxWidth
 
         Row (
-            modifier = modifier
+            modifier = Modifier
                 .padding(4.dp)
                 .fillMaxWidth()
                 .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
@@ -92,7 +92,6 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
                             .size(75.dp)
-                            //.padding(3.dp)
                             .clip(RoundedCornerShape(8.dp))
                     )
                 }
@@ -103,8 +102,8 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
 
 @Preview
 @Composable
-fun Preview_Event() {
-    EventItem(event = Event(
+fun Preview_EventListItem() {
+    EventListItem(event = Event(
         id = "evt:YgY:1754372246218",
         name = "Event Name",
         description = "This is an event create for test the UI",
