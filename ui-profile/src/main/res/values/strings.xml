@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_profile">Profile</string>
+    <string name="label_sign_out">Sign Out</string>
+    <string name="label_delete_acc">Delete Account</string>
+
+    <string name="label_basic_info">Basic Info</string>
+    <string name="phrase_basic_info">Basic information about you. You can edit them at anytime you need.</string>
+
+    <string name="label_email">Email</string>
+    <string name="label_name">Name</string>
+    <string name="label_phone">Phone #</string>
+    <string name="label_address">Address</string>
+
+    <string name="label_favorite">Favorites</string>
+    <string name="phrase_favorite">Following are the items you marked as interested, you have picked Events, News etc as your favorites</string>
+</resources>

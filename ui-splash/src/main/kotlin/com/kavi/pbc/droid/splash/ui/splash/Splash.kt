@@ -49,10 +49,10 @@ fun SplashUI(navController: NavController, viewModel: SplashViewModel = hiltView
     }
 
     Box(
-        modifier = Modifier.Companion.background(MaterialTheme.colorScheme.surface)
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface)
     ) {
         Column(
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
         ) {

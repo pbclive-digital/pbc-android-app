@@ -36,7 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.kavi.pbc.droid.auth.R
-import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
+import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.component.Loader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -58,6 +58,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
 
     Box (
         modifier = Modifier
+            .background(MaterialTheme.colorScheme.surface)
             .padding(top = 56.dp, start = 16.dp, end = 16.dp, bottom = 24.dp)
             .fillMaxSize()
             .background(color = MaterialTheme.colorScheme.surface)
@@ -170,7 +171,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                AppBlueFilledButton(
+                AppFilledButton(
                     label = stringResource(R.string.label_register),
                     modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
                 ) {

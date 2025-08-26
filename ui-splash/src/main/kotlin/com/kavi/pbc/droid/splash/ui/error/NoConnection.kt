@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
+import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.ui.splash.R
 
@@ -68,7 +68,7 @@ fun NoConnection() {
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            AppBlueFilledButton(
+            AppFilledButton(
                 label = stringResource(R.string.label_try_again),
             ) {
                 Log.d("Splash", "Navigate user to Google Play store")

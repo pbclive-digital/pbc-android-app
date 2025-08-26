@@ -35,25 +35,13 @@ import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventItem
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
-import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
 class Home @Inject constructor() {
 
-    @Inject
-    lateinit var contractRegistry: ContractRegistry
-
     @Composable
     fun HomeUI(navController: NavHostController, modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
-
-        val dashboardEvents by viewModel.dashboardEventList.collectAsState()
-
-        LaunchedEffect(Unit) {
-            viewModel.fetchDashboardHomeEvents()
-        }
 
         Box (
             modifier = Modifier
@@ -71,14 +59,7 @@ class Home @Inject constructor() {
                         titleText = stringResource(R.string.label_pbc),
                         profilePicUrl = it,
                         profileAction = {
-                            contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).signOut()
-                            navController.navigate("dashboard/to/auth") {
-                                // Remove SplashUI from backstack
-                                popUpTo("dashboard/dashboard-ui") {
-                                    inclusive = true
-                                }
-                            }
-
+                            navController.navigate("dashboard/to/profile")
                         }
                     )
                 }?: run {
@@ -91,42 +72,57 @@ class Home @Inject constructor() {
                 }
 
                 Column (
-                    modifier = Modifier.verticalScroll(rememberScrollState())
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
                 ) {
-                    val state = rememberPagerState { 3 }
-
-                    HorizontalPager(
-                        state = state,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 25.dp),
-                        contentPadding = PaddingValues(horizontal = 0.dp),
-                        snapPosition = SnapPosition.Center
-                    ) { page ->
-                        if (dashboardEvents.isNotEmpty())
-                            EventItem(event = dashboardEvents[page])
-                    }
-
-                    Row(
-                        Modifier
-                            .wrapContentHeight()
-                            .fillMaxWidth()
-                            .align(Alignment.CenterHorizontally)
-                            .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 4.dp),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        repeat(state.pageCount) { iteration ->
-                            val color = if (state.currentPage == iteration) Color.DarkGray else Color.LightGray
-                            Box(
-                                modifier = Modifier
-                                    .padding(2.dp)
-                                    .clip(CircleShape)
-                                    .background(color)
-                                    .size(12.dp)
-                            )
-                        }
-                    }
+                    // Event Pager
+                    EventPager(viewModel = viewModel)
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun EventPager(viewModel: HomeViewModel) {
+    val dashboardEvents by viewModel.dashboardEventList.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchDashboardHomeEvents()
+    }
+
+    val state = rememberPagerState { 3 }
+
+    Column {
+        HorizontalPager(
+            state = state,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 25.dp),
+            contentPadding = PaddingValues(horizontal = 0.dp),
+            snapPosition = SnapPosition.Center
+        ) { page ->
+            if (dashboardEvents.isNotEmpty())
+                EventItem(event = dashboardEvents[page])
+        }
+
+        Row(
+            Modifier
+                .wrapContentHeight()
+                .fillMaxWidth()
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 8.dp, start = 16.dp, end = 16.dp, bottom = 4.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            repeat(state.pageCount) { iteration ->
+                val color = if (state.currentPage == iteration) Color.DarkGray else Color.LightGray
+                Box(
+                    modifier = Modifier
+                        .padding(2.dp)
+                        .clip(CircleShape)
+                        .background(color)
+                        .size(12.dp)
+                )
             }
         }
     }

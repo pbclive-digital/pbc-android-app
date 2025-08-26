@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.navigation
+package com.kavi.pbc.droid.profile.navigation
 
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -7,39 +7,33 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.PROFILE_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
-import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
+import com.kavi.pbc.droid.profile.ui.Profile
 import javax.inject.Inject
 
-class DashboardNavigation @Inject constructor() {
+class ProfileNavigation @Inject constructor() {
 
     @Inject
-    lateinit var dashboard: Dashboard
+    lateinit var profile: Profile
 
     @Inject
     lateinit var contractRegistry: ContractRegistry
 
     @Composable
-    fun DashboardNavGraph() {
+    fun ProfileNavGraph() {
         val navController = rememberNavController()
         NavHost(
-            navController = navController, startDestination = "dashboard/dashboard-ui",
+            navController = navController, startDestination = "profile/profile-ui",
             enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
-            composable (route = "dashboard/dashboard-ui") {
-                dashboard.DashboardUI(navController = navController)
+            composable (route = "profile/profile-ui") {
+                profile.ProfileUI(navController = navController)
             }
-            composable (route = "dashboard/to/auth") {
-                //authContract.RetrieveNavGraph()
+            composable (route = "profile/to/auth") {
                 contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).RetrieveNavGraph()
-            }
-            composable (route = "dashboard/to/profile") {
-                contractRegistry.getContract<ProfileContract>(PROFILE_CONTRACT).RetrieveNavGraph()
             }
         }
     }

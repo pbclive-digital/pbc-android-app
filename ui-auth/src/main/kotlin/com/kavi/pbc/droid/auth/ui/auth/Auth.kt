@@ -52,6 +52,7 @@ import com.google.firebase.auth.auth
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.auth.AuthConstant
 import com.kavi.pbc.droid.auth.R
+import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
 import com.kavi.pbc.droid.lib.common.ui.component.Loader
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import kotlinx.coroutines.launch
@@ -149,16 +150,16 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
                 }
             }
 
-            Text(
-                text = stringResource(R.string.label_login_as_guest),
-                fontSize = 16.sp,
+            AppLinkButton(
+                label = stringResource(R.string.label_login_as_guest),
+                labelTextSize = 16.sp,
                 color = MaterialTheme.colorScheme.secondary,
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 12.dp)
-                    .clickable {
-                        navigateToDashboard(navController = navController, keepBackStack = true)
-                    }
-            )
+            ) {
+                navigateToDashboard(navController = navController, keepBackStack = true)
+            }
         }
     }
 

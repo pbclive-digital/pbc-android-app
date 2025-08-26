@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kavi.pbc.droid.lib.common.ui.component.AppBlueFilledButton
+import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.ui.splash.R
 
@@ -67,7 +67,7 @@ fun NoAPISupport() {
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            AppBlueFilledButton(
+            AppFilledButton(
                 label = stringResource(R.string.label_update_pbc),
             ) {
                 Log.d("Splash", "Navigate user to Google Play store")

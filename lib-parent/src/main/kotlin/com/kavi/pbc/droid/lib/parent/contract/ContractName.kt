@@ -5,4 +5,6 @@ object ContractName {
     const val AUTH_CONTRACT = "AUTH_CONTRACT"
     const val DASHBOARD_CONTRACT = "DASHBOARD_CONTRACT"
     const val EVENT_CONTRACT = "EVENT_CONTRACT"
+
+    const val PROFILE_CONTRACT = "PROFILE_CONTRACT"
 }

@@ -1,6 +1,7 @@
 import java.net.URI
 
 listOf(
+    ":ui-profile",
     ":ui-event",
     ":ui-dashboard",
     ":ui-auth",
