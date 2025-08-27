@@ -2,9 +2,9 @@ package com.kavi.pbc.droid.auth.ui.auth
 
 import android.content.Context
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -53,7 +53,7 @@ import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.auth.AuthConstant
 import com.kavi.pbc.droid.auth.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
-import com.kavi.pbc.droid.lib.common.ui.component.Loader
+import com.kavi.pbc.droid.lib.common.ui.component.AppLoader
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import kotlinx.coroutines.launch
 
@@ -68,6 +68,11 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
     val context = LocalContext.current
 
     val isLoading = remember { mutableStateOf(false) }
+
+    // Exit the application if pressed back from Auth screen.
+    BackHandler (enabled = true) {
+        (context as? android.app.Activity)?.finish()
+    }
 
     Box (
         modifier = Modifier
@@ -164,7 +169,7 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
     }
 
     if(isLoading.value) {
-        Loader()
+        AppLoader()
     }
 
     if (onUnRegistered) {

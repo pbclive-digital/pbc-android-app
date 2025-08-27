@@ -24,6 +24,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -38,6 +40,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.user.User
+import com.kavi.pbc.droid.lib.common.ui.component.AppBasicDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineButton
@@ -47,6 +50,8 @@ import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.profile.R
+import com.kavi.pbc.droid.profile.ui.dialog.DeleteConfirmationDialog
+import com.kavi.pbc.droid.profile.ui.dialog.SignOutConfirmationDialog
 import javax.inject.Inject
 
 class Profile @Inject constructor() {
@@ -59,6 +64,9 @@ class Profile @Inject constructor() {
 
         val profileUser by viewModel.profileUser.collectAsState()
         val isUserDeleted by viewModel.isUserDeleted.collectAsState()
+
+        var showSignOutConfirmationDialog = remember { mutableStateOf(false) }
+        var showDeleteConfirmationDialog = remember { mutableStateOf(false) }
 
         Box (
             modifier = Modifier
@@ -120,19 +128,17 @@ class Profile @Inject constructor() {
                     Spacer(modifier = Modifier.weight(1f))
 
                     AppFilledButton(
-                        modifier = Modifier.padding(top = 10.dp),
+                        modifier = Modifier.padding(top = 40.dp),
                         label = stringResource(R.string.label_sign_out)
                     ) {
-                        // TODO - This should have dialog to confirm the sign-out
-                        navigateToAuth(navController = navController)
+                        showSignOutConfirmationDialog.value = true
                     }
 
                     AppOutlineButton(
                         modifier = Modifier.padding(top = 10.dp),
                         label = stringResource(R.string.label_delete_acc)
                     ) {
-                        // TODO - This should have dialog to confirm the user deletion
-                        viewModel.deleteUserAccount()
+                        showDeleteConfirmationDialog.value = true
                     }
                 }
             }
@@ -142,15 +148,34 @@ class Profile @Inject constructor() {
             viewModel.resetUserDeletionStatus()
             navigateToAuth(navController = navController)
         }
+
+        SignOutConfirmationDialog(
+            showDialog = showSignOutConfirmationDialog,
+            onAgree = {
+                showSignOutConfirmationDialog.value = false
+                navigateToAuth(navController = navController)
+            },
+            onDisagree = {
+                showSignOutConfirmationDialog.value = false
+            }
+        )
+
+        DeleteConfirmationDialog(
+            showDialog = showDeleteConfirmationDialog,
+            onAgree = {
+                showDeleteConfirmationDialog.value = false
+                viewModel.deleteUserAccount()
+            },
+            onDisagree = {
+                showDeleteConfirmationDialog.value = false
+            }
+        )
     }
 
     private fun navigateToAuth(navController: NavController) {
         contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).signOut()
         navController.navigate("profile/to/auth") {
-            // Remove SplashUI from backstack
-            popUpTo("profile/profile-ui") {
-                inclusive = true
-            }
+            popUpTo(0) { inclusive = true }
         }
     }
 }

@@ -29,6 +29,8 @@ class AuthContractImpl @Inject constructor(
 
     override fun signOut() {
         Firebase.auth.signOut()
+        Session.authToken = null
+        Session.user = null
     }
 
     override fun signInWithLastSignInAcc(onSignedIn: () -> Unit, onNoSignIn: () -> Unit) {

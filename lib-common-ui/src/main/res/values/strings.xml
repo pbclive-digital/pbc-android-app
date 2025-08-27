@@ -6,4 +6,6 @@
     <string name="label_pbc_part_two">Buddhist Center</string>
 
     <string name="label_edit">Edit</string>
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
 </resources>

@@ -14,4 +14,8 @@
 
     <string name="label_favorite">Favorites</string>
     <string name="phrase_favorite">Following are the items you marked as interested, you have picked Events, News etc as your favorites</string>
+
+    <string name="label_sure">Are you sure?</string>
+    <string name="phrase_sure_sign_out">Do you want to sign-out now? You can sign-in back at anytime.</string>
+    <string name="phrase_sure_delete">Do you want to delete you account? Once you delete your account, all information we kept will also delete. You can sign-up back as using same email or different email.</string>
 </resources>
