@@ -30,7 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
@@ -41,7 +41,7 @@ import javax.inject.Inject
 class Home @Inject constructor() {
 
     @Composable
-    fun HomeUI(navController: NavHostController, modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+    fun HomeUI(navController: NavController, modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
 
         Box (
             modifier = Modifier

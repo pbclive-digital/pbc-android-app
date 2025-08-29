@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.pbc.droid.dashboard.R
@@ -42,7 +43,7 @@ class Dashboard @Inject constructor() {
     lateinit var home: Home
 
     @Composable
-    fun DashboardUI(navController: NavHostController) {
+    fun DashboardUI(navController: NavController) {
         val tabItemList = listOf(
             TabItem(name = "Home", icon = R.drawable.icon_lotus),
             TabItem(name = "Events", icon = R.drawable.icon_event),
@@ -99,7 +100,7 @@ class Dashboard @Inject constructor() {
 
     @Composable
     fun TabContent(
-        navController: NavHostController,
+        navController: NavController,
         selectedTabIndex: Int,
         modifier: Modifier = Modifier
     ) {

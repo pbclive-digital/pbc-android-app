@@ -28,7 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.dashboard.ui.screen.event.pager.EventPager
@@ -48,7 +48,7 @@ class Event @Inject constructor() {
     lateinit var contractRegistry: ContractRegistry
 
     @Composable
-    fun EventUI(navController: NavHostController, modifier: Modifier = Modifier) {
+    fun EventUI(navController: NavController, modifier: Modifier = Modifier) {
 
         var selectedPagerIndex by rememberSaveable { mutableIntStateOf(0) }
         val state = rememberPagerState { 2 }

@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.event.ui.events
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,7 +39,12 @@ fun EventListUI(viewMode: EventListViewMode, viewModel: EventListViewModel = hil
                     modifier = Modifier.height(maxHeight - BottomNavBarHeight)
                 ) {
                     items(upcomingEventList) { eventItem ->
-                        EventListItem(event = eventItem)
+                        EventListItem(
+                            event = eventItem,
+                            modifier = Modifier.clickable {
+
+                            }
+                        )
                     }
                 }
             }
@@ -47,7 +53,12 @@ fun EventListUI(viewMode: EventListViewMode, viewModel: EventListViewModel = hil
                     modifier = Modifier.height(maxHeight - BottomNavBarHeight)
                 ) {
                     items(pastEventList) { eventItem ->
-                        EventListItem(event = eventItem)
+                        EventListItem(
+                            event = eventItem,
+                            modifier = Modifier.clickable {
+
+                            }
+                        )
                     }
                 }
             }

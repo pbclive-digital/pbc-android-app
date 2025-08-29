@@ -20,7 +20,8 @@ class EventNavigation @Inject constructor() {
             enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
-            composable (route = "event/event-ui") {
+            composable (route = "event/event-ui/{serializeEvent}") { backStackEntry ->
+                val serializeEvent = backStackEntry.arguments?.getString("serializeEvent")
                 EventUI(navController = navController)
             }
         }
