@@ -35,9 +35,7 @@ import com.kavi.pbc.droid.dashboard.ui.screen.event.pager.EventPager
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
-import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
@@ -76,14 +74,7 @@ class Event @Inject constructor() {
                         titleText = stringResource(R.string.label_event),
                         profilePicUrl = it,
                         profileAction = {
-                            contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).signOut()
-                            navController.navigate("dashboard/to/auth") {
-                                // Remove SplashUI from backstack
-                                popUpTo("dashboard/dashboard-ui") {
-                                    inclusive = true
-                                }
-                            }
-
+                            navController.navigate("dashboard/to/profile")
                         }
                     )
                 }?: run {

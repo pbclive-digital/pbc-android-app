@@ -30,6 +30,7 @@ import com.kavi.pbc.droid.dashboard.ui.screen.event.Event
 import com.kavi.pbc.droid.dashboard.ui.screen.home.Home
 import com.kavi.pbc.droid.dashboard.ui.screen.meditation.MeditationUI
 import com.kavi.pbc.droid.dashboard.ui.screen.temple.TempleUI
+import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import javax.inject.Inject
 
 class Dashboard @Inject constructor() {
@@ -59,7 +60,7 @@ class Dashboard @Inject constructor() {
                 bottomBar = {
                     NavigationBar(
                         containerColor = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.height(120.dp)
+                        modifier = Modifier.height(BottomNavBarHeight)
                     ) {
                         tabItemList.forEachIndexed { index, tabItem ->
                             NavigationBarItem(
