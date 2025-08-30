@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.kv.color.palette)
     implementation(libs.coil.compose)
 
+    implementation(project(":lib-local-datastore"))
     implementation(project(":lib-network"))
     implementation(project(":lib-data"))
     implementation(project(":lib-common-ui"))

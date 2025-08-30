@@ -9,9 +9,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.PROFILE_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
+import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
 import javax.inject.Inject
 
@@ -35,11 +37,18 @@ class DashboardNavigation @Inject constructor() {
                 dashboard.DashboardUI(navController = navController)
             }
             composable (route = "dashboard/to/auth") {
-                //authContract.RetrieveNavGraph()
                 contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/profile") {
                 contractRegistry.getContract<ProfileContract>(PROFILE_CONTRACT).RetrieveNavGraph()
+            }
+            composable (route = "dashboard/to/event/{eventKey}") { backStackEntry ->
+                val eventKey = backStackEntry.arguments?.getString("eventKey")
+                eventKey?.let {
+                    contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithData(eventKey = it)
+                }?: run {
+                    contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraph()
+                }
             }
         }
     }

@@ -151,8 +151,8 @@ class Event @Inject constructor() {
                     snapPosition = SnapPosition.Center
                 ) { page ->
                     when (page) {
-                        0 -> eventPager.UpcomingEventPager()
-                        1 -> eventPager.PastEventPager()
+                        0 -> eventPager.UpcomingEventPager(navController = navController)
+                        1 -> eventPager.PastEventPager(navController = navController)
                     }
                 }
             }

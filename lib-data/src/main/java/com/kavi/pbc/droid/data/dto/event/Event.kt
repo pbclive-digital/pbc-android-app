@@ -1,8 +1,10 @@
 package com.kavi.pbc.droid.data.dto.event
 
+import kotlinx.serialization.Serializable
 import java.text.DateFormat
 import java.util.Date
 
+@Serializable
 data class Event(
     val id: String,
     val name: String,

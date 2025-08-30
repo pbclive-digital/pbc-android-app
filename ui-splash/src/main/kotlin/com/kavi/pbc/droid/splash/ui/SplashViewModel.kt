@@ -3,6 +3,8 @@ package com.kavi.pbc.droid.splash.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
+import com.kavi.pbc.droid.lib.datastore.DataKey
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
@@ -22,6 +24,9 @@ class SplashViewModel @Inject constructor(
 
     @Inject
     lateinit var contractRegistry: ContractRegistry
+
+    @Inject
+    lateinit var appInMemoryStore: AppInMemoryStore
 
     private val _isNoSupport = MutableStateFlow(false)
     val isNoSupport: StateFlow<Boolean> = _isNoSupport
@@ -71,7 +76,7 @@ class SplashViewModel @Inject constructor(
                 is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
                     response.value.body?.let { config ->
-                        Session.config = config
+                        appInMemoryStore.storeValue(DataKey.APP_CONFIG, config)
                         authContract.signInWithLastSignInAcc(onSignedIn = {
                             _navigateToDashboard.value = true
                         }, onNoSignIn = {

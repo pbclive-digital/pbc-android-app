@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.event.data.repository
+package com.kavi.pbc.droid.event.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.event.Event

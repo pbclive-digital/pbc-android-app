@@ -101,6 +101,7 @@ dependencies {
     implementation(project(":ui-splash"))
     implementation(project(":lib-common-ui"))
     implementation(project(":lib-data"))
+    implementation(project(":lib-local-datastore"))
     implementation(project(":lib-network"))
     implementation(project(":lib-parent"))
 

@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "com.kavi.pbc.droid.lib.parent"
+    namespace = "com.kavi.pbc.droid.lib.datastore"
     compileSdk = libs.versions.compilerSdkVersion.get().toInt()
 
     defaultConfig {
@@ -32,10 +32,6 @@ android {
         targetCompatibility = javaVersion
     }
 
-    buildFeatures {
-        compose = true
-    }
-
     kotlin {
         compilerOptions {
             jvmTarget = JvmTarget.fromTarget(libs.versions.jvmVersion.get())
@@ -48,9 +44,12 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
 
-    implementation(platform(libs.androidx.compose.bom))
-    implementation(libs.androidx.ui)
-    implementation(libs.androidx.navigation.compose)
+    // Kotlin Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Datastore
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.preference)
 
     implementation(project(":lib-data"))
 

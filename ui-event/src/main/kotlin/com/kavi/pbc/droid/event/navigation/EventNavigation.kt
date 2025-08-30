@@ -7,22 +7,22 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.event.ui.event.EventUI
+import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.event.ui.selected.EventUI
 import javax.inject.Inject
 
 class EventNavigation @Inject constructor() {
 
     @Composable
-    fun EventNavGraph() {
+    fun EventNavGraph(eventData: Event? = null) {
         val navController = rememberNavController()
         NavHost(
             navController = navController, startDestination = "event/event-ui",
             enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
-            composable (route = "event/event-ui/{serializeEvent}") { backStackEntry ->
-                val serializeEvent = backStackEntry.arguments?.getString("serializeEvent")
-                EventUI(navController = navController)
+            composable (route = "event/event-ui") {
+                EventUI(navController = navController, eventData = eventData)
             }
         }
     }

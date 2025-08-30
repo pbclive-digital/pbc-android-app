@@ -1,5 +1,7 @@
 package com.kavi.pbc.droid.app.di
 
+import com.kavi.pbc.droid.lib.datastore.AppDatastore
+import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.network.Network
 import dagger.Module
@@ -29,5 +31,17 @@ object AppModule {
     @Singleton
     fun provideContractRegistry(): ContractRegistry {
         return ContractRegistry()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppInMemoryStore(): AppInMemoryStore {
+        return AppInMemoryStore()
+    }
+
+    @Provides
+    @Singleton
+    fun provideAppDatastore(): AppDatastore {
+        return AppDatastore()
     }
 }

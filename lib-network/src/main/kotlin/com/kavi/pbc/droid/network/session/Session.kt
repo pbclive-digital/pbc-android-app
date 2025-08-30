@@ -8,7 +8,6 @@ import com.kavi.pbc.droid.data.dto.user.User
 object Session {
     var authToken: AuthToken? = null
     var user: User? = null
-    var config: Config? = null
     var appVersion: String? = null
     var deviceFactor: DeviceFactor? = DeviceFactor.PHONE
 

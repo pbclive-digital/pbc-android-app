@@ -7,6 +7,7 @@ listOf(
     ":ui-auth",
     ":ui-splash",
     ":ui-app",
+    ":lib-local-datastore",
     ":lib-network",
     ":lib-data",
     ":lib-common-ui",

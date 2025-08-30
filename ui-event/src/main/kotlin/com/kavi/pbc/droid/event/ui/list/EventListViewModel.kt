@@ -1,9 +1,9 @@
-package com.kavi.pbc.droid.event.ui.events
+package com.kavi.pbc.droid.event.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.event.Event
-import com.kavi.pbc.droid.event.data.repository.EventRemoteRepository
+import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
