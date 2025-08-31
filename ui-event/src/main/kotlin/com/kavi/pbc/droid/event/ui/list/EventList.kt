@@ -12,13 +12,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.decode.DataSource
 import com.kavi.pbc.droid.event.data.model.EventListViewMode
 import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventListItem
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
-import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
-import java.util.UUID
 import javax.inject.Inject
 
 class EventList @Inject constructor(
