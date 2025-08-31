@@ -12,18 +12,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.decode.DataSource
 import com.kavi.pbc.droid.event.data.model.EventListViewMode
+import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventListItem
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
 import java.util.UUID
 import javax.inject.Inject
 
-class EventList @Inject constructor() {
-
-    @Inject
-    lateinit var appInMemoryStore: AppInMemoryStore
-
+class EventList @Inject constructor(
+    private val eventLocalDataSource: EventLocalRepository
+) {
     @Composable
     fun EventListUI(navController: NavController,
                     viewMode: EventListViewMode, viewModel: EventListViewModel = hiltViewModel()) {
@@ -52,13 +52,12 @@ class EventList @Inject constructor() {
                             EventListItem(
                                 event = eventItem,
                                 modifier = Modifier.clickable {
-                                    val randomEventKey = UUID.randomUUID().toString()
-                                    appInMemoryStore.storeValue(randomEventKey, eventItem)
+                                    val tempEventKey = eventLocalDataSource.setSelectedEvent(eventItem)
                                     /**
                                      * This is coming from ui-dashboard, because this EventList views embedded in
                                      * ui-dashboard EventUI. Therefore, the navigation graph is still in ui-dashboard navGraph
                                      */
-                                    navController.navigate("dashboard/to/event/$randomEventKey")
+                                    navController.navigate("dashboard/to/event/$tempEventKey")
                                 }
                             )
                         }
@@ -72,13 +71,12 @@ class EventList @Inject constructor() {
                             EventListItem(
                                 event = eventItem,
                                 modifier = Modifier.clickable {
-                                    val randomEventKey = UUID.randomUUID().toString()
-                                    appInMemoryStore.storeValue(randomEventKey, eventItem)
+                                    val tempEventKey = eventLocalDataSource.setSelectedEvent(eventItem)
                                     /**
                                      * This is coming from ui-dashboard, because this EventList views embedded in
                                      * ui-dashboard EventUI. Therefore, the navigation graph is still in ui-dashboard navGraph
                                      */
-                                    navController.navigate("dashboard/to/event/$randomEventKey")
+                                    navController.navigate("dashboard/to/event/$tempEventKey")
                                 }
                             )
                         }

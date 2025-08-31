@@ -2,7 +2,7 @@ package com.kavi.pbc.droid.dashboard.ui.screen.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavi.pbc.droid.dashboard.data.DashboardRemoteRepository
+import com.kavi.pbc.droid.dashboard.data.repository.remote.DashboardRemoteRepository
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import dagger.hilt.android.lifecycle.HiltViewModel

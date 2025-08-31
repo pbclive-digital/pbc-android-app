@@ -10,7 +10,7 @@ import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import javax.inject.Inject
 
 class EventContractImpl @Inject constructor(
-    private val eventLocalRepository: EventLocalRepository
+    private val eventLocalDataSource: EventLocalRepository
 ): EventContract {
 
     @Inject
@@ -26,7 +26,7 @@ class EventContractImpl @Inject constructor(
 
     @Composable
     override fun RetrieveNavGraphWithData(eventKey: String) {
-        eventLocalRepository.getSelectedEvent(tempEventKey = eventKey).onSuccess { event ->
+        eventLocalDataSource.getSelectedEvent(tempEventKey = eventKey).onSuccess { event ->
             eventNavigation.EventNavGraph(eventData = event)
         }.onFailure { error ->
             eventNavigation.EventNavGraph()
