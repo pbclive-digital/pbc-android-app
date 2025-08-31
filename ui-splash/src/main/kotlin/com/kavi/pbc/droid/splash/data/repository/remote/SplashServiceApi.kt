@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.splash.data.repository
+package com.kavi.pbc.droid.splash.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.AppVersionStatus
 import com.kavi.pbc.droid.data.dto.BaseResponse

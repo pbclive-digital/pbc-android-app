@@ -10,7 +10,8 @@ import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
-import com.kavi.pbc.droid.splash.data.repository.SplashRemoteRepository
+import com.kavi.pbc.droid.splash.data.repository.local.SplashLocalRepository
+import com.kavi.pbc.droid.splash.data.repository.remote.SplashRemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val remoteDataSource: SplashRemoteRepository
+    private val remoteDataSource: SplashRemoteRepository,
+    private val localDataSource: SplashLocalRepository
 ): ViewModel() {
 
     @Inject
@@ -76,7 +78,7 @@ class SplashViewModel @Inject constructor(
                 is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
                     response.value.body?.let { config ->
-                        appInMemoryStore.storeValue(DataKey.APP_CONFIG, config)
+                        localDataSource.storeAppConfig(config = config)
                         authContract.signInWithLastSignInAcc(onSignedIn = {
                             _navigateToDashboard.value = true
                         }, onNoSignIn = {
