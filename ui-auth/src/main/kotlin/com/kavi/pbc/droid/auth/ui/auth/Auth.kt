@@ -52,6 +52,7 @@ import com.google.firebase.auth.auth
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.auth.AuthConstant
 import com.kavi.pbc.droid.auth.R
+import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppLoader
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -119,11 +120,13 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
                 .align(Alignment.BottomCenter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Button(
+            AppButtonWithIcon(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                shape = RoundedCornerShape(5.dp),
+                label = stringResource(R.string.label_login_with_google),
+                icon = painterResource(R.drawable.icon_google),
+                labelTextSize = 18.sp,
                 onClick = {
                     scope.launch {
                         signInWithGoogle(
@@ -133,27 +136,7 @@ fun AuthUI(navController: NavController, viewModel: AuthViewModel = hiltViewMode
                         )
                     }
                 }
-            ) {
-                Row (
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.icon_google),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(4.dp)
-                    )
-                    Text(
-                        text = stringResource(R.string.label_login_with_google),
-                        fontSize = 18.sp,
-                        fontStyle = FontStyle.Normal,
-                        fontWeight = FontWeight.Normal,
-                        modifier = Modifier.padding(4.dp),
-                    )
-                }
-            }
+            )
 
             AppLinkButton(
                 label = stringResource(R.string.label_login_as_guest),

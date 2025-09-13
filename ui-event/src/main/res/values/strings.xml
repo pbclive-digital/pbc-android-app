@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_event">Event</string>
+    <string name="label_register">Register for this Event</string>
+    <string name="label_potluck">Potluck Details</string>
 </resources>

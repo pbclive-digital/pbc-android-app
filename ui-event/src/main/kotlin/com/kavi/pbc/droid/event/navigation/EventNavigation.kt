@@ -8,10 +8,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.data.dto.event.Event
-import com.kavi.pbc.droid.event.ui.selected.EventUI
+import com.kavi.pbc.droid.event.ui.selected.EventSelected
 import javax.inject.Inject
 
 class EventNavigation @Inject constructor() {
+
+    @Inject
+    lateinit var eventSelected: EventSelected
 
     @Composable
     fun EventNavGraph(eventData: Event? = null) {
@@ -22,7 +25,7 @@ class EventNavigation @Inject constructor() {
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
             composable (route = "event/event-ui") {
-                EventUI(navController = navController, eventData = eventData)
+                eventSelected.EventUI(navController = navController, eventData = eventData)
             }
         }
     }
