@@ -34,11 +34,7 @@ class EventList @Inject constructor(
         }
 
         BoxWithConstraints {
-            val minHeight = this.minHeight
             val maxHeight = this.maxHeight
-
-            println("Min Height: $minHeight")
-            println("Max Height: $maxHeight")
 
             when(viewMode) {
                 EventListViewMode.UPCOMING -> {

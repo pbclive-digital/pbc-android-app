@@ -23,14 +23,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.dashboard.ui.model.TabItem
 import com.kavi.pbc.droid.dashboard.ui.screen.event.Event
 import com.kavi.pbc.droid.dashboard.ui.screen.home.Home
 import com.kavi.pbc.droid.dashboard.ui.screen.meditation.MeditationUI
-import com.kavi.pbc.droid.dashboard.ui.screen.temple.TempleUI
+import com.kavi.pbc.droid.dashboard.ui.screen.temple.Temple
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import javax.inject.Inject
 
@@ -41,6 +40,9 @@ class Dashboard @Inject constructor() {
 
     @Inject
     lateinit var home: Home
+
+    @Inject
+    lateinit var temple: Temple
 
     @Composable
     fun DashboardUI(navController: NavController) {
@@ -108,7 +110,7 @@ class Dashboard @Inject constructor() {
             0 -> home.HomeUI(navController = navController, modifier = modifier)
             1 -> event.EventUI(navController = navController, modifier = modifier)
             2 -> MeditationUI(navController = navController, modifier = modifier)
-            3 -> TempleUI(navController = navController, modifier = modifier)
+            3 -> temple.TempleUI(navController = navController, modifier = modifier)
         }
     }
 
