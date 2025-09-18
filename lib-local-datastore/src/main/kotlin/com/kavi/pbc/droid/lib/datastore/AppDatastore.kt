@@ -73,42 +73,42 @@ class AppDatastore {
         }
     }
 
-    fun retrieveBoolean(key: String): Flow<Boolean> =
+    suspend fun retrieveBoolean(key: String): Flow<Boolean> =
         appContext.appDatastore.data.map { preference ->
             preference[booleanPreferencesKey(key)] ?: run {
                 false
             }
         }
 
-    fun retrieveInt(key: String): Flow<Int> =
+    suspend fun retrieveInt(key: String): Flow<Int> =
         appContext.appDatastore.data.map { preference ->
             preference[intPreferencesKey(key)] ?: run {
                 0
             }
         }
 
-    fun retrieveLong(key: String): Flow<Long> =
+    suspend fun retrieveLong(key: String): Flow<Long> =
         appContext.appDatastore.data.map { preference ->
             preference[longPreferencesKey(key)] ?: run {
                 0
             }
         }
 
-    fun retrieveFloat(key: String): Flow<Float> =
+    suspend fun retrieveFloat(key: String): Flow<Float> =
         appContext.appDatastore.data.map { preference ->
             preference[floatPreferencesKey(key)] ?: run {
                 0F
             }
         }
 
-    fun retrieveString(key: String): Flow<String> =
+    suspend fun retrieveString(key: String): Flow<String> =
         appContext.appDatastore.data.map { preference ->
             preference[stringPreferencesKey(key)] ?: run {
                 "NULL"
             }
         }
 
-    inline fun <reified T>retrieveObject(key: String): Flow<T?> =
+    suspend inline fun <reified T>retrieveObject(key: String): Flow<T?> =
         appContext.appDatastore.data.map { preference ->
             val jsonString = preference[stringPreferencesKey(key)] ?: run { "" }
             if (jsonString.isNotBlank())

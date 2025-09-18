@@ -2,6 +2,7 @@ package com.kavi.pbc.droid.dashboard.data.repository.remote
 
 import com.kavi.pbc.droid.dashboard.data.repository.remote.DashboardServiceApi
 import com.kavi.pbc.droid.data.dto.BaseResponse
+import com.kavi.pbc.droid.data.dto.quote.Quote
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
@@ -17,5 +18,9 @@ class DashboardRemoteRepository @Inject constructor(
 
     suspend fun getDashboardEvents(): ResultWrapper<BaseResponse<List<Event>>> {
         return network.invokeApiCall(dispatcher) { dashboardServiceApi.getDashboardEvents() }
+    }
+
+    suspend fun getDashboardDailyQuotes(): ResultWrapper<BaseResponse<List<Quote>>> {
+        return network.invokeApiCall(dispatcher) { dashboardServiceApi.getDashboardDailyQuotes() }
     }
 }
