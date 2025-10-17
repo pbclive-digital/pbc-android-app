@@ -4,6 +4,7 @@ import com.kavi.pbc.droid.dashboard.data.repository.remote.DashboardServiceApi
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.quote.Quote
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.news.News
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -22,5 +23,9 @@ class DashboardRemoteRepository @Inject constructor(
 
     suspend fun getDashboardDailyQuotes(): ResultWrapper<BaseResponse<List<Quote>>> {
         return network.invokeApiCall(dispatcher) { dashboardServiceApi.getDashboardDailyQuotes() }
+    }
+
+    suspend fun getDashboardNews(): ResultWrapper<BaseResponse<List<News>>> {
+        return network.invokeApiCall(dispatcher) { dashboardServiceApi.getDashboardNews() }
     }
 }

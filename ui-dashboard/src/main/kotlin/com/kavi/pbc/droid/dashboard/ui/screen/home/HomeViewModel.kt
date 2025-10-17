@@ -6,6 +6,7 @@ import com.kavi.pbc.droid.dashboard.data.repository.local.DashboardLocalReposito
 import com.kavi.pbc.droid.dashboard.data.repository.remote.DashboardRemoteRepository
 import com.kavi.pbc.droid.data.dto.quote.Quote
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.news.News
 import com.kavi.pbc.droid.data.dto.quote.DailyQuote
 import com.kavi.pbc.droid.lib.parent.util.DateTimeUtil
 import com.kavi.pbc.droid.network.model.ResultWrapper
@@ -27,6 +28,9 @@ class HomeViewModel @Inject constructor(
 
     private val _dashboardQuoteList = MutableStateFlow<List<Quote>>(mutableListOf())
     val dashboardQuoteList: StateFlow<List<Quote>> = _dashboardQuoteList
+
+    private val _dashboardNewsList = MutableStateFlow<List<News>>(mutableListOf())
+    val dashboardNewsList: StateFlow<List<News>> = _dashboardNewsList
 
     fun fetchDashboardHomeEvents(isForceFetch: Boolean = false) {
         if (_dashboardEventList.value.isEmpty() || isForceFetch) {
@@ -56,6 +60,21 @@ class HomeViewModel @Inject constructor(
                     }
                 }?: run {
                     fetchDashboardQuotesFromRemote()
+                }
+            }
+        }
+    }
+
+    fun getDashboardNews() {
+        viewModelScope.launch {
+            when (val response = remoteDataSource.getDashboardNews()) {
+                is ResultWrapper.NetworkError -> {}
+                is ResultWrapper.HttpError -> {}
+                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        _dashboardNewsList.value = it
+                    }
                 }
             }
         }

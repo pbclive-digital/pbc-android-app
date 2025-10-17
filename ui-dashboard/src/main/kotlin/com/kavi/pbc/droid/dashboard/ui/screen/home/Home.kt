@@ -22,11 +22,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -56,6 +60,8 @@ import com.kavi.pbc.droid.dashboard.data.repository.local.DashboardLocalReposito
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventItem
+import com.kavi.pbc.droid.lib.common.ui.component.news.NewsItem
+import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.network.session.Session
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -98,6 +104,7 @@ class Home @Inject constructor(
 
                 Column (
                     modifier = Modifier
+                        .height(maxHeight - BottomNavBarHeight - 60.dp)
                         .verticalScroll(rememberScrollState())
                 ) {
                     // Daily Quotes
@@ -105,6 +112,9 @@ class Home @Inject constructor(
 
                     // Event Pager
                     EventPager(viewModel = viewModel, navController = navController)
+
+                    // News Colum
+                    NewsColum(viewModel = viewModel)
                 }
             }
         }
@@ -230,6 +240,40 @@ class Home @Inject constructor(
                             .background(color)
                             .size(12.dp)
                     )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun NewsColum(viewModel: HomeViewModel) {
+
+        val dashboardNews by viewModel.dashboardNewsList.collectAsState()
+
+        LaunchedEffect(Unit) {
+            viewModel.getDashboardNews()
+        }
+
+        Column {
+            Text(
+                modifier = Modifier
+                    .padding(start = 8.dp),
+                text = "News",
+                textAlign = TextAlign.Justify,
+                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp
+            )
+
+            Column {
+                dashboardNews.forEachIndexed { index,  news ->
+                    NewsItem(news = news)
+                    if (index < dashboardNews.lastIndex) {
+                        HorizontalDivider(
+                            modifier = Modifier.fillMaxWidth(),
+                            thickness = 1.dp,
+                            color = Color.LightGray
+                        )
+                    }
                 }
             }
         }
