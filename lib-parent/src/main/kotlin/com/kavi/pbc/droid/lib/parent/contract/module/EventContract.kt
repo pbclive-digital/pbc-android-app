@@ -7,7 +7,9 @@ import com.kavi.pbc.droid.lib.parent.contract.CommonContract
 interface EventContract: CommonContract {
 
     @Composable
-    fun RetrieveNavGraphWithData(eventKey: String)
+    fun RetrieveNavGraphWithDynamicDestination(startDestination: String)
+    @Composable
+    fun RetrieveNavGraphWithData(startDestination: String, eventKey: String)
 
     @Composable
     fun GetUpcomingEventList(navController: NavController)

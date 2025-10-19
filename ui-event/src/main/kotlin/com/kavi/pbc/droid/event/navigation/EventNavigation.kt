@@ -8,6 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.event.ui.create.EventCreate
+import com.kavi.pbc.droid.event.ui.manage.EventManage
 import com.kavi.pbc.droid.event.ui.selected.EventSelected
 import javax.inject.Inject
 
@@ -16,16 +18,28 @@ class EventNavigation @Inject constructor() {
     @Inject
     lateinit var eventSelected: EventSelected
 
+    @Inject
+    lateinit var eventCreate: EventCreate
+
+    @Inject
+    lateinit var eventManage: EventManage
+
     @Composable
-    fun EventNavGraph(eventData: Event? = null) {
+    fun EventNavGraph(startDestination: String = "event/event-ui", eventData: Event? = null) {
         val navController = rememberNavController()
         NavHost(
-            navController = navController, startDestination = "event/event-ui",
+            navController = navController, startDestination = startDestination,
             enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
+            composable (route = "event/event-manage") {
+                eventManage.EventManageUI(navController = navController)
+            }
             composable (route = "event/event-ui") {
                 eventSelected.EventUI(navController = navController, eventData = eventData)
+            }
+            composable (route = "event/event-create") {
+                eventCreate.EventCreateUI(navController = navController)
             }
         }
     }

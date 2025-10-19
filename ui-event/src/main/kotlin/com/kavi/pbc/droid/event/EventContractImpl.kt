@@ -25,11 +25,16 @@ class EventContractImpl @Inject constructor(
     }
 
     @Composable
-    override fun RetrieveNavGraphWithData(eventKey: String) {
+    override fun RetrieveNavGraphWithDynamicDestination(startDestination: String) {
+        eventNavigation.EventNavGraph(startDestination = startDestination)
+    }
+
+    @Composable
+    override fun RetrieveNavGraphWithData(startDestination: String, eventKey: String) {
         eventLocalDataSource.getSelectedEvent(tempEventKey = eventKey).onSuccess { event ->
-            eventNavigation.EventNavGraph(eventData = event)
+            eventNavigation.EventNavGraph(startDestination = startDestination, eventData = event)
         }.onFailure { error ->
-            eventNavigation.EventNavGraph()
+            eventNavigation.EventNavGraph(startDestination = startDestination)
         }
     }
 

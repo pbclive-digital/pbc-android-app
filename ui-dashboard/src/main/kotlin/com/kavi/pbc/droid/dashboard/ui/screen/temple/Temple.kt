@@ -142,7 +142,7 @@ class Temple @Inject constructor() {
                                 modifier = Modifier.padding(12.dp)
                             ) {
                                 OptionItem(label = stringResource(R.string.label_manage_event)) {
-
+                                    navController.navigate("dashboard/admin/to/event/manage-event")
                                 }
                                 OptionItem(label = stringResource(R.string.label_manage_user)) {
 

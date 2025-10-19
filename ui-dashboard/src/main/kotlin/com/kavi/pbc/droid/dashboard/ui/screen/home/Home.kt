@@ -147,7 +147,7 @@ class Home @Inject constructor(
             Box (
                 modifier = Modifier
                     .fillMaxSize()
-                    .height(maxHeight/8)
+                    .height(maxHeight/7)
                     .padding(top = 20.dp, start = 12.dp, end = 12.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -177,7 +177,7 @@ class Home @Inject constructor(
                                 text = dashboardQuoteList[currentIndex].quote,
                                 textAlign = TextAlign.Justify,
                                 fontWeight = FontWeight.SemiBold,
-                                fontSize = 14.sp
+                                fontSize = 12.sp
                             )
                         }
 

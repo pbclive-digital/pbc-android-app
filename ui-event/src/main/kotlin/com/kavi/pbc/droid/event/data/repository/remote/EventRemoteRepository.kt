@@ -13,11 +13,23 @@ class EventRemoteRepository @Inject constructor(
 ) {
     private val eventServiceApi = network.getRetrofit().create(EventServiceApi::class.java)
 
-    suspend fun getUpcomingEvents(): ResultWrapper<BaseResponse<List<Event>>> {
+    suspend fun getUpcomingEvents(): ResultWrapper<BaseResponse<MutableList<Event>>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.getUpcomingEvents() }
     }
 
-    suspend fun getPastEvents(): ResultWrapper<BaseResponse<List<Event>>> {
+    suspend fun getPastEvents(): ResultWrapper<BaseResponse<MutableList<Event>>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.getPastEvents() }
+    }
+
+    suspend fun getDraftEvents(): ResultWrapper<BaseResponse<MutableList<Event>>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.getDraftEvents() }
+    }
+
+    suspend fun publishDraftEvent(eventId: String, event: Event): ResultWrapper<BaseResponse<Event>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.publishDraftEvent(eventId = eventId, event = event) }
+    }
+
+    suspend fun deleteEvent(eventId: String): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.deleteEvent(eventId = eventId) }
     }
 }

@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_MANAGE_DESTINATION
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_SELECTED_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.PROFILE_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
@@ -45,10 +47,13 @@ class DashboardNavigation @Inject constructor() {
             composable (route = "dashboard/to/event/{eventKey}") { backStackEntry ->
                 val eventKey = backStackEntry.arguments?.getString("eventKey")
                 eventKey?.let {
-                    contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithData(eventKey = it)
+                    contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithData(startDestination = EVENT_SELECTED_DESTINATION, eventKey = it)
                 }?: run {
                     contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraph()
                 }
+            }
+            composable (route = "dashboard/admin/to/event/manage-event") {
+                contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithDynamicDestination(startDestination = EVENT_MANAGE_DESTINATION)
             }
         }
     }
