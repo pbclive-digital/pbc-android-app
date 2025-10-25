@@ -1,6 +1,5 @@
 package com.kavi.pbc.droid.event.ui.create
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.PotluckItem
