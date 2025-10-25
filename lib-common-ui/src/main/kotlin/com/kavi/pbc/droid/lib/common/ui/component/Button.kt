@@ -1,14 +1,18 @@
 package com.kavi.pbc.droid.lib.common.ui.component
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -17,8 +21,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -30,9 +36,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.pbc.droid.lib.common.ui.R
+import com.kavi.pbc.droid.lib.common.ui.model.IconSide
 import com.kavi.pbc.droid.lib.common.ui.theme.GrayText
 
 @Composable
@@ -59,6 +68,7 @@ fun AppFilledButton(label: String,
 @Composable
 fun AppButtonWithIcon(label: String,
                       icon: Painter,
+                      iconSide: IconSide = IconSide.LEFT,
                       labelTextSize: TextUnit? = null,
                       modifier: Modifier = Modifier,
                       onClick: () -> Unit) {
@@ -73,19 +83,117 @@ fun AppButtonWithIcon(label: String,
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
+            when (iconSide) {
+                IconSide.LEFT -> {
+                    Icon(
+                        painter = icon,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(4.dp)
+                    )
+                    Text(
+                        text = label.uppercase(),
+                        fontSize = labelTextSize ?: run { 14.sp },
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(4.dp),
+                    )
+                }
+                IconSide.RIGHT -> {
+                    Text(
+                        text = label.uppercase(),
+                        fontSize = labelTextSize ?: run { 14.sp },
+                        fontStyle = FontStyle.Normal,
+                        fontWeight = FontWeight.Normal,
+                        modifier = Modifier.padding(4.dp),
+                    )
+                    Icon(
+                        painter = icon,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(4.dp)
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun AppDatePickerButton(
+    label: MutableState<String>,
+    labelTextSize: TextUnit? = null,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit) {
+
+    OutlinedButton(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth().height(50.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
+        shape = RoundedCornerShape(5.dp),
+        colors = ButtonDefaults.outlinedButtonColors(
+            contentColor = MaterialTheme.colorScheme.primary,
+        )
+    ) {
+        Row (
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = label.value,
+                fontSize = labelTextSize ?: run { 16.sp },
+                fontStyle = FontStyle.Normal,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(4.dp),
+            )
+            Spacer(modifier = Modifier.weight(1f))
             Icon(
-                painter = icon,
-                contentDescription = "",
+                painter = painterResource(R.drawable.icon_calendar),
+                contentDescription = "Calendar icon",
                 modifier = Modifier
                     .size(40.dp)
                     .padding(4.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun AppTimePickerButton(
+    label: MutableState<String>,
+    labelTextSize: TextUnit? = null,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit) {
+
+    OutlinedButton(
+        onClick = onClick,
+        modifier = modifier.fillMaxWidth().height(50.dp),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
+        shape = RoundedCornerShape(5.dp),
+        colors = ButtonDefaults.outlinedButtonColors(
+            contentColor = MaterialTheme.colorScheme.primary,
+        )
+    ) {
+        Row (
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
-                text = label.uppercase(),
-                fontSize = labelTextSize ?: run { 14.sp },
+                text = label.value,
+                fontSize = labelTextSize ?: run { 16.sp },
                 fontStyle = FontStyle.Normal,
-                fontWeight = FontWeight.Normal,
+                fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(4.dp),
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(
+                painter = painterResource(R.drawable.icon_clock),
+                contentDescription = "Calendar icon",
+                modifier = Modifier
+                    .size(40.dp)
+                    .padding(4.dp)
             )
         }
     }
@@ -155,6 +263,36 @@ fun AppDisabledOutlineButton(label: String,
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Normal,
             modifier = Modifier.padding(4.dp),
+        )
+    }
+}
+
+@Composable
+fun AppIconButton(
+    icon: Painter,
+    onClick: () -> Unit,
+    buttonSize: Dp = 50.dp,
+    modifier: Modifier = Modifier
+) {
+    val iconSize: Int = (buttonSize.value * 0.75).toInt()
+
+    Box (
+        modifier = modifier
+            .width(buttonSize).height(buttonSize)
+            .clip(shape = RoundedCornerShape(12.dp))
+            .background(MaterialTheme.colorScheme.primary)
+            .clickable {
+                onClick.invoke()
+            },
+        contentAlignment = Alignment.Center,
+    ) {
+        Icon(
+            painter = icon,
+            tint = Color.White,
+            contentDescription = "Provided icon",
+            modifier = Modifier
+                .size(iconSize.dp)
+                .padding(4.dp)
         )
     }
 }

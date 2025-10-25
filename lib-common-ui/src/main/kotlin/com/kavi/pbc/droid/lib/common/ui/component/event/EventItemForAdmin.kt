@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -67,6 +68,7 @@ fun EventItemForAdmin(
                 Icon(
                     painter = painterResource(R.drawable.icon_edit),
                     contentDescription = "Edit Event",
+                    tint = MaterialTheme.colorScheme.shadow,
                     modifier = Modifier
                         .size(40.dp)
                         .padding(4.dp)
@@ -78,6 +80,7 @@ fun EventItemForAdmin(
                     Icon(
                         painter = painterResource(R.drawable.icon_publish),
                         contentDescription = "Publish Event",
+                        tint = MaterialTheme.colorScheme.shadow,
                         modifier = Modifier
                             .size(40.dp)
                             .padding(4.dp)
@@ -89,6 +92,7 @@ fun EventItemForAdmin(
                 Icon(
                     painter = painterResource(R.drawable.icon_delete),
                     contentDescription = "Delete Event",
+                    tint = MaterialTheme.colorScheme.shadow,
                     modifier = Modifier
                         .size(40.dp)
                         .padding(4.dp)

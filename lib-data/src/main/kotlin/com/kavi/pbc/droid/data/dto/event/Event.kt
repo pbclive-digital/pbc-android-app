@@ -6,23 +6,23 @@ import java.util.Date
 
 @Serializable
 data class Event(
-    val id: String,
-    val name: String,
-    val description: String,
+    val id: String? = null,
+    var name: String = "",
+    var description: String = "",
     var eventStatus: EventStatus = EventStatus.DRAFT,
-    val eventDate: Long,
-    val startTime: String,
-    val endTime: String,
-    val createdTime: Long,
-    val venueType: VenueType = VenueType.VIRTUAL,
-    val venue: String? = null,
+    var eventDate: Long = 0,
+    var startTime: String = "",
+    var endTime: String = "",
+    val createdTime: Long = 0,
+    var venueType: VenueType = VenueType.VIRTUAL,
+    var venue: String? = null,
     val creator: String,
-    val eventImage: String? = null,
-    val eventType: EventType = EventType.SPECIAL,
-    val isRegistrationRequired: Boolean = false,
-    val openSeatCount: Int? = null,
-    val isPotluckAvailable: Boolean = false,
-    val potluckItemList: MutableList<PotluckItem>? = mutableListOf()
+    var eventImage: String? = null,
+    var eventType: EventType = EventType.SPECIAL,
+    var isRegistrationRequired: Boolean = false,
+    var openSeatCount: Int? = null,
+    var isPotluckAvailable: Boolean = false,
+    var potluckItemList: MutableList<PotluckItem>? = mutableListOf()
 ) {
     fun getFormatDate(): String {
         val dateFormat = DateFormat.getDateInstance()

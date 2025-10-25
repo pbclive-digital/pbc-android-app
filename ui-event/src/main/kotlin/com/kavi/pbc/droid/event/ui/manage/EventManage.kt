@@ -21,7 +21,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.data.model.EventMangeMode
 import com.kavi.pbc.droid.event.ui.manage.dialog.DeleteConfirmationDialog
@@ -79,6 +79,7 @@ class EventManage @Inject constructor() {
                         fontFamily = PBCFontFamily,
                         fontSize = 14.sp,
                         textAlign = TextAlign.Justify,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier
                             .fillMaxWidth()
                     )
@@ -150,6 +151,7 @@ class EventManage @Inject constructor() {
             fontFamily = PBCFontFamily,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .padding(top = 12.dp)
                 .fillMaxWidth()
@@ -162,17 +164,17 @@ class EventManage @Inject constructor() {
 
                     }, onPublish = {
                         publishConfirmation.value = true
-                        publishingId.value = event.id
+                        publishingId.value = event.id!!
                     }, onDelete = {
                         deleteConfirmation.value = true
                         eventMode.value = EventMangeMode.DRAFT
-                        deletingEventId.value = event.id
+                        deletingEventId.value = event.id!!
                     })
                     if (index < draftEventList.lastIndex) {
                         HorizontalDivider(
                             modifier = Modifier.fillMaxWidth(),
                             thickness = 1.dp,
-                            color = Color.LightGray
+                            color = MaterialTheme.colorScheme.shadow
                         )
                     }
                 }
@@ -206,6 +208,7 @@ class EventManage @Inject constructor() {
             fontFamily = PBCFontFamily,
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier
                 .padding(top = 12.dp)
                 .fillMaxWidth()
@@ -219,13 +222,13 @@ class EventManage @Inject constructor() {
                     }, onDelete = {
                         deleteConfirmation.value = true
                         eventMode.value = EventMangeMode.ACTIVE
-                        deletingEventId.value = event.id
+                        deletingEventId.value = event.id!!
                     })
                     if (index < activeEventList.lastIndex) {
                         HorizontalDivider(
                             modifier = Modifier.fillMaxWidth(),
                             thickness = 1.dp,
-                            color = Color.LightGray
+                            color = MaterialTheme.colorScheme.shadow
                         )
                     }
                 }
