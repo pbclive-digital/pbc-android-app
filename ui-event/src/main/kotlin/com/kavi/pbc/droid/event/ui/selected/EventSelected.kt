@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -122,7 +123,7 @@ class EventSelected @Inject constructor() {
                             modifier = Modifier.padding(top = 12.dp),
                         ) {
                             Text(
-                                text = "On:",
+                                text = stringResource(R.string.label_on),
                                 fontFamily = PBCFontFamily,
                                 fontWeight = FontWeight.Normal,
                                 fontSize = 20.sp,
@@ -144,7 +145,7 @@ class EventSelected @Inject constructor() {
                         ) {
                             if (givenEvent.venueType == VenueType.PHYSICAL) {
                                 Text(
-                                    text = "At:",
+                                    text = stringResource(R.string.label_at),
                                     fontFamily = PBCFontFamily,
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 20.sp,
@@ -170,9 +171,15 @@ class EventSelected @Inject constructor() {
                             }
                         }
 
-                        if (givenEvent.isRegistrationRequired) {
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        if (givenEvent.registrationRequired) {
+                            var bottomPadding = 0.dp
+                            if (!givenEvent.potluckAvailable) {
+                                bottomPadding = 40.dp
+                            }
                             AppButtonWithIcon(
-                                modifier = Modifier.padding(top = 12.dp),
+                                modifier = Modifier.padding(top = 12.dp, bottom = bottomPadding),
                                 label = stringResource(R.string.label_register),
                                 icon = painterResource(R.drawable.icon_event_register)
                             ) {
@@ -180,9 +187,9 @@ class EventSelected @Inject constructor() {
                             }
                         }
 
-                        if (givenEvent.isPotluckAvailable) {
+                        if (givenEvent.potluckAvailable) {
                             AppButtonWithIcon(
-                                modifier = Modifier.padding(top = 12.dp),
+                                modifier = Modifier.padding(top = 12.dp, bottom = 40.dp),
                                 label = stringResource(R.string.label_potluck),
                                 icon = painterResource(R.drawable.icon_potluck_register)
                             ) {

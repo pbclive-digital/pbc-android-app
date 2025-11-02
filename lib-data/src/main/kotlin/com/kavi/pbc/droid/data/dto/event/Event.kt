@@ -19,9 +19,9 @@ data class Event(
     val creator: String,
     var eventImage: String? = null,
     var eventType: EventType = EventType.DEFAULT,
-    var isRegistrationRequired: Boolean = false,
+    var registrationRequired: Boolean = false,
     var openSeatCount: Int? = null,
-    var isPotluckAvailable: Boolean = false,
+    var potluckAvailable: Boolean = false,
     var potluckItemList: MutableList<PotluckItem>? = mutableListOf()
 ) {
     fun getFormatDate(): String {
@@ -38,7 +38,7 @@ data class Event(
             VenueType.DEFAULT -> { "" }
             VenueType.VIRTUAL -> "Online"
             VenueType.PHYSICAL -> {
-               "at $venue"
+               "$venue"
             }
         }
     }

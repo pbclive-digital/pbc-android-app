@@ -34,6 +34,7 @@ import com.kavi.pbc.droid.event.ui.create.common.NavigatorPanel
 import com.kavi.pbc.droid.event.ui.create.pager.EventImageInformation
 import com.kavi.pbc.droid.event.ui.create.pager.InitialInformation
 import com.kavi.pbc.droid.event.ui.create.pager.SecondaryInformation
+import com.kavi.pbc.droid.lib.common.ui.component.AppLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -60,6 +61,7 @@ class EventCreate @Inject constructor() {
         var hideNext by remember { mutableStateOf(false) }
         var makeFinish by remember { mutableStateOf(false) }
 
+        val isLoading = remember { mutableStateOf(false) }
         val eventCreateStatus by viewModel.eventCreateStatus.collectAsState()
 
         val context = LocalContext.current
@@ -163,10 +165,12 @@ class EventCreate @Inject constructor() {
                                             ).show()
                                         }
                                     } else {
+                                        isLoading.value = true
                                         viewModel.uploadEventImageAndCreateEvent()
                                     }
                                 } else {
                                     if (makeFinish) {
+                                        isLoading.value = true
                                         viewModel.uploadEventImageAndCreateEvent()
                                     }
                                 }
@@ -175,6 +179,10 @@ class EventCreate @Inject constructor() {
                     )
                 }
             }
+        }
+
+        if(isLoading.value) {
+            AppLoader()
         }
 
         if (eventCreateStatus) {

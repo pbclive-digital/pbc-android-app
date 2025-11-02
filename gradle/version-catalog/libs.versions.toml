@@ -4,7 +4,7 @@ compilerSdkVersion = "36"
 targetSdkVersion = "36"
 jvmVersion = "21"
 
-agp = "8.12.0"
+agp = "8.13.0"
 kotlin = "2.2.0"
 coreKtx = "1.16.0"
 lifecycleRuntimeKtx = "2.9.2"

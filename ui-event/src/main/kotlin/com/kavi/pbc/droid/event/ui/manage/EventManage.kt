@@ -28,6 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.shadow
@@ -142,8 +144,9 @@ class EventManage @Inject constructor() {
 
         val draftEventList by viewModel.draftEventList.collectAsState()
 
-        LaunchedEffect(Unit) {
-            viewModel.fetchDraftEvents()
+        LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
+            // Run your code here on ON_RESUME
+            viewModel.fetchDraftEvents(isForceFetch = true)
         }
 
         Text(

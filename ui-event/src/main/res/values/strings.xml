@@ -49,5 +49,6 @@
     <string name="label_event_publish_confirmation">Publishing Ready?</string>
     <string name="phrase_event_publish_confirmation">Is this event ready to publish?. Once you published it, all users will see this as an event.</string>
 
-
+    <string name="label_on">On: </string>
+    <string name="label_at">At: </string>
 </resources>
