@@ -1,25 +1,77 @@
 package com.kavi.pbc.droid.event.ui.create
 
+import android.net.Uri
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.EventType
 import com.kavi.pbc.droid.data.dto.event.PotluckItem
+import com.kavi.pbc.droid.data.dto.event.VenueType
+import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
+import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class EventCreateViewModel @Inject constructor(): ViewModel() {
+class EventCreateViewModel @Inject constructor(
+    private val remoteDataSource: EventRemoteRepository
+): ViewModel() {
 
     private var _newEvent = MutableStateFlow(Event(creator = Session.user!!.id!!))
     val newEvent: StateFlow<Event> = _newEvent
 
     private var _potluckItemList = MutableStateFlow<MutableList<PotluckItem>>(mutableListOf())
     val potluckItemList: StateFlow<List<PotluckItem>> = _potluckItemList
+
+    private var _eventImageUri = MutableStateFlow<Uri?>(null)
+    val eventImageUri: StateFlow<Uri?> = _eventImageUri
+
+    private var _eventCreateStatus = MutableStateFlow<Boolean>(false)
+    val eventCreateStatus: StateFlow<Boolean> = _eventCreateStatus
+
+    private var eventImageFile: File? = null
+
+    fun validateFirstPage(): Boolean {
+        return !(_newEvent.value.name.isEmpty() || _newEvent.value.description.isEmpty()
+                || _newEvent.value.eventType == EventType.DEFAULT
+                || _newEvent.value.eventDate.toInt() == 0 || _newEvent.value.startTime.isEmpty() || _newEvent.value.endTime.isEmpty())
+    }
+
+    fun validateSecondPage(): Boolean {
+        if (_newEvent.value.isRegistrationRequired) {
+            _newEvent.value.openSeatCount?.let { seatCount ->
+                if (seatCount == 0) {
+                    return false
+                }
+            }?: run {
+                return false
+            }
+        }
+
+        if (_newEvent.value.isPotluckAvailable) {
+            _newEvent.value.potluckItemList?.let { itemList ->
+                if (itemList.isEmpty()) {
+                    return false
+                }
+            }?: run {
+                return false
+            }
+        }
+
+        return true
+    }
 
     fun formatDate(selectedDateMils: Long?): String {
         return selectedDateMils?.let {
@@ -34,11 +86,25 @@ class EventCreateViewModel @Inject constructor(): ViewModel() {
     }
 
     fun addPotluckItem(potluckItem: PotluckItem) {
-        _potluckItemList.value.add(potluckItem)
+        _potluckItemList.update { currentList ->
+            (currentList + potluckItem) as MutableList<PotluckItem>
+        }
+        _newEvent.value.potluckItemList = _potluckItemList.value
     }
 
     fun removePotluckItem(potluckItem: PotluckItem) {
-        _potluckItemList.value.remove(potluckItem)
+        _potluckItemList.value = _potluckItemList.value
+            .filterNot { it == potluckItem }
+            .toMutableList()
+        _newEvent.value.potluckItemList = _potluckItemList.value
+    }
+
+    fun updateEventImageUrl(eventImage: Uri) {
+        _eventImageUri.value = eventImage
+    }
+
+    fun updateEventImageFile(eventImage: File) {
+        eventImageFile = eventImage
     }
 
     fun updateName(name: String) {
@@ -49,8 +115,20 @@ class EventCreateViewModel @Inject constructor(): ViewModel() {
         _newEvent.value.description = description
     }
 
-    fun updateVenue(venue: String) {
-        _newEvent.value.venue = venue
+    fun updateEventType(eventType: String) {
+        when(eventType) {
+            EventType.SPECIAL.name -> _newEvent.value.eventType = EventType.SPECIAL
+            EventType.BUDDHISM_CLASS.name -> _newEvent.value.eventType = EventType.BUDDHISM_CLASS
+            EventType.MEDITATION.name -> _newEvent.value.eventType = EventType.MEDITATION
+            EventType.DHAMMA_TALK.name -> _newEvent.value.eventType = EventType.DHAMMA_TALK
+        }
+    }
+
+    fun getInitialEventType(): String {
+        return if (_newEvent.value.eventType == EventType.DEFAULT)
+            ""
+        else
+            _newEvent.value.eventType.name
     }
 
     fun updateDate(date: Long?) {
@@ -59,11 +137,103 @@ class EventCreateViewModel @Inject constructor(): ViewModel() {
         }
     }
 
+    fun getInitialEventDate(): String {
+        return if (_newEvent.value.eventDate.toInt() == 0)
+            "SELECT DATE"
+        else
+            _newEvent.value.getFormatDate()
+    }
+
     fun updateStartTime(startTime: String) {
         _newEvent.value.startTime = startTime
     }
 
+    fun getInitialStartTime(): String {
+        return _newEvent.value.startTime.ifEmpty {
+            "FROM"
+        }
+    }
+
     fun updateEndTime(endTime: String) {
         _newEvent.value.endTime = endTime
+    }
+
+    fun getInitialEndTime(): String {
+        return _newEvent.value.endTime.ifEmpty {
+            "TO"
+        }
+    }
+
+    fun updateVenueType(venueType: String) {
+        when(venueType) {
+            VenueType.PHYSICAL.name -> _newEvent.value.venueType = VenueType.PHYSICAL
+            VenueType.VIRTUAL.name -> _newEvent.value.venueType = VenueType.VIRTUAL
+        }
+    }
+
+    fun getInitialVenueType(): String {
+        return if (_newEvent.value.venueType == VenueType.DEFAULT)
+            "VENUE TYPE"
+        else
+            _newEvent.value.venueType.name
+    }
+
+    fun updateVenue(venue: String) {
+        _newEvent.value.venue = venue
+    }
+
+    fun updateRegistrationRequiredFlag(isRegistrationRequired: Boolean) {
+        _newEvent.value.isRegistrationRequired = isRegistrationRequired
+    }
+
+    fun updateSeatCount(seatCount: Int) {
+        _newEvent.value.openSeatCount = seatCount
+    }
+
+    fun updatePotluckAvailabilityFlag(isPotluckAvailable: Boolean) {
+        _newEvent.value.isPotluckAvailable = isPotluckAvailable
+    }
+
+    fun uploadEventImageAndCreateEvent() {
+        eventImageFile?.let { file ->
+            val requestFile = RequestBody.create("image/png".toMediaType(), file)
+            val imagePart = MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
+
+            val formatedEventName = _newEvent.value.name.replace(" ", "_").replace("-", "_")
+
+            viewModelScope.launch {
+                when(val response = remoteDataSource.uploadEventImage(formatedEventName, imagePart)) {
+                    is ResultWrapper.NetworkError -> {}
+                    is ResultWrapper.HttpError -> {
+                        createNewEvent()
+                    }
+                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let {
+                            _newEvent.value.eventImage = it
+                            createNewEvent()
+                        }
+                    }
+                }
+            }
+        }?: run {
+            createNewEvent()
+        }
+    }
+
+    private fun createNewEvent() {
+        viewModelScope.launch {
+            when(val response = remoteDataSource.createEvent(_newEvent.value)) {
+                is ResultWrapper.NetworkError -> {}
+                is ResultWrapper.HttpError -> {}
+                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        println("Passed: $it")
+                        _eventCreateStatus.value = true
+                    }
+                }
+            }
+        }
     }
 }

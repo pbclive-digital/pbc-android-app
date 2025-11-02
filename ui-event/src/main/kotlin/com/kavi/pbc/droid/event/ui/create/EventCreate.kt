@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.event.ui.create
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.snapping.SnapPosition
 import androidx.compose.foundation.layout.Box
@@ -15,12 +16,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -54,6 +58,31 @@ class EventCreate @Inject constructor() {
 
         var hidePrev by remember { mutableStateOf(false) }
         var hideNext by remember { mutableStateOf(false) }
+        var makeFinish by remember { mutableStateOf(false) }
+
+        val eventCreateStatus by viewModel.eventCreateStatus.collectAsState()
+
+        val context = LocalContext.current
+
+        LaunchedEffect(pagerState.currentPage) {
+            when(pagerState.currentPage) {
+                0 -> {
+                    hidePrev = true
+                    hideNext = false
+                    makeFinish = false
+                }
+                1 -> {
+                    hidePrev = false
+                    hideNext = false
+                    makeFinish = false
+                }
+                2 -> {
+                    hidePrev = false
+                    hideNext = true
+                    makeFinish = true
+                }
+            }
+        }
 
         Box (
             modifier = Modifier
@@ -85,15 +114,9 @@ class EventCreate @Inject constructor() {
                         snapPosition = SnapPosition.Center
                     ) { page ->
                         when (page) {
-                            0 -> {
-                                initialInformation.InitialInformationUI()
-                            }
-                            1 -> {
-                                secondaryInformation.SecondaryInformationUI()
-                            }
-                            2 -> {
-                                eventImageInformation.EventImageUI()
-                            }
+                            0 -> { initialInformation.InitialInformationUI() }
+                            1 -> { secondaryInformation.SecondaryInformationUI() }
+                            2 -> { eventImageInformation.EventImageUI() }
                         }
                     }
 
@@ -105,6 +128,7 @@ class EventCreate @Inject constructor() {
                             .padding(top = 12.dp, start = 4.dp, end = 4.dp, bottom = 8.dp),
                         hidePrev = hidePrev,
                         hideNext = hideNext,
+                        makeFinish = makeFinish,
                         onPrevious = {
                             scope.launch {
                                 if (pagerState.currentPage != 0) {
@@ -116,16 +140,45 @@ class EventCreate @Inject constructor() {
                         onNext = {
                             scope.launch {
                                 if (pagerState.currentPage != (pageCount - 1)) {
-                                    val nextPage = (pagerState.currentPage + 1) % pageCount
-                                    pagerState.animateScrollToPage(nextPage)
-                                }
+                                    var gotoNext =  false
+                                    when(pagerState.currentPage) {
+                                        0 -> {
+                                            gotoNext = viewModel.validateFirstPage()
+                                        }
+                                        1 -> {
+                                            gotoNext = viewModel.validateSecondPage()
+                                        }
+                                        2 -> gotoNext = true
+                                    }
 
-                                println("Event: ${viewModel.newEvent.value}")
+                                    if (!makeFinish) {
+                                        if (gotoNext) {
+                                            val nextPage = (pagerState.currentPage + 1) % pageCount
+                                            pagerState.animateScrollToPage(nextPage)
+                                        } else {
+                                            Toast.makeText(
+                                                context,
+                                                context.getString(R.string.phrase_validation_failure_form_one),
+                                                Toast.LENGTH_LONG
+                                            ).show()
+                                        }
+                                    } else {
+                                        viewModel.uploadEventImageAndCreateEvent()
+                                    }
+                                } else {
+                                    if (makeFinish) {
+                                        viewModel.uploadEventImageAndCreateEvent()
+                                    }
+                                }
                             }
                         }
                     )
                 }
             }
+        }
+
+        if (eventCreateStatus) {
+            navController.popBackStack()
         }
     }
 }

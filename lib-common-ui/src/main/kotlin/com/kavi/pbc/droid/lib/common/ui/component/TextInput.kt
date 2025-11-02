@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.lib.common.ui.component
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -10,6 +11,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 
@@ -18,7 +20,8 @@ fun AppOutlineTextField(
     modifier: Modifier = Modifier,
     headingText: String,
     contentText: MutableState<TextFieldValue>,
-    onValueChange: ((newValue: TextFieldValue) -> Unit)? = null
+    onValueChange: ((newValue: TextFieldValue) -> Unit)? = null,
+    keyboardType: KeyboardType = KeyboardType.Text
 ) {
     OutlinedTextField(
         modifier = modifier
@@ -38,7 +41,8 @@ fun AppOutlineTextField(
         label = { Text(text = headingText) },
         onValueChange = { newColorHex ->
             onValueChange?.invoke(newColorHex)
-        }
+        },
+        keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
     )
 }
 

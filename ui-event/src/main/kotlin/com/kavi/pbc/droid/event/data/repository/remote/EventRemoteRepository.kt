@@ -5,6 +5,7 @@ import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class EventRemoteRepository @Inject constructor(
@@ -23,6 +24,14 @@ class EventRemoteRepository @Inject constructor(
 
     suspend fun getDraftEvents(): ResultWrapper<BaseResponse<MutableList<Event>>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.getDraftEvents() }
+    }
+
+    suspend fun createEvent(event: Event): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.createNewEvent(event) }
+    }
+
+    suspend fun uploadEventImage(eventName: String, imageFile: MultipartBody.Part): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.uploadEventImage(eventName, imageFile) }
     }
 
     suspend fun publishDraftEvent(eventId: String, event: Event): ResultWrapper<BaseResponse<Event>> {

@@ -161,7 +161,7 @@ class EventManage @Inject constructor() {
             if (draftEventList.isNotEmpty()) {
                 draftEventList.forEachIndexed { index, event ->
                     EventItemForAdmin(event = event, isDraftEvent = true, onModify = {
-
+                        // Navigate to edit screen
                     }, onPublish = {
                         publishConfirmation.value = true
                         publishingId.value = event.id!!
@@ -218,7 +218,7 @@ class EventManage @Inject constructor() {
             if (activeEventList.isNotEmpty()) {
                 activeEventList.forEachIndexed { index, event ->
                     EventItemForAdmin(event = event, isDraftEvent = false, onModify = {
-
+                        // Navigate to edit screen
                     }, onDelete = {
                         deleteConfirmation.value = true
                         eventMode.value = EventMangeMode.ACTIVE

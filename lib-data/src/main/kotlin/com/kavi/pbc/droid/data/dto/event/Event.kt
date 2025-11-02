@@ -14,11 +14,11 @@ data class Event(
     var startTime: String = "",
     var endTime: String = "",
     val createdTime: Long = 0,
-    var venueType: VenueType = VenueType.VIRTUAL,
+    var venueType: VenueType = VenueType.DEFAULT,
     var venue: String? = null,
     val creator: String,
     var eventImage: String? = null,
-    var eventType: EventType = EventType.SPECIAL,
+    var eventType: EventType = EventType.DEFAULT,
     var isRegistrationRequired: Boolean = false,
     var openSeatCount: Int? = null,
     var isPotluckAvailable: Boolean = false,
@@ -35,6 +35,7 @@ data class Event(
 
     fun getPlace(): String {
         return when(venueType) {
+            VenueType.DEFAULT -> { "" }
             VenueType.VIRTUAL -> "Online"
             VenueType.PHYSICAL -> {
                "at $venue"

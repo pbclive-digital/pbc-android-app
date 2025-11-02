@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.model.IconSide
 import com.kavi.pbc.droid.lib.common.ui.theme.GrayText
@@ -76,7 +77,9 @@ fun AppButtonWithIcon(label: String,
         onClick = onClick,
         modifier = modifier.fillMaxWidth().height(50.dp),
         shape = RoundedCornerShape(5.dp),
-        colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary)
+        colors = ButtonDefaults.buttonColors(
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Row (
             horizontalArrangement = Arrangement.Center,
@@ -133,7 +136,7 @@ fun AppDatePickerButton(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.quaternary,
         )
     ) {
         Row (
@@ -172,7 +175,7 @@ fun AppTimePickerButton(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.quaternary,
         )
     ) {
         Row (
@@ -227,15 +230,15 @@ fun AppOutlineButton(label: String,
     OutlinedButton(
         onClick = onClick,
         modifier = modifier.fillMaxWidth().height(50.dp),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.secondary),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.quaternary),
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.outlinedButtonColors(
-            contentColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.quaternary,
         )
     ) {
         Text(
             text = label.uppercase(),
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.quaternary,
             fontSize = labelTextSize ?: run { 14.sp },
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Normal,

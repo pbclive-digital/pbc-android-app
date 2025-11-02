@@ -27,7 +27,9 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.event.R
+import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 
 @Composable
 fun NavigatorPanel(
@@ -35,6 +37,7 @@ fun NavigatorPanel(
     hidePrev: Boolean = false,
     onPrevious: () -> Unit,
     hideNext: Boolean = false,
+    makeFinish: Boolean = false,
     onNext: () -> Unit
 ) {
     Row(
@@ -51,7 +54,7 @@ fun NavigatorPanel(
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.tertiary),
                 shape = RoundedCornerShape(5.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    contentColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.quaternary,
                 )
             ) {
                 Row(
@@ -83,7 +86,7 @@ fun NavigatorPanel(
 
         Spacer(modifier = Modifier.weight(1f))
 
-        if (!hideNext) {
+        if (!hideNext && !makeFinish) {
             Button(
                 onClick = onNext,
                 modifier = Modifier
@@ -114,6 +117,17 @@ fun NavigatorPanel(
                             .padding(4.dp)
                     )
                 }
+            }
+        }
+
+        if (makeFinish) {
+            AppFilledButton(
+                label = stringResource(R.string.label_submit),
+                modifier = Modifier
+                    .width(120.dp)
+                    .height(50.dp)
+            ) {
+                onNext.invoke()
             }
         }
     }

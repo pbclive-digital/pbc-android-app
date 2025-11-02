@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,16 +54,26 @@ class InitialInformation @Inject constructor() {
 
         var showTimePicker by remember { mutableStateOf(false) }
 
-        val eventName = remember { mutableStateOf(TextFieldValue("")) }
-        val eventDescription = remember { mutableStateOf(TextFieldValue("")) }
-        val eventType = remember { mutableStateOf("") }
-        val eventDate = remember { mutableStateOf("SELECT DATE") }
-        val eventFrom = remember { mutableStateOf("FROM") }
-        val eventTo = remember { mutableStateOf("TO") }
-        val venueType = remember { mutableStateOf("") }
-        val eventVenue = remember { mutableStateOf(TextFieldValue("")) }
+        val eventName = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.name)) }
+        val eventDescription = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.description)) }
+        val eventType = remember { mutableStateOf(viewModel.getInitialEventType()) }
+        val eventDate = remember { mutableStateOf(viewModel.getInitialEventDate()) }
+        val eventFrom = remember { mutableStateOf(viewModel.getInitialStartTime()) }
+        val eventTo = remember { mutableStateOf(viewModel.getInitialEndTime()) }
+        val venueType = remember { mutableStateOf(viewModel.getInitialVenueType()) }
+        val eventVenue = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.venue ?: run { "" })) }
 
         var timePickerMode by remember { mutableStateOf(TimePickerMode.UNSELECTED) }
+
+        LaunchedEffect(eventType.value) {
+            println("Changed event type")
+            viewModel.updateEventType(eventType = eventType.value)
+        }
+
+        LaunchedEffect(venueType.value) {
+            println("Changed venue type")
+            viewModel.updateVenueType(venueType = venueType.value)
+        }
 
         Box (
             modifier = Modifier
@@ -142,7 +153,7 @@ class InitialInformation @Inject constructor() {
                     Spacer(modifier = Modifier.weight(1f))
 
                     AppDatePickerButton (
-                        modifier = Modifier.width(250.dp),
+                        modifier = Modifier.width(200.dp),
                         label = eventDate
                     ) {
                         showDatePicker.value = true
@@ -213,7 +224,7 @@ class InitialInformation @Inject constructor() {
                     Spacer(modifier = Modifier.weight(1f))
 
                     AppDropDownMenu(
-                        modifier = Modifier.width(250.dp),
+                        modifier = Modifier.width(200.dp),
                         title = stringResource(R.string.label_venue_type).uppercase(),
                         selectableItems = listOf(VenueType.VIRTUAL.name, VenueType.PHYSICAL.name),
                         selectedItem = venueType

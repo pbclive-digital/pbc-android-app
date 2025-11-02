@@ -64,7 +64,7 @@ private fun PublishConfirmationContent(onAgree: () -> Unit, onDisagree: () -> Un
             Row (
                 modifier = Modifier.padding(top = 16.dp),
             ) {
-                AppOutlineButton(
+                AppFilledButton(
                     modifier = Modifier
                         .weight(1f)
                         .padding(end = 4.dp),
@@ -72,7 +72,8 @@ private fun PublishConfirmationContent(onAgree: () -> Unit, onDisagree: () -> Un
                 ) {
                     onAgree.invoke()
                 }
-                AppFilledButton(
+
+                AppOutlineButton(
                     modifier = Modifier
                         .weight(1f)
                         .padding(start = 4.dp),
