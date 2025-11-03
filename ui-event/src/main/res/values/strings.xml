@@ -19,17 +19,23 @@
     <string name="label_date">Event Date: </string>
     <string name="label_from">From: </string>
     <string name="label_to">To: </string>
+    <string name="label_on">On: </string>
+    <string name="label_at">At: </string>
     <string name="label_where">Where</string>
     <string name="label_venue_type">Venue Type: </string>
     <string name="label_venue">Venue</string>
+    <string name="label_venue_address">Venue Address</string>
+    <string name="label_meeting_url">Meeting URL</string>
     <string name="phrase_validation_failure_form_one">One or more required information is missing here to continue.</string>
     <string name="label_event_registration">Registration</string>
     <string name="phrase_event_registration">Is this event required user pre-registration? If yes, add the opening seat count for the event.</string>
+    <string name="phrase_event_registration_details">Because of the limited space availability, we expect you to register for this event to reserve your seat.</string>
     <string name="label_registration_check">Is registration required?</string>
     <string name="label_seat_count">Available Seats: </string>
     <string name="label_count">Count</string>
     <string name="label_event_potluck">Potluck</string>
     <string name="phrase_event_potluck">Is this event plans to have potluck? If yes, then add the potluck food items and their relevant availabilities.</string>
+    <string name="phrase_event_potluck_details">As a part of this event. We are planing to organize a potluck. Please mark your contributions to the potluck by selecting food items from the list.</string>
     <string name="label_potluck_check">Potluck will held with this event?</string>
     <string name="label_add_potluck_item">Add Item to Potluck</string>
     <string name="label_add_potluck_item_title">Add Item to Potluck</string>
@@ -50,7 +56,4 @@
     <string name="phrase_event_delete_confirmation">Do you want to delete this Event? Once you delete it, all the data related to this event will delete.</string>
     <string name="label_event_publish_confirmation">Publishing Ready?</string>
     <string name="phrase_event_publish_confirmation">Is this event ready to publish?. Once you published it, all users will see this as an event.</string>
-
-    <string name="label_on">On: </string>
-    <string name="label_at">At: </string>
 </resources>

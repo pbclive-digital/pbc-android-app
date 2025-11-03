@@ -62,6 +62,8 @@ class InitialInformation @Inject constructor() {
         val eventTo = remember { mutableStateOf(viewModel.getInitialEndTime()) }
         val venueType = remember { mutableStateOf(viewModel.getInitialVenueType()) }
         val eventVenue = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.venue ?: run { "" })) }
+        val eventVenueAddress = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.venueAddress ?: run { "" })) }
+        val eventMeetingUrl = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.meetingUrl ?: run { "" })) }
 
         var timePickerMode by remember { mutableStateOf(TimePickerMode.UNSELECTED) }
 
@@ -231,16 +233,44 @@ class InitialInformation @Inject constructor() {
                     )
                 }
 
-                AppOutlineTextField (
-                    modifier = Modifier
-                        .padding(top = 8.dp),
-                    headingText = stringResource(R.string.label_venue).uppercase(),
-                    contentText = eventVenue,
-                    onValueChange = { newValue ->
-                        eventVenue.value = newValue
-                        viewModel.updateVenue(eventVenue.value.text)
+                when (venueType.value) {
+                    VenueType.DEFAULT.name -> {}
+                    VenueType.PHYSICAL.name -> {
+                        AppOutlineTextField (
+                            modifier = Modifier
+                                .padding(top = 8.dp),
+                            headingText = stringResource(R.string.label_venue).uppercase(),
+                            contentText = eventVenue,
+                            onValueChange = { newValue ->
+                                eventVenue.value = newValue
+                                viewModel.updateVenue(eventVenue.value.text)
+                            }
+                        )
+
+                        AppOutlineTextField (
+                            modifier = Modifier
+                                .padding(top = 8.dp),
+                            headingText = stringResource(R.string.label_venue_address).uppercase(),
+                            contentText = eventVenueAddress,
+                            onValueChange = { newValue ->
+                                eventVenueAddress.value = newValue
+                                viewModel.updateVenueAddress(eventVenueAddress.value.text)
+                            }
+                        )
                     }
-                )
+                    VenueType.VIRTUAL.name -> {
+                        AppOutlineTextField (
+                            modifier = Modifier
+                                .padding(top = 8.dp),
+                            headingText = stringResource(R.string.label_meeting_url).uppercase(),
+                            contentText = eventMeetingUrl,
+                            onValueChange = { newValue ->
+                                eventMeetingUrl.value = newValue
+                                viewModel.updateMeetingUrl(eventMeetingUrl.value.text)
+                            }
+                        )
+                    }
+                }
 
                 Spacer(modifier = Modifier.weight(1f))
             }

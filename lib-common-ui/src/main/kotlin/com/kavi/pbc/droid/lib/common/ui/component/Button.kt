@@ -272,9 +272,9 @@ fun AppDisabledOutlineButton(label: String,
 @Composable
 fun AppIconButton(
     icon: Painter,
-    onClick: () -> Unit,
     buttonSize: Dp = 50.dp,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
 ) {
     val iconSize: Int = (buttonSize.value * 0.75).toInt()
 

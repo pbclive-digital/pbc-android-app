@@ -16,6 +16,8 @@ data class Event(
     val createdTime: Long = 0,
     var venueType: VenueType = VenueType.DEFAULT,
     var venue: String? = null,
+    var venueAddress: String? = null,
+    var meetingUrl: String? = null,
     val creator: String,
     var eventImage: String? = null,
     var eventType: EventType = EventType.DEFAULT,

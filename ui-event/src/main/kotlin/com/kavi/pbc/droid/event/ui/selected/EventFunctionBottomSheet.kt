@@ -7,11 +7,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import javax.inject.Inject
 
-class EventPotluckSheet @Inject constructor() {
+class EventFunctionBottomSheet @Inject constructor() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun PotluckSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>) {
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = {
+                showSheet.value = false
+            }
+        ) {
+            //val staffDataString = Gson().toJson(repository.staffData)
+            //uiModuleRegistry.getUIModule("STAFF")?.GetEntryUIWithData(data = staffDataString)
+        }
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun RegistrationSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>) {
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = {

@@ -53,7 +53,7 @@ class EventCreateViewModel @Inject constructor(
         return !(_newEvent.value.name.isEmpty() || _newEvent.value.description.isEmpty()
                 || _newEvent.value.eventType == EventType.DEFAULT
                 || _newEvent.value.eventDate.toInt() == 0 || _newEvent.value.startTime.isEmpty() || _newEvent.value.endTime.isEmpty()
-                || _newEvent.value.venueType == VenueType.DEFAULT || _newEvent.value.venue?.isEmpty() == true)
+                || _newEvent.value.venueType == VenueType.DEFAULT)
     }
 
     fun validateSecondPage(): Boolean {
@@ -187,6 +187,14 @@ class EventCreateViewModel @Inject constructor(
 
     fun updateVenue(venue: String) {
         _newEvent.value.venue = venue
+    }
+
+    fun updateVenueAddress(venueAddress: String) {
+        _newEvent.value.venueAddress = venueAddress
+    }
+
+    fun updateMeetingUrl(meetingUrl: String) {
+        _newEvent.value.meetingUrl = meetingUrl
     }
 
     fun updateRegistrationRequiredFlag(isRegistrationRequired: Boolean) {

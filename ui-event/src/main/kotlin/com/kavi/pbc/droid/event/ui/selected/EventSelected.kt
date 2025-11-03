@@ -1,6 +1,10 @@
 package com.kavi.pbc.droid.event.ui.selected
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,18 +19,22 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -36,6 +44,7 @@ import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
+import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject
@@ -43,14 +52,19 @@ import javax.inject.Inject
 class EventSelected @Inject constructor() {
 
     @Inject
-    lateinit var eventPotluckSheet: EventPotluckSheet
+    lateinit var eventFunctionBottomSheet: EventFunctionBottomSheet
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun EventUI(navController: NavController, eventData: Event? = null) {
 
+        val context = LocalContext.current
+
         val potluckSheetState = rememberModalBottomSheetState()
         val showPotluckSheet = remember { mutableStateOf(false) }
+
+        val registrationSheetState = rememberModalBottomSheetState()
+        val showRegistrationSheet = remember { mutableStateOf(false) }
 
         BoxWithConstraints (
             modifier = Modifier
@@ -122,22 +136,51 @@ class EventSelected @Inject constructor() {
                         Row (
                             modifier = Modifier.padding(top = 12.dp),
                         ) {
-                            Text(
-                                text = stringResource(R.string.label_on),
-                                fontFamily = PBCFontFamily,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 20.sp,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Start
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_on),
+                                    fontFamily = PBCFontFamily,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
 
-                            Text(
-                                modifier = Modifier.padding(start = 4.dp),
-                                text = givenEvent.getFormatDate(),
-                                fontFamily = PBCFontFamily,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 20.sp,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
+                                Text(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    text = givenEvent.getFormatDate(),
+                                    fontFamily = PBCFontFamily,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.End
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_from),
+                                    fontFamily = PBCFontFamily,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+
+                                Text(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    text = "${givenEvent.startTime} - ${givenEvent.endTime}",
+                                    fontFamily = PBCFontFamily,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
                         }
 
                         Row (
@@ -160,6 +203,17 @@ class EventSelected @Inject constructor() {
                                     fontSize = 20.sp,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
+
+                                Spacer(modifier = Modifier.weight(1f))
+
+                                AppIconButton(
+                                    icon = painterResource(R.drawable.icon_location),
+                                    buttonSize = 40.dp
+                                ) {
+                                    givenEvent.venueAddress?.let {
+                                        openGoogleMaps(address = it, context = context)
+                                    }
+                                }
                             } else {
                                 Text(
                                     text = givenEvent.getPlace(),
@@ -168,6 +222,17 @@ class EventSelected @Inject constructor() {
                                     fontSize = 20.sp,
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
+
+                                Spacer(modifier = Modifier.weight(1f))
+
+                                AppIconButton(
+                                    icon = painterResource(R.drawable.icon_online_meeting),
+                                    buttonSize = 40.dp
+                                ) {
+                                    givenEvent.meetingUrl?.let {
+                                        openMeetingLink(meetingUrl = it, context = context)
+                                    }
+                                }
                             }
                         }
 
@@ -178,22 +243,81 @@ class EventSelected @Inject constructor() {
                             if (!givenEvent.potluckAvailable) {
                                 bottomPadding = 40.dp
                             }
-                            AppButtonWithIcon(
-                                modifier = Modifier.padding(top = 12.dp, bottom = bottomPadding),
-                                label = stringResource(R.string.label_register),
-                                icon = painterResource(R.drawable.icon_event_register)
-                            ) {
 
+                            Column(
+                                modifier = Modifier.padding(top = 16.dp, bottom = bottomPadding)
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_event_registration),
+                                    fontFamily = PBCFontFamily,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(2.dp),
+                                    thickness = 2.dp
+                                )
+
+                                Text(
+                                    text = stringResource(R.string.phrase_event_registration_details),
+                                    fontFamily = PBCFontFamily,
+                                    fontSize = 16.sp,
+                                    textAlign = TextAlign.Justify,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+
+                                AppButtonWithIcon(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    label = stringResource(R.string.label_register),
+                                    icon = painterResource(R.drawable.icon_event_register)
+                                ) {
+                                    showRegistrationSheet.value = true
+                                }
                             }
                         }
 
                         if (givenEvent.potluckAvailable) {
-                            AppButtonWithIcon(
-                                modifier = Modifier.padding(top = 12.dp, bottom = 40.dp),
-                                label = stringResource(R.string.label_potluck),
-                                icon = painterResource(R.drawable.icon_potluck_register)
+                            Column(
+                                modifier = Modifier.padding(top = 16.dp, bottom = 40.dp)
                             ) {
-                                showPotluckSheet.value = true
+                                Text(
+                                    text = stringResource(R.string.label_event_potluck),
+                                    fontFamily = PBCFontFamily,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+
+                                HorizontalDivider(
+                                    modifier = Modifier.padding(2.dp),
+                                    thickness = 2.dp
+                                )
+
+                                Text(
+                                    text = stringResource(R.string.phrase_event_potluck_details),
+                                    fontFamily = PBCFontFamily,
+                                    fontSize = 16.sp,
+                                    textAlign = TextAlign.Justify,
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                )
+
+                                AppButtonWithIcon(
+                                    modifier = Modifier.padding(top = 8.dp),
+                                    label = stringResource(R.string.label_potluck),
+                                    icon = painterResource(R.drawable.icon_potluck_register)
+                                ) {
+                                    showPotluckSheet.value = true
+                                }
                             }
                         }
                     }
@@ -201,8 +325,24 @@ class EventSelected @Inject constructor() {
             }
 
             if (showPotluckSheet.value) {
-                eventPotluckSheet.PotluckSheetUI(sheetState = potluckSheetState, showSheet = showPotluckSheet)
+                eventFunctionBottomSheet.PotluckSheetUI(sheetState = potluckSheetState, showSheet = showPotluckSheet)
+            }
+
+            if (showRegistrationSheet.value) {
+                eventFunctionBottomSheet.RegistrationSheetUI(sheetState = registrationSheetState, showSheet = showRegistrationSheet)
             }
         }
+    }
+
+    private fun openGoogleMaps(address: String, context: Context) {
+        val gmmIntentUri = Uri.parse("geo:0,0?q=${Uri.encode(address)}")
+        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+        mapIntent.setPackage("com.google.android.apps.maps")
+        context.startActivity(mapIntent)
+    }
+
+    private fun openMeetingLink(meetingUrl: String, context: Context) {
+        val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse(meetingUrl))
+        context.startActivity(launchIntent)
     }
 }
