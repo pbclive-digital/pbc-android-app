@@ -18,4 +18,15 @@ class EventLocalRepository @Inject constructor(
         inMemoryStore.cleanValue(key = tempEventKey)
         return event
     }
+
+    fun setModifyingEvent(event: Event): String {
+        val randomEventKey = UUID.randomUUID().toString()
+        inMemoryStore.storeValue(randomEventKey, event)
+        return randomEventKey
+    }
+
+    fun getModifyingEvent(tempEventKey: String): Result<Event> {
+        val event = inMemoryStore.retrieveValue<Event>(key = tempEventKey)
+        return event
+    }
 }

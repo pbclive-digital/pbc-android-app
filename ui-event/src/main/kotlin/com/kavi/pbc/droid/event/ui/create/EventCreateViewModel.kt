@@ -7,6 +7,7 @@ import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.EventType
 import com.kavi.pbc.droid.data.dto.event.PotluckItem
 import com.kavi.pbc.droid.data.dto.event.VenueType
+import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.event.util.FilePickerUtil
 import com.kavi.pbc.droid.network.model.ResultWrapper
@@ -24,6 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EventCreateViewModel @Inject constructor(
+    private val localDataSource: EventLocalRepository,
     private val remoteDataSource: EventRemoteRepository
 ): ViewModel() {
 
@@ -36,10 +38,16 @@ class EventCreateViewModel @Inject constructor(
     private var _eventImageUri = MutableStateFlow<Uri?>(null)
     val eventImageUri: StateFlow<Uri?> = _eventImageUri
 
-    private var _eventCreateStatus = MutableStateFlow<Boolean>(false)
-    val eventCreateStatus: StateFlow<Boolean> = _eventCreateStatus
+    private var _eventCreateOrUpdateStatus = MutableStateFlow<Boolean>(false)
+    val eventCreateOrUpdateStatus: StateFlow<Boolean> = _eventCreateOrUpdateStatus
 
     private var eventImageFile: File? = null
+
+    fun setModifyingEvent(eventKey: String) {
+        localDataSource.getModifyingEvent(tempEventKey = eventKey).onSuccess { event ->
+            _newEvent.value = event
+        }
+    }
 
     fun validateFirstPage(): Boolean {
         return !(_newEvent.value.name.isEmpty() || _newEvent.value.description.isEmpty()
@@ -193,7 +201,7 @@ class EventCreateViewModel @Inject constructor(
         _newEvent.value.potluckAvailable = isPotluckAvailable
     }
 
-    fun uploadEventImageAndCreateEvent() {
+    fun uploadEventImageAndCreateOrUpdateEvent(isModify: Boolean = false) {
         val imagePartRequest = FilePickerUtil.createMultiPartRequest(eventImageFile)
         val formatedEventName = _newEvent.value.name.replace(" ", "_").replace("-", "_")
 
@@ -204,7 +212,11 @@ class EventCreateViewModel @Inject constructor(
                         println("Failed: NetworkError")
                     }
                     is ResultWrapper.HttpError -> {
-                        createNewEvent()
+                        if (isModify) {
+                            updateEvent()
+                        } else {
+                            createNewEvent()
+                        }
                     }
                     is ResultWrapper.UnAuthError -> {
                         println("Failed: NetworkError")
@@ -212,13 +224,21 @@ class EventCreateViewModel @Inject constructor(
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
                             _newEvent.value.eventImage = it
-                            createNewEvent()
+                            if (isModify) {
+                                updateEvent()
+                            } else {
+                                createNewEvent()
+                            }
                         }
                     }
                 }
             }
         } else {
-            createNewEvent()
+            if (isModify) {
+                updateEvent()
+            } else {
+                createNewEvent()
+            }
         }
     }
 
@@ -231,7 +251,23 @@ class EventCreateViewModel @Inject constructor(
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
                         println("Passed: $it")
-                        _eventCreateStatus.value = true
+                        _eventCreateOrUpdateStatus.value = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateEvent() {
+        viewModelScope.launch {
+            when(val response = remoteDataSource.updateEvent(_newEvent.value.id!!, _newEvent.value)) {
+                is ResultWrapper.NetworkError -> {}
+                is ResultWrapper.HttpError -> {}
+                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        println("Passed: $it")
+                        _eventCreateOrUpdateStatus.value = true
                     }
                 }
             }

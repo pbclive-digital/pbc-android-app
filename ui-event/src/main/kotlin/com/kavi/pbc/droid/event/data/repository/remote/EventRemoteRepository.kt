@@ -30,6 +30,10 @@ class EventRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { eventServiceApi.createNewEvent(event) }
     }
 
+    suspend fun updateEvent(eventId: String, event: Event): ResultWrapper<BaseResponse<Event>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.updateEvent(eventId, event) }
+    }
+
     suspend fun uploadEventImage(eventName: String, imageFile: MultipartBody.Part): ResultWrapper<BaseResponse<String>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.uploadEventImage(eventName, imageFile) }
     }

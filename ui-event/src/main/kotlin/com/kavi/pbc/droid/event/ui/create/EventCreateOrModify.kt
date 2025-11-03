@@ -39,7 +39,7 @@ import com.kavi.pbc.droid.lib.common.ui.component.Title
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EventCreate @Inject constructor() {
+class EventCreateOrModify @Inject constructor() {
 
     @Inject
     lateinit var initialInformation: InitialInformation
@@ -51,7 +51,10 @@ class EventCreate @Inject constructor() {
     lateinit var eventImageInformation: EventImageInformation
 
     @Composable
-    fun EventCreateUI(navController: NavController, modifier: Modifier = Modifier, viewModel: EventCreateViewModel = hiltViewModel()) {
+    fun EventCreateOrModifyUI(navController: NavController,
+                              modifyingEventKey: String? = null,
+                              modifier: Modifier = Modifier,
+                              viewModel: EventCreateViewModel = hiltViewModel()) {
 
         val pageCount = 3
         val pagerState = rememberPagerState(pageCount = { pageCount })
@@ -60,9 +63,10 @@ class EventCreate @Inject constructor() {
         var hidePrev by remember { mutableStateOf(false) }
         var hideNext by remember { mutableStateOf(false) }
         var makeFinish by remember { mutableStateOf(false) }
+        var isModify by remember { mutableStateOf(false) }
 
         val isLoading = remember { mutableStateOf(false) }
-        val eventCreateStatus by viewModel.eventCreateStatus.collectAsState()
+        val eventCreateOrUpdateStatus by viewModel.eventCreateOrUpdateStatus.collectAsState()
 
         val context = LocalContext.current
 
@@ -86,6 +90,11 @@ class EventCreate @Inject constructor() {
             }
         }
 
+        modifyingEventKey?.let {
+            isModify = true
+            viewModel.setModifyingEvent(eventKey = modifyingEventKey)
+        }
+
         Box (
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surface)
@@ -98,7 +107,7 @@ class EventCreate @Inject constructor() {
             ) {
                 Title(
                     modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                    titleText = stringResource(R.string.label_create_event),
+                    titleText = if(isModify) stringResource(R.string.label_modify_event) else stringResource(R.string.label_create_event),
                 )
 
                 Column (
@@ -131,6 +140,7 @@ class EventCreate @Inject constructor() {
                         hidePrev = hidePrev,
                         hideNext = hideNext,
                         makeFinish = makeFinish,
+                        isModify = isModify,
                         onPrevious = {
                             scope.launch {
                                 if (pagerState.currentPage != 0) {
@@ -166,12 +176,12 @@ class EventCreate @Inject constructor() {
                                         }
                                     } else {
                                         isLoading.value = true
-                                        viewModel.uploadEventImageAndCreateEvent()
+                                        viewModel.uploadEventImageAndCreateOrUpdateEvent(isModify = isModify)
                                     }
                                 } else {
                                     if (makeFinish) {
                                         isLoading.value = true
-                                        viewModel.uploadEventImageAndCreateEvent()
+                                        viewModel.uploadEventImageAndCreateOrUpdateEvent(isModify = isModify)
                                     }
                                 }
                             }
@@ -185,7 +195,7 @@ class EventCreate @Inject constructor() {
             AppLoader()
         }
 
-        if (eventCreateStatus) {
+        if (eventCreateOrUpdateStatus) {
             navController.popBackStack()
         }
     }

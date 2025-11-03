@@ -30,6 +30,9 @@ interface EventServiceApi {
     @POST("/event/create")
     suspend fun createNewEvent(@Body event: Event): BaseResponse<String>
 
+    @PUT("/event/update/{eventId}")
+    suspend fun updateEvent(@Path("eventId") eventId: String, @Body event: Event): BaseResponse<Event>
+
     @PUT("/event/put/publish/{eventId}")
     suspend fun publishDraftEvent(@Path("eventId") eventId: String, @Body event: Event): BaseResponse<Event>
 

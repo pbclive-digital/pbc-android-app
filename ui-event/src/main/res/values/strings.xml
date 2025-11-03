@@ -7,8 +7,10 @@
     <string name="label_previous">Prev</string>
     <string name="label_next">Next</string>
     <string name="label_submit">Submit</string>
+    <string name="label_update">Update</string>
 
     <string name="label_create_event">Create Event</string>
+    <string name="label_modify_event">Modify Event</string>
     <string name="label_initial">Initial Information</string>
     <string name="label_title">Title</string>
     <string name="label_description">Description</string>

@@ -8,7 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.data.dto.event.Event
-import com.kavi.pbc.droid.event.ui.create.EventCreate
+import com.kavi.pbc.droid.event.ui.create.EventCreateOrModify
 import com.kavi.pbc.droid.event.ui.manage.EventManage
 import com.kavi.pbc.droid.event.ui.selected.EventSelected
 import javax.inject.Inject
@@ -19,7 +19,7 @@ class EventNavigation @Inject constructor() {
     lateinit var eventSelected: EventSelected
 
     @Inject
-    lateinit var eventCreate: EventCreate
+    lateinit var eventCreateOrModify: EventCreateOrModify
 
     @Inject
     lateinit var eventManage: EventManage
@@ -39,7 +39,11 @@ class EventNavigation @Inject constructor() {
                 eventSelected.EventUI(navController = navController, eventData = eventData)
             }
             composable (route = "event/event-create") {
-                eventCreate.EventCreateUI(navController = navController)
+                eventCreateOrModify.EventCreateOrModifyUI(navController = navController)
+            }
+            composable (route = "event/event-edit/{eventKey}") { backStackEntry ->
+                val eventKey = backStackEntry.arguments?.getString("eventKey")
+                eventCreateOrModify.EventCreateOrModifyUI(navController = navController, modifyingEventKey = eventKey)
             }
         }
     }

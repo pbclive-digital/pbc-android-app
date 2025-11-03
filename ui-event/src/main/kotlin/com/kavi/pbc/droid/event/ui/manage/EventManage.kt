@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.data.model.EventMangeMode
+import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.event.ui.manage.dialog.DeleteConfirmationDialog
 import com.kavi.pbc.droid.event.ui.manage.dialog.PublishConfirmationDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
@@ -43,7 +44,9 @@ import com.kavi.pbc.droid.lib.common.ui.component.event.EventItemForAdmin
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject
 
-class EventManage @Inject constructor() {
+class EventManage @Inject constructor(
+    private val eventLocalDataSource: EventLocalRepository
+) {
 
     @Composable
     fun EventManageUI(navController: NavController, viewModel: EventManageViewModel = hiltViewModel()) {
@@ -94,7 +97,7 @@ class EventManage @Inject constructor() {
                         navController.navigate("event/event-create")
                     }
 
-                    DraftEventBlock(viewModel = viewModel,
+                    DraftEventBlock(navController = navController, viewModel = viewModel,
                         publishConfirmation = showPublishConfirmationDialog,
                         publishingId = publishingEventId,
                         deleteConfirmation = showDeleteConfirmationDialog,
@@ -102,7 +105,9 @@ class EventManage @Inject constructor() {
                         eventMode = eventMode
                     )
 
-                    ActiveEventBlock(viewModel = viewModel, deleteConfirmation = showDeleteConfirmationDialog, deletingEventId = deletingEventId, eventMode)
+                    ActiveEventBlock(navController = navController, viewModel = viewModel,
+                        deleteConfirmation = showDeleteConfirmationDialog,
+                        deletingEventId = deletingEventId, eventMode)
                 }
             }
         }
@@ -135,7 +140,7 @@ class EventManage @Inject constructor() {
     }
 
     @Composable
-    fun DraftEventBlock(viewModel: EventManageViewModel,
+    fun DraftEventBlock(navController: NavController, viewModel: EventManageViewModel,
                         publishConfirmation: MutableState<Boolean>,
                         publishingId: MutableState<String>,
                         deleteConfirmation: MutableState<Boolean>,
@@ -165,6 +170,8 @@ class EventManage @Inject constructor() {
                 draftEventList.forEachIndexed { index, event ->
                     EventItemForAdmin(event = event, isDraftEvent = true, onModify = {
                         // Navigate to edit screen
+                        val tempEventKey = eventLocalDataSource.setModifyingEvent(event = event)
+                        navController.navigate("event/event-edit/$tempEventKey")
                     }, onPublish = {
                         publishConfirmation.value = true
                         publishingId.value = event.id!!
@@ -199,7 +206,10 @@ class EventManage @Inject constructor() {
     }
 
     @Composable
-    fun ActiveEventBlock(viewModel: EventManageViewModel, deleteConfirmation: MutableState<Boolean>, deletingEventId: MutableState<String>, eventMode: MutableState<EventMangeMode>) {
+    fun ActiveEventBlock(navController: NavController, viewModel: EventManageViewModel,
+                         deleteConfirmation: MutableState<Boolean>,
+                         deletingEventId: MutableState<String>,
+                         eventMode: MutableState<EventMangeMode>) {
         val activeEventList by viewModel.activeEventList.collectAsStateWithLifecycle()
 
         LaunchedEffect(Unit) {
@@ -222,6 +232,8 @@ class EventManage @Inject constructor() {
                 activeEventList.forEachIndexed { index, event ->
                     EventItemForAdmin(event = event, isDraftEvent = false, onModify = {
                         // Navigate to edit screen
+                        val tempEventKey = eventLocalDataSource.setModifyingEvent(event = event)
+                        navController.navigate("event/event-edit/$tempEventKey")
                     }, onDelete = {
                         deleteConfirmation.value = true
                         eventMode.value = EventMangeMode.ACTIVE

@@ -38,6 +38,7 @@ fun NavigatorPanel(
     onPrevious: () -> Unit,
     hideNext: Boolean = false,
     makeFinish: Boolean = false,
+    isModify: Boolean = false,
     onNext: () -> Unit
 ) {
     Row(
@@ -122,7 +123,7 @@ fun NavigatorPanel(
 
         if (makeFinish) {
             AppFilledButton(
-                label = stringResource(R.string.label_submit),
+                label = if (!isModify) stringResource(R.string.label_submit) else stringResource(R.string.label_update),
                 modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)
