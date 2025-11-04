@@ -18,8 +18,8 @@ import javax.inject.Inject
 class EventSelectedViewModel @Inject constructor(
     private val remoteDataSource: EventRemoteRepository
 ): ViewModel() {
-    private val _registrationStatus = MutableStateFlow(false)
-    val registrationStatus: StateFlow<Boolean> = _registrationStatus
+    private val _actionFunctionStatus = MutableStateFlow(false)
+    val actionFunctionStatus: StateFlow<Boolean> = _actionFunctionStatus
 
     private val _authRequiredStatus = MutableStateFlow(false)
     val authRequiredStatus: StateFlow<Boolean> = _authRequiredStatus
@@ -73,7 +73,7 @@ class EventSelectedViewModel @Inject constructor(
                     is ResultWrapper.UnAuthError -> {}
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
-                            _registrationStatus.value = true
+                            _actionFunctionStatus.value = true
                         }
                     }
                 }
@@ -82,7 +82,20 @@ class EventSelectedViewModel @Inject constructor(
     }
 
     fun unregisterFromEvent() {
-
+        Session.user?.let { sessionUser ->
+            viewModelScope.launch {
+                when(val response = remoteDataSource.unregisterFromEvent(_givenEvent.value.id!!, userId = sessionUser.id!!)) {
+                    is ResultWrapper.NetworkError -> {}
+                    is ResultWrapper.HttpError -> {}
+                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let {
+                            _actionFunctionStatus.value = true
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun registerToPotluckItem() {

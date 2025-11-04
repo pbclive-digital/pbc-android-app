@@ -46,4 +46,7 @@ interface EventServiceApi {
 
     @POST("/event/register/{eventId}")
     suspend fun registerToEvent(@Path("eventId") eventId: String, @Body eventRegistrationItem: EventRegistrationItem): BaseResponse<String>
+
+    @DELETE("/event/unregister/{eventId}/{userId}")
+    suspend fun unregisterFromEvent(@Path("eventId") eventId: String, @Path("userId") userId: String): BaseResponse<String>
 }

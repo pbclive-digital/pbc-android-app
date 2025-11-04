@@ -52,6 +52,7 @@ import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject
 
+@Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 class EventSelected @Inject constructor() {
 
     @Inject

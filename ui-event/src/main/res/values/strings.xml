@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_event">Event</string>
-    <string name="label_register">Register for this Event</string>
+    <string name="label_register">Register / Un-register</string>
     <string name="label_potluck">Potluck Details</string>
 
     <string name="label_previous">Prev</string>
@@ -60,6 +60,8 @@
     <string name="label_event_register">Register</string>
     <string name="label_event_unregister">Un-Register</string>
     <string name="label_event_registering">Registering to Event</string>
+    <string name="label_event_unregistering">Un-Registering from Event</string>
     <string name="label_event_remaining_seats">Remaining seats: %d</string>
     <string name="phrase_event_registering">We are delight to have you in the event of \"%s\"!!! Once you register, we will reserve a space for you. For any reason, if you are not going to attend, please make sure to unregister.</string>
+    <string name="phrase_event_unregistering">We are sad not to see you in the event of \"%s\"!!! Once you un-register, your reservation will revoke. Thank you so much to make your space available due to your unavailability.</string>
 </resources>

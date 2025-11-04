@@ -55,4 +55,8 @@ class EventRemoteRepository @Inject constructor(
     suspend fun registerToEvent(eventId: String, eventRegistrationItem: EventRegistrationItem): ResultWrapper<BaseResponse<String>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.registerToEvent(eventId = eventId, eventRegistrationItem = eventRegistrationItem) }
     }
+
+    suspend fun unregisterFromEvent(eventId: String, userId: String): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.unregisterFromEvent(eventId = eventId, userId = userId) }
+    }
 }
