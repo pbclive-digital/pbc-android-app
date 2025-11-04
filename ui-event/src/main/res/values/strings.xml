@@ -56,4 +56,10 @@
     <string name="phrase_event_delete_confirmation">Do you want to delete this Event? Once you delete it, all the data related to this event will delete.</string>
     <string name="label_event_publish_confirmation">Publishing Ready?</string>
     <string name="phrase_event_publish_confirmation">Is this event ready to publish?. Once you published it, all users will see this as an event.</string>
+
+    <string name="label_event_register">Register</string>
+    <string name="label_event_unregister">Un-Register</string>
+    <string name="label_event_registering">Registering to Event</string>
+    <string name="label_event_remaining_seats">Remaining seats: %d</string>
+    <string name="phrase_event_registering">We are delight to have you in the event of \"%s\"!!! Once you register, we will reserve a space for you. For any reason, if you are not going to attend, please make sure to unregister.</string>
 </resources>

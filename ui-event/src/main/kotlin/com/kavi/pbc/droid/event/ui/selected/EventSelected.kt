@@ -24,6 +24,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -37,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
@@ -56,7 +59,7 @@ class EventSelected @Inject constructor() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun EventUI(navController: NavController, eventData: Event? = null) {
+    fun EventUI(navController: NavController, eventData: Event? = null, viewModel: EventSelectedViewModel = hiltViewModel()) {
 
         val context = LocalContext.current
 
@@ -65,6 +68,12 @@ class EventSelected @Inject constructor() {
 
         val registrationSheetState = rememberModalBottomSheetState()
         val showRegistrationSheet = remember { mutableStateOf(false) }
+
+        eventData?.let {
+            viewModel.setGivenEvent(givenEvent = eventData)
+        }
+
+        val givenEvent by viewModel.givenEvent.collectAsState()
 
         BoxWithConstraints (
             modifier = Modifier
@@ -85,239 +94,237 @@ class EventSelected @Inject constructor() {
                     titleText = stringResource(R.string.label_event),
                 )
 
-                eventData?.let { givenEvent ->
-                    Column(
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding( start = 12.dp, end = 12.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding( start = 12.dp, end = 12.dp)
-                            .verticalScroll(rememberScrollState())
+                            .fillMaxWidth()
+                            .height(screenWith)
+                            .padding(top = 20.dp)
+                            .shadow(
+                                elevation = 12.dp,
+                                spotColor = MaterialTheme.colorScheme.shadow
+                            ),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
                     ) {
-                        Card(
+                        AsyncImage(
+                            model = givenEvent.eventImage,
+                            error = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_pbc),
+                            contentDescription = null, // decorative image
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .height(screenWith)
-                                .padding(top = 20.dp)
-                                .shadow(
-                                    elevation = 12.dp,
-                                    spotColor = MaterialTheme.colorScheme.shadow
-                                ),
-                            shape = RoundedCornerShape(12.dp),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                                .fillMaxSize()
+                                .background(color = MaterialTheme.colorScheme.background)
+                        )
+                    }
+
+                    Text(
+                        modifier = Modifier.padding(top = 18.dp),
+                        text = givenEvent.name,
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 36.sp,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(top = 12.dp),
+                        text = givenEvent.description,
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = 20.sp,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Row (
+                        modifier = Modifier.padding(top = 12.dp),
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Start
                         ) {
-                            AsyncImage(
-                                model = givenEvent.eventImage,
-                                error = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_pbc),
-                                contentDescription = null, // decorative image
-                                contentScale = ContentScale.Crop,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .background(color = MaterialTheme.colorScheme.background)
+                            Text(
+                                text = stringResource(R.string.label_on),
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
-                        }
 
-                        Text(
-                            modifier = Modifier.padding(top = 18.dp),
-                            text = givenEvent.name,
-                            fontFamily = PBCFontFamily,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 36.sp,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-
-                        Text(
-                            modifier = Modifier.padding(top = 12.dp),
-                            text = givenEvent.description,
-                            fontFamily = PBCFontFamily,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = 20.sp,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-
-                        Row (
-                            modifier = Modifier.padding(top = 12.dp),
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.Start
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.label_on),
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-
-                                Text(
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    text = givenEvent.getFormatDate(),
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.weight(1f))
-
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.End
-                            ) {
-                                Text(
-                                    text = stringResource(R.string.label_from),
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-
-                                Text(
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    text = "${givenEvent.startTime} - ${givenEvent.endTime}",
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            }
-                        }
-
-                        Row (
-                            modifier = Modifier.padding(top = 12.dp),
-                        ) {
-                            if (givenEvent.venueType == VenueType.PHYSICAL) {
-                                Text(
-                                    text = stringResource(R.string.label_at),
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.Normal,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-
-                                Text(
-                                    modifier = Modifier.padding(start = 4.dp),
-                                    text = givenEvent.getPlace(),
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-
-                                Spacer(modifier = Modifier.weight(1f))
-
-                                AppIconButton(
-                                    icon = painterResource(R.drawable.icon_location),
-                                    buttonSize = 40.dp
-                                ) {
-                                    givenEvent.venueAddress?.let {
-                                        openGoogleMaps(address = it, context = context)
-                                    }
-                                }
-                            } else {
-                                Text(
-                                    text = givenEvent.getPlace(),
-                                    fontFamily = PBCFontFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 20.sp,
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-
-                                Spacer(modifier = Modifier.weight(1f))
-
-                                AppIconButton(
-                                    icon = painterResource(R.drawable.icon_online_meeting),
-                                    buttonSize = 40.dp
-                                ) {
-                                    givenEvent.meetingUrl?.let {
-                                        openMeetingLink(meetingUrl = it, context = context)
-                                    }
-                                }
-                            }
+                            Text(
+                                modifier = Modifier.padding(start = 4.dp),
+                                text = givenEvent.getFormatDate(),
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
                         }
 
                         Spacer(modifier = Modifier.weight(1f))
 
-                        if (givenEvent.registrationRequired) {
-                            var bottomPadding = 0.dp
-                            if (!givenEvent.potluckAvailable) {
-                                bottomPadding = 40.dp
-                            }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.End
+                        ) {
+                            Text(
+                                text = stringResource(R.string.label_from),
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
 
-                            Column(
-                                modifier = Modifier.padding(top = 16.dp, bottom = bottomPadding)
+                            Text(
+                                modifier = Modifier.padding(start = 4.dp),
+                                text = "${givenEvent.startTime} - ${givenEvent.endTime}",
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                    }
+
+                    Row (
+                        modifier = Modifier.padding(top = 12.dp),
+                    ) {
+                        if (givenEvent.venueType == VenueType.PHYSICAL) {
+                            Text(
+                                text = stringResource(R.string.label_at),
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+
+                            Text(
+                                modifier = Modifier.padding(start = 4.dp),
+                                text = givenEvent.getPlace(),
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            AppIconButton(
+                                icon = painterResource(R.drawable.icon_location),
+                                buttonSize = 40.dp
                             ) {
-                                Text(
-                                    text = stringResource(R.string.label_event_registration),
-                                    fontFamily = PBCFontFamily,
-                                    fontSize = 22.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                )
+                                givenEvent.venueAddress?.let {
+                                    openGoogleMaps(address = it, context = context)
+                                }
+                            }
+                        } else {
+                            Text(
+                                text = givenEvent.getPlace(),
+                                fontFamily = PBCFontFamily,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 20.sp,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
 
-                                HorizontalDivider(
-                                    modifier = Modifier.padding(2.dp),
-                                    thickness = 2.dp
-                                )
+                            Spacer(modifier = Modifier.weight(1f))
 
-                                Text(
-                                    text = stringResource(R.string.phrase_event_registration_details),
-                                    fontFamily = PBCFontFamily,
-                                    fontSize = 16.sp,
-                                    textAlign = TextAlign.Justify,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                )
-
-                                AppButtonWithIcon(
-                                    modifier = Modifier.padding(top = 8.dp),
-                                    label = stringResource(R.string.label_register),
-                                    icon = painterResource(R.drawable.icon_event_register)
-                                ) {
-                                    showRegistrationSheet.value = true
+                            AppIconButton(
+                                icon = painterResource(R.drawable.icon_online_meeting),
+                                buttonSize = 40.dp
+                            ) {
+                                givenEvent.meetingUrl?.let {
+                                    openMeetingLink(meetingUrl = it, context = context)
                                 }
                             }
                         }
+                    }
 
-                        if (givenEvent.potluckAvailable) {
-                            Column(
-                                modifier = Modifier.padding(top = 16.dp, bottom = 40.dp)
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    if (givenEvent.registrationRequired) {
+                        var bottomPadding = 0.dp
+                        if (!givenEvent.potluckAvailable) {
+                            bottomPadding = 40.dp
+                        }
+
+                        Column(
+                            modifier = Modifier.padding(top = 16.dp, bottom = bottomPadding)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.label_event_registration),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            HorizontalDivider(
+                                modifier = Modifier.padding(2.dp),
+                                thickness = 2.dp
+                            )
+
+                            Text(
+                                text = stringResource(R.string.phrase_event_registration_details),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Justify,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            AppButtonWithIcon(
+                                modifier = Modifier.padding(top = 8.dp),
+                                label = stringResource(R.string.label_register),
+                                icon = painterResource(R.drawable.icon_event_register)
                             ) {
-                                Text(
-                                    text = stringResource(R.string.label_event_potluck),
-                                    fontFamily = PBCFontFamily,
-                                    fontSize = 22.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                )
+                                showRegistrationSheet.value = true
+                            }
+                        }
+                    }
 
-                                HorizontalDivider(
-                                    modifier = Modifier.padding(2.dp),
-                                    thickness = 2.dp
-                                )
+                    if (givenEvent.potluckAvailable) {
+                        Column(
+                            modifier = Modifier.padding(top = 16.dp, bottom = 40.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.label_event_potluck),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
 
-                                Text(
-                                    text = stringResource(R.string.phrase_event_potluck_details),
-                                    fontFamily = PBCFontFamily,
-                                    fontSize = 16.sp,
-                                    textAlign = TextAlign.Justify,
-                                    color = MaterialTheme.colorScheme.onSurface,
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                )
+                            HorizontalDivider(
+                                modifier = Modifier.padding(2.dp),
+                                thickness = 2.dp
+                            )
 
-                                AppButtonWithIcon(
-                                    modifier = Modifier.padding(top = 8.dp),
-                                    label = stringResource(R.string.label_potluck),
-                                    icon = painterResource(R.drawable.icon_potluck_register)
-                                ) {
-                                    showPotluckSheet.value = true
-                                }
+                            Text(
+                                text = stringResource(R.string.phrase_event_potluck_details),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Justify,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            AppButtonWithIcon(
+                                modifier = Modifier.padding(top = 8.dp),
+                                label = stringResource(R.string.label_potluck),
+                                icon = painterResource(R.drawable.icon_potluck_register)
+                            ) {
+                                showPotluckSheet.value = true
                             }
                         }
                     }

@@ -216,9 +216,7 @@ class EventCreateViewModel @Inject constructor(
         if (imagePartRequest != null) {
             viewModelScope.launch {
                 when(val response = remoteDataSource.uploadEventImage(formatedEventName, imagePartRequest)) {
-                    is ResultWrapper.NetworkError -> {
-                        println("Failed: NetworkError")
-                    }
+                    is ResultWrapper.NetworkError -> {}
                     is ResultWrapper.HttpError -> {
                         if (isModify) {
                             updateEvent()
@@ -226,9 +224,7 @@ class EventCreateViewModel @Inject constructor(
                             createNewEvent()
                         }
                     }
-                    is ResultWrapper.UnAuthError -> {
-                        println("Failed: NetworkError")
-                    }
+                    is ResultWrapper.UnAuthError -> {}
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
                             _newEvent.value.eventImage = it
@@ -258,7 +254,6 @@ class EventCreateViewModel @Inject constructor(
                 is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
-                        println("Passed: $it")
                         _eventCreateOrUpdateStatus.value = true
                     }
                 }
@@ -274,7 +269,6 @@ class EventCreateViewModel @Inject constructor(
                 is ResultWrapper.UnAuthError -> {}
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
-                        println("Passed: $it")
                         _eventCreateOrUpdateStatus.value = true
                     }
                 }

@@ -2,6 +2,8 @@ package com.kavi.pbc.droid.event.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
+import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -38,4 +40,10 @@ interface EventServiceApi {
 
     @DELETE("/event/delete/{eventId}")
     suspend fun deleteEvent(@Path("eventId") eventId: String): BaseResponse<String>
+
+    @GET("/event/get/registration/{eventId}")
+    suspend fun getEventRegistration(@Path("eventId") eventId: String): BaseResponse<EventRegistration>
+
+    @POST("/event/register/{eventId}")
+    suspend fun registerToEvent(@Path("eventId") eventId: String, @Body eventRegistrationItem: EventRegistrationItem): BaseResponse<String>
 }

@@ -2,6 +2,8 @@ package com.kavi.pbc.droid.event.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
+import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -44,5 +46,13 @@ class EventRemoteRepository @Inject constructor(
 
     suspend fun deleteEvent(eventId: String): ResultWrapper<BaseResponse<String>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.deleteEvent(eventId = eventId) }
+    }
+
+    suspend fun getEventRegistration(eventId: String): ResultWrapper<BaseResponse<EventRegistration>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.getEventRegistration(eventId = eventId) }
+    }
+
+    suspend fun registerToEvent(eventId: String, eventRegistrationItem: EventRegistrationItem): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.registerToEvent(eventId = eventId, eventRegistrationItem = eventRegistrationItem) }
     }
 }
