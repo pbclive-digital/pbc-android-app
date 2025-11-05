@@ -7,6 +7,7 @@ import com.kavi.pbc.droid.lib.parent.contract.ContractName
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.profile.ProfileContractImpl
 import com.kavi.pbc.droid.splash.SplashContractImpl
+import com.kavi.pbc.droid.temple.TempleContractImpl
 import javax.inject.Inject
 
 class ContractConfig @Inject constructor() {
@@ -23,6 +24,8 @@ class ContractConfig @Inject constructor() {
     lateinit var eventContractImpl: EventContractImpl
     @Inject
     lateinit var profileContractImpl: ProfileContractImpl
+    @Inject
+    lateinit var templeContractImpl: TempleContractImpl
 
     fun registerContracts() {
         contractRegistry.registerContract(ContractName.SPLASH_CONTRACT, splashContractImpl)
@@ -30,5 +33,6 @@ class ContractConfig @Inject constructor() {
         contractRegistry.registerContract(ContractName.DASHBOARD_CONTRACT, dashboardContractImpl)
         contractRegistry.registerContract(ContractName.EVENT_CONTRACT, eventContractImpl)
         contractRegistry.registerContract(ContractName.PROFILE_CONTRACT, profileContractImpl)
+        contractRegistry.registerContract(ContractName.TEMPLE_CONTRACT, templeContractImpl)
     }
 }

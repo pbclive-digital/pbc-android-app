@@ -1,6 +1,7 @@
 import java.net.URI
 
 listOf(
+    ":ui-temple",
     ":ui-profile",
     ":ui-event",
     ":ui-dashboard",

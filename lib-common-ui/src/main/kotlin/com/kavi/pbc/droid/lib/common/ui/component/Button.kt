@@ -68,6 +68,7 @@ fun AppFilledButton(label: String,
 @Composable
 fun AppButtonWithIcon(label: String,
                       icon: Painter,
+                      buttonHeight: Dp = 50.dp,
                       iconSide: IconSide = IconSide.LEFT,
                       labelTextSize: TextUnit? = null,
                       modifier: Modifier = Modifier,
@@ -75,7 +76,7 @@ fun AppButtonWithIcon(label: String,
 
     Button(
         onClick = onClick,
-        modifier = modifier.fillMaxWidth().height(50.dp),
+        modifier = modifier.fillMaxWidth().height(buttonHeight),
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = MaterialTheme.colorScheme.onPrimary,

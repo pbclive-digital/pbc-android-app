@@ -13,10 +13,13 @@ import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_MANAGE_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_SELECTED_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.PROFILE_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.TEMPLE_CONTRACT
+import com.kavi.pbc.droid.lib.parent.contract.ContractName.TEMPLE_CONTACT_US_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
+import com.kavi.pbc.droid.lib.parent.contract.module.TempleContract
 import javax.inject.Inject
 
 class DashboardNavigation @Inject constructor() {
@@ -54,6 +57,12 @@ class DashboardNavigation @Inject constructor() {
             }
             composable (route = "dashboard/admin/to/event/manage-event") {
                 contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithDynamicDestination(startDestination = EVENT_MANAGE_DESTINATION)
+            }
+            composable (route = "dashboard/to/temple/about-us") {
+                contractRegistry.getContract<TempleContract>(TEMPLE_CONTRACT).RetrieveNavGraph()
+            }
+            composable (route = "dashboard/to/temple/contact-us") {
+                contractRegistry.getContract<TempleContract>(TEMPLE_CONTRACT).RetrieveNavGraphWithDynamicDestination(startDestination = TEMPLE_CONTACT_US_DESTINATION)
             }
         }
     }

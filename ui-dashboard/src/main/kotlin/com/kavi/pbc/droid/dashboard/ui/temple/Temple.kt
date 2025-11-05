@@ -105,17 +105,14 @@ class Temple @Inject constructor() {
                             OptionItem(label = stringResource(R.string.label_make_appointment)) {
 
                             }
-                            OptionItem(label = stringResource(R.string.label_location)) {
-
-                            }
                             OptionItem(label = stringResource(R.string.label_donate)) {
 
                             }
                             OptionItem(label = stringResource(R.string.label_contact_us)) {
-
+                                navController.navigate("dashboard/to/temple/contact-us")
                             }
                             OptionItem(label = stringResource(R.string.label_about_us), isWithDivider = false) {
-
+                                navController.navigate("dashboard/to/temple/about-us")
                             }
                         }
                     }
