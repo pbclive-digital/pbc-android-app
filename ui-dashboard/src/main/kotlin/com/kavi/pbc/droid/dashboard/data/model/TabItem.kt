@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.model
+package com.kavi.pbc.droid.dashboard.data.model
 
 data class TabItem(
     val name: String,

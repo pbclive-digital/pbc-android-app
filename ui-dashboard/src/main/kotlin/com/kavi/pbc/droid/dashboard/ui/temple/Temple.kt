@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.screen.temple
+package com.kavi.pbc.droid.dashboard.ui.temple
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

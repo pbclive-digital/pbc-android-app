@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.screen.event.pager
+package com.kavi.pbc.droid.dashboard.ui.event.pager
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController

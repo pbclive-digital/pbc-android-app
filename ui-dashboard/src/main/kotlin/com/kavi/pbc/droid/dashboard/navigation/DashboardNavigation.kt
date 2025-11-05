@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.dashboard.ui.screen.Dashboard
+import com.kavi.pbc.droid.dashboard.ui.Dashboard
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_CONTRACT
 import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_MANAGE_DESTINATION

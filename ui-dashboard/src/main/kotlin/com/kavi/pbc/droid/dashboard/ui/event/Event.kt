@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.screen.event
+package com.kavi.pbc.droid.dashboard.ui.event
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.dashboard.R
-import com.kavi.pbc.droid.dashboard.ui.screen.event.pager.EventPager
+import com.kavi.pbc.droid.dashboard.ui.event.pager.EventPager
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily

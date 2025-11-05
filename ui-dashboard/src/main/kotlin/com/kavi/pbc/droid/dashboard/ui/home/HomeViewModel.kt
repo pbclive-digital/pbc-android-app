@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.screen.home
+package com.kavi.pbc.droid.dashboard.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

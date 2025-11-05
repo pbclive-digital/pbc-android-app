@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.screen
+package com.kavi.pbc.droid.dashboard.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -25,11 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.util.ColorUtil
 import com.kavi.pbc.droid.dashboard.R
-import com.kavi.pbc.droid.dashboard.ui.model.TabItem
-import com.kavi.pbc.droid.dashboard.ui.screen.event.Event
-import com.kavi.pbc.droid.dashboard.ui.screen.home.Home
-import com.kavi.pbc.droid.dashboard.ui.screen.meditation.MeditationUI
-import com.kavi.pbc.droid.dashboard.ui.screen.temple.Temple
+import com.kavi.pbc.droid.dashboard.data.model.TabItem
+import com.kavi.pbc.droid.dashboard.ui.event.Event
+import com.kavi.pbc.droid.dashboard.ui.home.Home
+import com.kavi.pbc.droid.dashboard.ui.meditation.MeditationUI
+import com.kavi.pbc.droid.dashboard.ui.temple.Temple
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import javax.inject.Inject
 
@@ -55,7 +55,7 @@ class Dashboard @Inject constructor() {
         var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
         Box(
-            modifier = Modifier
+            modifier = Modifier.Companion
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.surface)
         ) {
@@ -63,11 +63,11 @@ class Dashboard @Inject constructor() {
                 bottomBar = {
                     NavigationBar(
                         containerColor = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.height(BottomNavBarHeight)
+                        modifier = Modifier.Companion.height(BottomNavBarHeight)
                     ) {
                         tabItemList.forEachIndexed { index, tabItem ->
                             NavigationBarItem(
-                                modifier = Modifier
+                                modifier = Modifier.Companion
                                     .padding(4.dp),
                                 colors = navigationBarColors(),
                                 selected = selectedTabIndex == index,
@@ -77,7 +77,7 @@ class Dashboard @Inject constructor() {
                                     Icon(
                                         painterResource(id = tabItem.icon),
                                         contentDescription = "",
-                                        modifier = Modifier
+                                        modifier = Modifier.Companion
                                             .width(45.dp)
                                             .height(45.dp)
                                             .padding(8.dp),
@@ -92,7 +92,7 @@ class Dashboard @Inject constructor() {
                 TabContent(
                     navController = navController,
                     selectedTabIndex = selectedTabIndex,
-                    modifier = Modifier
+                    modifier = Modifier.Companion
                         .padding(bottom = innerPadding.calculateBottomPadding())
                         .fillMaxSize()
                 )
@@ -104,7 +104,7 @@ class Dashboard @Inject constructor() {
     fun TabContent(
         navController: NavController,
         selectedTabIndex: Int,
-        modifier: Modifier = Modifier
+        modifier: Modifier = Modifier.Companion
     ) {
         when (selectedTabIndex) {
             0 -> home.HomeUI(navController = navController, modifier = modifier)
@@ -119,11 +119,17 @@ class Dashboard @Inject constructor() {
         return NavigationBarItemColors(
             selectedIconColor = MaterialTheme.colorScheme.primary,
             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-            unselectedIconColor = ColorUtil.blendColors(Color.Gray, Color.White),
-            unselectedTextColor = ColorUtil.blendColors(Color.Gray, Color.White),
+            unselectedIconColor = ColorUtil.blendColors(
+                Color.Companion.Gray,
+                Color.Companion.White
+            ),
+            unselectedTextColor = ColorUtil.blendColors(
+                Color.Companion.Gray,
+                Color.Companion.White
+            ),
             selectedIndicatorColor = MaterialTheme.colorScheme.tertiary,
-            disabledIconColor = Color.Gray,
-            disabledTextColor = Color.Gray,
+            disabledIconColor = Color.Companion.Gray,
+            disabledTextColor = Color.Companion.Gray,
         )
     }
 }

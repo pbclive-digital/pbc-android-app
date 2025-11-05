@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.dashboard.ui.screen.meditation
+package com.kavi.pbc.droid.dashboard.ui.meditation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
