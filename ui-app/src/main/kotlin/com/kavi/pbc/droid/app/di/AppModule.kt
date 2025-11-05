@@ -2,7 +2,6 @@ package com.kavi.pbc.droid.app.di
 
 import com.kavi.pbc.droid.lib.datastore.AppDatastore
 import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.network.Network
 import dagger.Module
 import dagger.Provides
@@ -25,12 +24,6 @@ object AppModule {
     @Singleton
     fun provideNetworkInstance(): Network {
         return Network()
-    }
-
-    @Provides
-    @Singleton
-    fun provideContractRegistry(): ContractRegistry {
-        return ContractRegistry()
     }
 
     @Provides

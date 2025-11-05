@@ -8,14 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.dashboard.ui.Dashboard
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_MANAGE_DESTINATION
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.EVENT_SELECTED_DESTINATION
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.PROFILE_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.TEMPLE_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.TEMPLE_CONTACT_US_DESTINATION
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.EVENT_MANAGE_DESTINATION
+import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.EVENT_SELECTED_DESTINATION
+import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.TEMPLE_CONTACT_US_DESTINATION
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
@@ -26,9 +22,6 @@ class DashboardNavigation @Inject constructor() {
 
     @Inject
     lateinit var dashboard: Dashboard
-
-    @Inject
-    lateinit var contractRegistry: ContractRegistry
 
     @Composable
     fun DashboardNavGraph() {
@@ -42,27 +35,27 @@ class DashboardNavigation @Inject constructor() {
                 dashboard.DashboardUI(navController = navController)
             }
             composable (route = "dashboard/to/auth") {
-                contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).RetrieveNavGraph()
+                ContractServiceLocator.locate(AuthContract::class).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/profile") {
-                contractRegistry.getContract<ProfileContract>(PROFILE_CONTRACT).RetrieveNavGraph()
+                ContractServiceLocator.locate(ProfileContract::class).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/event/{eventKey}") { backStackEntry ->
                 val eventKey = backStackEntry.arguments?.getString("eventKey")
                 eventKey?.let {
-                    contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithData(startDestination = EVENT_SELECTED_DESTINATION, eventKey = it)
+                    ContractServiceLocator.locate(EventContract::class).RetrieveNavGraphWithData(startDestination = EVENT_SELECTED_DESTINATION, eventKey = it)
                 }?: run {
-                    contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraph()
+                    ContractServiceLocator.locate(EventContract::class).RetrieveNavGraph()
                 }
             }
             composable (route = "dashboard/admin/to/event/manage-event") {
-                contractRegistry.getContract<EventContract>(EVENT_CONTRACT).RetrieveNavGraphWithDynamicDestination(startDestination = EVENT_MANAGE_DESTINATION)
+                ContractServiceLocator.locate(EventContract::class).RetrieveNavGraphWithDynamicDestination(startDestination = EVENT_MANAGE_DESTINATION)
             }
             composable (route = "dashboard/to/temple/about-us") {
-                contractRegistry.getContract<TempleContract>(TEMPLE_CONTRACT).RetrieveNavGraph()
+                ContractServiceLocator.locate(TempleContract::class).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/temple/contact-us") {
-                contractRegistry.getContract<TempleContract>(TEMPLE_CONTRACT).RetrieveNavGraphWithDynamicDestination(startDestination = TEMPLE_CONTACT_US_DESTINATION)
+                ContractServiceLocator.locate(TempleContract::class).RetrieveNavGraphWithDynamicDestination(startDestination = TEMPLE_CONTACT_US_DESTINATION)
             }
         }
     }

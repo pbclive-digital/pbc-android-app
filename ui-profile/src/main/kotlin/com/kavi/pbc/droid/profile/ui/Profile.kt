@@ -40,14 +40,12 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.user.User
-import com.kavi.pbc.droid.lib.common.ui.component.AppBasicDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.profile.R
 import com.kavi.pbc.droid.profile.ui.dialog.DeleteConfirmationDialog
@@ -56,17 +54,14 @@ import javax.inject.Inject
 
 class Profile @Inject constructor() {
 
-    @Inject
-    lateinit var contractRegistry: ContractRegistry
-
     @Composable
     fun ProfileUI(navController: NavController, modifier: Modifier = Modifier, viewModel: ProfileViewModel = hiltViewModel()) {
 
         val profileUser by viewModel.profileUser.collectAsState()
         val isUserDeleted by viewModel.isUserDeleted.collectAsState()
 
-        var showSignOutConfirmationDialog = remember { mutableStateOf(false) }
-        var showDeleteConfirmationDialog = remember { mutableStateOf(false) }
+        val showSignOutConfirmationDialog = remember { mutableStateOf(false) }
+        val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
 
         Box (
             modifier = Modifier
@@ -173,7 +168,7 @@ class Profile @Inject constructor() {
     }
 
     private fun navigateToAuth(navController: NavController) {
-        contractRegistry.getContract<AuthContract>(AUTH_CONTRACT).signOut()
+        ContractServiceLocator.locate(AuthContract::class).signOut()
         navController.navigate("profile/to/auth") {
             popUpTo(0) { inclusive = true }
         }
