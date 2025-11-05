@@ -30,6 +30,10 @@ class EventSelectedViewModel @Inject constructor(
     private val _eventRegistrationData = MutableStateFlow(EventRegistration("", 0))
     val eventRegistrationData: StateFlow<EventRegistration> = _eventRegistrationData
 
+    fun revokeActionFunctionStatus() {
+        _actionFunctionStatus.value = false
+    }
+
     fun setGivenEvent(givenEvent: Event) {
         _givenEvent.value = givenEvent
 
@@ -73,6 +77,7 @@ class EventSelectedViewModel @Inject constructor(
                     is ResultWrapper.UnAuthError -> {}
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
+                            _eventRegistrationData.value = it
                             _actionFunctionStatus.value = true
                         }
                     }
@@ -90,6 +95,7 @@ class EventSelectedViewModel @Inject constructor(
                     is ResultWrapper.UnAuthError -> {}
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
+                            _eventRegistrationData.value = it
                             _actionFunctionStatus.value = true
                         }
                     }

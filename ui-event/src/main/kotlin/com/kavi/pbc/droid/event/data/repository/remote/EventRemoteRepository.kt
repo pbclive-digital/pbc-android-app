@@ -52,11 +52,11 @@ class EventRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { eventServiceApi.getEventRegistration(eventId = eventId) }
     }
 
-    suspend fun registerToEvent(eventId: String, eventRegistrationItem: EventRegistrationItem): ResultWrapper<BaseResponse<String>> {
+    suspend fun registerToEvent(eventId: String, eventRegistrationItem: EventRegistrationItem): ResultWrapper<BaseResponse<EventRegistration>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.registerToEvent(eventId = eventId, eventRegistrationItem = eventRegistrationItem) }
     }
 
-    suspend fun unregisterFromEvent(eventId: String, userId: String): ResultWrapper<BaseResponse<String>> {
+    suspend fun unregisterFromEvent(eventId: String, userId: String): ResultWrapper<BaseResponse<EventRegistration>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.unregisterFromEvent(eventId = eventId, userId = userId) }
     }
 }

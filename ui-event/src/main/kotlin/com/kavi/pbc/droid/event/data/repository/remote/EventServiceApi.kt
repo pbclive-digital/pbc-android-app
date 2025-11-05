@@ -45,8 +45,8 @@ interface EventServiceApi {
     suspend fun getEventRegistration(@Path("eventId") eventId: String): BaseResponse<EventRegistration>
 
     @POST("/event/register/{eventId}")
-    suspend fun registerToEvent(@Path("eventId") eventId: String, @Body eventRegistrationItem: EventRegistrationItem): BaseResponse<String>
+    suspend fun registerToEvent(@Path("eventId") eventId: String, @Body eventRegistrationItem: EventRegistrationItem): BaseResponse<EventRegistration>
 
     @DELETE("/event/unregister/{eventId}/{userId}")
-    suspend fun unregisterFromEvent(@Path("eventId") eventId: String, @Path("userId") userId: String): BaseResponse<String>
+    suspend fun unregisterFromEvent(@Path("eventId") eventId: String, @Path("userId") userId: String): BaseResponse<EventRegistration>
 }
