@@ -4,12 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
-import com.kavi.pbc.droid.lib.datastore.DataKey
-import com.kavi.pbc.droid.lib.parent.contract.ContractName.AUTH_CONTRACT
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.model.ResultWrapper
-import com.kavi.pbc.droid.network.session.Session
 import com.kavi.pbc.droid.splash.data.repository.local.SplashLocalRepository
 import com.kavi.pbc.droid.splash.data.repository.remote.SplashRemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,9 +20,6 @@ class SplashViewModel @Inject constructor(
     private val remoteDataSource: SplashRemoteRepository,
     private val localDataSource: SplashLocalRepository
 ): ViewModel() {
-
-    @Inject
-    lateinit var contractRegistry: ContractRegistry
 
     @Inject
     lateinit var appInMemoryStore: AppInMemoryStore
@@ -64,7 +58,7 @@ class SplashViewModel @Inject constructor(
     }
 
     fun fetchConfig() {
-        val authContract = contractRegistry.getContract<AuthContract>(AUTH_CONTRACT)
+        val authContract = ContractServiceLocator.locate(AuthContract::class)
 
         viewModelScope.launch {
             when(val response = remoteDataSource.getConfig(configVersion = "v1")) {

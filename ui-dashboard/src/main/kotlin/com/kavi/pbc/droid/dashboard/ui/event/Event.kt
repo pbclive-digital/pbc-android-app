@@ -35,7 +35,6 @@ import com.kavi.pbc.droid.dashboard.ui.event.pager.EventPager
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
@@ -43,9 +42,6 @@ class Event @Inject constructor() {
 
     @Inject
     lateinit var eventPager: EventPager
-
-    @Inject
-    lateinit var contractRegistry: ContractRegistry
 
     @Composable
     fun EventUI(navController: NavController, modifier: Modifier = Modifier) {

@@ -3,16 +3,19 @@ package com.kavi.pbc.droid.app
 import com.kavi.pbc.droid.auth.AuthContractImpl
 import com.kavi.pbc.droid.dashboard.DashboardContractImpl
 import com.kavi.pbc.droid.event.EventContractImpl
-import com.kavi.pbc.droid.lib.parent.contract.ContractName
-import com.kavi.pbc.droid.lib.parent.contract.ContractRegistry
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
+import com.kavi.pbc.droid.lib.parent.contract.module.DashboardContract
+import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
+import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
+import com.kavi.pbc.droid.lib.parent.contract.module.SplashContract
+import com.kavi.pbc.droid.lib.parent.contract.module.TempleContract
 import com.kavi.pbc.droid.profile.ProfileContractImpl
 import com.kavi.pbc.droid.splash.SplashContractImpl
 import com.kavi.pbc.droid.temple.TempleContractImpl
 import javax.inject.Inject
 
 class ContractConfig @Inject constructor() {
-    @Inject
-    lateinit var contractRegistry: ContractRegistry
 
     @Inject
     lateinit var splashContractImpl: SplashContractImpl
@@ -28,11 +31,11 @@ class ContractConfig @Inject constructor() {
     lateinit var templeContractImpl: TempleContractImpl
 
     fun registerContracts() {
-        contractRegistry.registerContract(ContractName.SPLASH_CONTRACT, splashContractImpl)
-        contractRegistry.registerContract(ContractName.AUTH_CONTRACT, authContractImpl)
-        contractRegistry.registerContract(ContractName.DASHBOARD_CONTRACT, dashboardContractImpl)
-        contractRegistry.registerContract(ContractName.EVENT_CONTRACT, eventContractImpl)
-        contractRegistry.registerContract(ContractName.PROFILE_CONTRACT, profileContractImpl)
-        contractRegistry.registerContract(ContractName.TEMPLE_CONTRACT, templeContractImpl)
+        ContractServiceLocator.register(SplashContract::class) { splashContractImpl }
+        ContractServiceLocator.register(AuthContract::class) { authContractImpl }
+        ContractServiceLocator.register(DashboardContract::class) { dashboardContractImpl }
+        ContractServiceLocator.register(EventContract::class) { eventContractImpl }
+        ContractServiceLocator.register(ProfileContract::class) { profileContractImpl }
+        ContractServiceLocator.register(TempleContract::class) { templeContractImpl }
     }
 }
