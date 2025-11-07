@@ -38,6 +38,7 @@ import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
+@Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 class Temple @Inject constructor() {
 
     @Composable
@@ -103,7 +104,7 @@ class Temple @Inject constructor() {
 
                             }
                             OptionItem(label = stringResource(R.string.label_make_appointment)) {
-
+                                navController.navigate("dashboard/to/appointment")
                             }
                             OptionItem(label = stringResource(R.string.label_donate)) {
 

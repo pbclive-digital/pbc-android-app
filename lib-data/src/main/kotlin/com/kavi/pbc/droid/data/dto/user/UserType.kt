@@ -2,6 +2,7 @@ package com.kavi.pbc.droid.data.dto.user
 
 enum class UserType(val type: Int) {
     ADMIN(101),
-    THERO(102),
-    CONSUMER(103)
+    MONK(102),
+    MANAGER(103),
+    CONSUMER(104)
 }

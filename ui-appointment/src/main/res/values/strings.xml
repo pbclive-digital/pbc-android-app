@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_appointments">Appointments</string>
+    <string name="phase_appointments">From here you can make an appointment with any residence monk in Pittsburgh Buddhist Center. This will helps Bhanthe to plan their calendar to available for you.</string>
+
+    <string name="label_make_appointments">Make an Appointment</string>
+    <string name="label_new_appointments">New Appointment</string>
+</resources>

@@ -33,6 +33,7 @@ import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
+@Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
 fun EventItem(modifier: Modifier = Modifier, event: Event) {
     BoxWithConstraints (

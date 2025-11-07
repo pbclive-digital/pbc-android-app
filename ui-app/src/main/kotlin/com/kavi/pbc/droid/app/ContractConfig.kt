@@ -1,9 +1,11 @@
 package com.kavi.pbc.droid.app
 
+import com.kavi.pbc.droid.appointment.AppointmentContractImpl
 import com.kavi.pbc.droid.auth.AuthContractImpl
 import com.kavi.pbc.droid.dashboard.DashboardContractImpl
 import com.kavi.pbc.droid.event.EventContractImpl
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AppointmentContract
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.DashboardContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
@@ -29,6 +31,8 @@ class ContractConfig @Inject constructor() {
     lateinit var profileContractImpl: ProfileContractImpl
     @Inject
     lateinit var templeContractImpl: TempleContractImpl
+    @Inject
+    lateinit var appointmentContractImpl: AppointmentContractImpl
 
     fun registerContracts() {
         ContractServiceLocator.register(SplashContract::class) { splashContractImpl }
@@ -37,5 +41,6 @@ class ContractConfig @Inject constructor() {
         ContractServiceLocator.register(EventContract::class) { eventContractImpl }
         ContractServiceLocator.register(ProfileContract::class) { profileContractImpl }
         ContractServiceLocator.register(TempleContract::class) { templeContractImpl }
+        ContractServiceLocator.register(AppointmentContract::class) { appointmentContractImpl }
     }
 }

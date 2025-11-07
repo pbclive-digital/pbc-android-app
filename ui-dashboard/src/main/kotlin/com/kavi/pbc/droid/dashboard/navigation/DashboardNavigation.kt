@@ -12,6 +12,7 @@ import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.EVENT_MANAGE_DE
 import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.EVENT_SELECTED_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.TEMPLE_CONTACT_US_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AppointmentContract
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
@@ -56,6 +57,9 @@ class DashboardNavigation @Inject constructor() {
             }
             composable (route = "dashboard/to/temple/contact-us") {
                 ContractServiceLocator.locate(TempleContract::class).RetrieveNavGraphWithDynamicDestination(startDestination = TEMPLE_CONTACT_US_DESTINATION)
+            }
+            composable (route = "dashboard/to/appointment") {
+                ContractServiceLocator.locate(AppointmentContract::class).RetrieveNavGraph()
             }
         }
     }

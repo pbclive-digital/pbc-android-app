@@ -40,6 +40,7 @@ fun Title(modifier: Modifier = Modifier, titleText: String) {
             text = titleText,
             fontFamily = PBCFontFamily,
             fontWeight = FontWeight.Bold,
+            lineHeight = 48.sp,
             fontSize = 48.sp,
             color = MaterialTheme.colorScheme.onBackground
         )
