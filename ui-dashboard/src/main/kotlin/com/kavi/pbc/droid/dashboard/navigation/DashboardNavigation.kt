@@ -17,6 +17,7 @@ import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
 import com.kavi.pbc.droid.lib.parent.contract.module.TempleContract
+import com.kavi.pbc.droid.lib.parent.contract.module.UserContract
 import javax.inject.Inject
 
 class DashboardNavigation @Inject constructor() {
@@ -51,6 +52,9 @@ class DashboardNavigation @Inject constructor() {
             }
             composable (route = "dashboard/admin/to/event/manage-event") {
                 ContractServiceLocator.locate(EventContract::class).RetrieveNavGraphWithDynamicDestination(startDestination = EVENT_MANAGE_DESTINATION)
+            }
+            composable (route = "dashboard/admin/to/user") {
+                ContractServiceLocator.locate(UserContract::class).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/temple/about-us") {
                 ContractServiceLocator.locate(TempleContract::class).RetrieveNavGraph()

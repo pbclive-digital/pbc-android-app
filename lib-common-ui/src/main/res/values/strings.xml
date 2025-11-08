@@ -10,6 +10,8 @@
     <string name="label_no">No</string>
     <string name="label_create">Create</string>
     <string name="label_cancel">Cancel</string>
+    <string name="label_update">Update</string>
+    <string name="label_modify">Modify</string>
 
     <string name="label_date_picker">Select Date</string>
 </resources>

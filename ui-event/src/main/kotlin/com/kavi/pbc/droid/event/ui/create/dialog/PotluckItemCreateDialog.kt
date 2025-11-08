@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.event.ui.create.dialog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -75,6 +76,7 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
 
             AppOutlineTextField (
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 8.dp),
                 headingText = stringResource(R.string.label_item_name).uppercase(),
                 contentText = itemName,
@@ -85,6 +87,7 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
 
             AppOutlineTextField (
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(top = 4.dp),
                 headingText = stringResource(R.string.label_item_count).uppercase(),
                 contentText = itemAvailability,

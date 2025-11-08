@@ -25,7 +25,6 @@ fun AppOutlineTextField(
 ) {
     OutlinedTextField(
         modifier = modifier
-            .fillMaxWidth()
             .padding(1.dp)
             .padding(end = 4.dp),
         colors = TextFieldDefaults.colors(
@@ -56,7 +55,6 @@ fun AppOutlineMultiLineTextField(
 ) {
     OutlinedTextField(
         modifier = modifier
-            .fillMaxWidth()
             .height(80.dp)
             .padding(1.dp)
             .padding(end = 4.dp),

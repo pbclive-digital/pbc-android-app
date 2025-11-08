@@ -1,6 +1,7 @@
 import java.net.URI
 
 listOf(
+    ":ui-user",
     ":ui-appointment",
     ":ui-temple",
     ":ui-profile",

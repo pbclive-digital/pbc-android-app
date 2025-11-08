@@ -12,5 +12,6 @@ data class User(
     var profilePicUrl: String? = null,
     var address: String? = null,
     val userType: UserType = UserType.CONSUMER,
+    var residentMonk: Boolean = false,
     var userAuthType: UserAuthType? = UserAuthType.NONE,
 )

@@ -90,6 +90,7 @@ class InitialInformation @Inject constructor() {
             ) {
                 AppOutlineTextField (
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(top = 8.dp),
                     headingText = stringResource(R.string.label_title).uppercase(),
                     contentText = eventName,
@@ -101,6 +102,7 @@ class InitialInformation @Inject constructor() {
 
                 AppOutlineMultiLineTextField (
                     modifier = Modifier
+                        .fillMaxWidth()
                         .padding(top = 4.dp)
                         .height(100.dp),
                     headingText = stringResource(R.string.label_description).uppercase(),
@@ -238,6 +240,7 @@ class InitialInformation @Inject constructor() {
                     VenueType.PHYSICAL.name -> {
                         AppOutlineTextField (
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(top = 8.dp),
                             headingText = stringResource(R.string.label_venue).uppercase(),
                             contentText = eventVenue,
@@ -249,6 +252,7 @@ class InitialInformation @Inject constructor() {
 
                         AppOutlineTextField (
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(top = 8.dp),
                             headingText = stringResource(R.string.label_venue_address).uppercase(),
                             contentText = eventVenueAddress,
@@ -261,6 +265,7 @@ class InitialInformation @Inject constructor() {
                     VenueType.VIRTUAL.name -> {
                         AppOutlineTextField (
                             modifier = Modifier
+                                .fillMaxWidth()
                                 .padding(top = 8.dp),
                             headingText = stringResource(R.string.label_meeting_url).uppercase(),
                             contentText = eventMeetingUrl,

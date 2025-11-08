@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_user_manage">User Management</string>
+    <string name="phrase_user_manage">From here, you can find users by giving user\'s email. After finding valid user, as an Admin user you have privilege to change user\'s role.</string>
+    <string name="label_user_search_value">Email / Name</string>
+    <string name="label_user_search_button">Search</string>
+    <string name="label_user_search_empty">No User Found / Searched</string>
+
+    <string name="label_user_modify_role">Modify User\'s Role</string>
+    <string name="phrase_user_modify_role">This is to assign new role to selected user. You can select any predefined user roles in the app and assign that to user. Below drop-down menu already selected the current role of the selected user.</string>
+    <string name="label_user_user_type">User Type</string>
+    <string name="label_user_resident_monk">Is this a resident monk?</string>
+
+    <string name="label_user_basic_info">Basic Info</string>
+    <string name="phrase_user_basic_info">Basic information and available contact details about selected user.</string>
+    <string name="label_user_email">Email</string>
+    <string name="label_user_phone">Phone #</string>
+    <string name="label_user_address">Address</string>
+</resources>

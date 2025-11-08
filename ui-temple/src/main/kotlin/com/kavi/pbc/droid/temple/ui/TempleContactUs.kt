@@ -121,7 +121,7 @@ class TempleContactUs @Inject constructor() {
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Text(
-                            text = stringResource(R.string.label_address),
+                            text = stringResource(R.string.label_temple_address),
                             fontFamily = PBCFontFamily,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
