@@ -9,7 +9,7 @@
     <string name="label_service">Service Panel</string>
     <string name="label_about_us">About Us</string>
     <string name="label_ask_question">Ask Question</string>
-    <string name="label_make_appointment">Create Appointment</string>
+    <string name="label_make_appointment">Mange/Create Appointment</string>
     <string name="label_location">Location</string>
     <string name="label_donate">Donate</string>
     <string name="label_contact_us">Contact Us</string>

@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class AppointmentRequest(
     val monkName: String,
     val monkEmail: String,
-    val dateAndTime: Long,
+    val date: Long,
+    val time: String,
     val reasonForAppointment: String
 )

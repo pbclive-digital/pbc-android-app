@@ -20,7 +20,7 @@ class AppointmentManageViewModel @Inject constructor(
     private val _userAppointmentList = MutableStateFlow<List<Appointment>>(mutableListOf())
     val userAppointmentList: StateFlow<List<Appointment>> = _userAppointmentList
 
-    fun fetchUserAppointmentList() {
+    fun fetchAppointmentList() {
         Session.user?.id?.let { userId ->
             viewModelScope.launch {
                 when(val response = appointmentRemoteRepository.getUserAppointmentList(userId = userId)) {
