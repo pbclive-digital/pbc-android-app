@@ -1,10 +1,14 @@
 package com.kavi.pbc.droid.auth
 
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.SheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.kavi.pbc.droid.auth.data.repository.AuthRemoteRepository
 import com.kavi.pbc.droid.auth.navigation.AuthNavigation
+import com.kavi.pbc.droid.auth.ui.invitation.AuthInvite
 import com.kavi.pbc.droid.data.dto.auth.AuthToken
 import com.kavi.pbc.droid.data.dto.auth.TokenStatus
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
@@ -21,6 +25,9 @@ class AuthContractImpl @Inject constructor(
 
     @Inject
     lateinit var authNavigation: AuthNavigation
+
+    @Inject
+    lateinit var authInvite: AuthInvite
 
     @Composable
     override fun RetrieveNavGraph() {
@@ -45,6 +52,16 @@ class AuthContractImpl @Inject constructor(
         }?: run {
             onNoSignIn.invoke()
         }
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    override fun AuthInviteBottomSheet(
+        sheetState: SheetState,
+        showSheet: MutableState<Boolean>,
+        onRegister: () -> Unit
+    ) {
+        authInvite.AuthInviteBottomSheet(showSheet = showSheet, sheetState = sheetState, onRegister = onRegister)
     }
 
     private fun requestAuthToken(email: String, userId: String, onSignedIn: () -> Unit, onNoSignIn: () -> Unit) {

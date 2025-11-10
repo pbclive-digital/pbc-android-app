@@ -51,6 +51,7 @@ dependencies {
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.material3)
 
     implementation(project(":lib-data"))
 

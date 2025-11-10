@@ -11,6 +11,8 @@ import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.event.ui.create.EventCreateOrModify
 import com.kavi.pbc.droid.event.ui.manage.EventManage
 import com.kavi.pbc.droid.event.ui.selected.EventSelected
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import javax.inject.Inject
 
 class EventNavigation @Inject constructor() {
@@ -44,6 +46,9 @@ class EventNavigation @Inject constructor() {
             composable (route = "event/event-edit/{eventKey}") { backStackEntry ->
                 val eventKey = backStackEntry.arguments?.getString("eventKey")
                 eventCreateOrModify.EventCreateOrModifyUI(navController = navController, modifyingEventKey = eventKey)
+            }
+            composable (route = "event/to/auth") {
+                ContractServiceLocator.locate(AuthContract::class).RetrieveNavGraph()
             }
         }
     }

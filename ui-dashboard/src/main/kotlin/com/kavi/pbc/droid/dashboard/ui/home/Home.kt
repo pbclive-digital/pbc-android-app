@@ -25,9 +25,11 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -57,6 +59,8 @@ import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventItem
 import com.kavi.pbc.droid.lib.common.ui.component.news.NewsItem
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.session.Session
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -64,8 +68,15 @@ import javax.inject.Inject
 class Home @Inject constructor(
     private val dashboardLocalDataSource: DashboardLocalRepository
 ) {
+    @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun HomeUI(navController: NavController, modifier: Modifier = Modifier, viewModel: HomeViewModel = hiltViewModel()) {
+
+        val authInviteSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showAuthInviteSheet = remember { mutableStateOf(false) }
 
         BoxWithConstraints (
             modifier = Modifier
@@ -93,7 +104,9 @@ class Home @Inject constructor(
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
                         titleText = stringResource(R.string.label_pbc),
                         icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
-                        iconAction = {}
+                        iconAction = {
+                            showAuthInviteSheet.value = true
+                        }
                     )
                 }
 
@@ -111,6 +124,15 @@ class Home @Inject constructor(
                     // News Colum
                     NewsColum(viewModel = viewModel)
                 }
+            }
+        }
+
+        if (showAuthInviteSheet.value) {
+            ContractServiceLocator.locate(AuthContract::class).AuthInviteBottomSheet(
+                sheetState = authInviteSheetState, showSheet = showAuthInviteSheet
+            ) {
+                showAuthInviteSheet.value = false
+                navController.navigate("dashboard/to/auth")
             }
         }
     }

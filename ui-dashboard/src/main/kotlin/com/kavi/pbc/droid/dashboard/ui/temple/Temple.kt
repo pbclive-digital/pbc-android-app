@@ -17,11 +17,15 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -35,14 +39,22 @@ import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
 @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 class Temple @Inject constructor() {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun TempleUI(navController: NavController, modifier: Modifier = Modifier) {
+
+        val authInviteSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showAuthInviteSheet = remember { mutableStateOf(false) }
 
         BoxWithConstraints (
             modifier = Modifier
@@ -69,7 +81,9 @@ class Temple @Inject constructor() {
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
                         titleText = stringResource(R.string.label_temple),
                         icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
-                        iconAction = {}
+                        iconAction = {
+                            showAuthInviteSheet.value = true
+                        }
                     )
                 }
 
@@ -101,10 +115,16 @@ class Temple @Inject constructor() {
                             modifier = Modifier.padding(12.dp)
                         ) {
                             OptionItem(label = stringResource(R.string.label_ask_question)) {
-
+                                if (Session.isLogIn())
+                                    println("Working on this screen")
+                                else
+                                    showAuthInviteSheet.value = true
                             }
                             OptionItem(label = stringResource(R.string.label_make_appointment)) {
-                                navController.navigate("dashboard/to/appointment")
+                                if (Session.isLogIn())
+                                    navController.navigate("dashboard/to/appointment")
+                                else
+                                    showAuthInviteSheet.value = true
                             }
                             OptionItem(label = stringResource(R.string.label_donate)) {
 
@@ -155,6 +175,15 @@ class Temple @Inject constructor() {
                         }
                     }
                 }
+            }
+        }
+
+        if (showAuthInviteSheet.value) {
+            ContractServiceLocator.locate(AuthContract::class).AuthInviteBottomSheet(
+                sheetState = authInviteSheetState, showSheet = showAuthInviteSheet
+            ) {
+                showAuthInviteSheet.value = false
+                navController.navigate("dashboard/to/auth")
             }
         }
     }

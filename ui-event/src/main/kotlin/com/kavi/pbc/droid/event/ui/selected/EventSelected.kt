@@ -50,6 +50,9 @@ import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
+import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
 @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
@@ -63,6 +66,11 @@ class EventSelected @Inject constructor() {
     fun EventUI(navController: NavController, eventData: Event? = null, viewModel: EventSelectedViewModel = hiltViewModel()) {
 
         val context = LocalContext.current
+
+        val authInviteSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showAuthInviteSheet = remember { mutableStateOf(false) }
 
         val potluckSheetState = rememberModalBottomSheetState()
         val showPotluckSheet = remember { mutableStateOf(false) }
@@ -286,7 +294,10 @@ class EventSelected @Inject constructor() {
                                 label = stringResource(R.string.label_register),
                                 icon = painterResource(R.drawable.icon_event_register)
                             ) {
-                                showRegistrationSheet.value = true
+                                if (Session.isLogIn())
+                                    showRegistrationSheet.value = true
+                                else
+                                    showAuthInviteSheet.value = true
                             }
                         }
                     }
@@ -325,7 +336,10 @@ class EventSelected @Inject constructor() {
                                 label = stringResource(R.string.label_potluck),
                                 icon = painterResource(R.drawable.icon_potluck_register)
                             ) {
-                                showPotluckSheet.value = true
+                                if (Session.isLogIn())
+                                    showPotluckSheet.value = true
+                                else
+                                    showAuthInviteSheet.value = true
                             }
                         }
                     }
@@ -338,6 +352,15 @@ class EventSelected @Inject constructor() {
 
             if (showRegistrationSheet.value) {
                 eventFunctionBottomSheet.RegistrationSheetUI(sheetState = registrationSheetState, showSheet = showRegistrationSheet)
+            }
+
+            if (showAuthInviteSheet.value) {
+                ContractServiceLocator.locate(AuthContract::class).AuthInviteBottomSheet(
+                    sheetState = authInviteSheetState, showSheet = showAuthInviteSheet
+                ) {
+                    showAuthInviteSheet.value = false
+                    navController.navigate("event/to/auth")
+                }
             }
         }
     }

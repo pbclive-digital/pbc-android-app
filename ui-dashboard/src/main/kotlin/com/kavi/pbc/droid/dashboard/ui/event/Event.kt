@@ -15,12 +15,16 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,6 +39,8 @@ import com.kavi.pbc.droid.dashboard.ui.event.pager.EventPager
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
+import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
+import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
 
@@ -43,8 +49,15 @@ class Event @Inject constructor() {
     @Inject
     lateinit var eventPager: EventPager
 
+    @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun EventUI(navController: NavController, modifier: Modifier = Modifier) {
+
+        val authInviteSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showAuthInviteSheet = remember { mutableStateOf(false) }
 
         var selectedPagerIndex by rememberSaveable { mutableIntStateOf(0) }
         val state = rememberPagerState { 2 }
@@ -78,7 +91,9 @@ class Event @Inject constructor() {
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
                         titleText = stringResource(R.string.label_event),
                         icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
-                        iconAction = {}
+                        iconAction = {
+                            showAuthInviteSheet.value = true
+                        }
                     )
                 }
 
@@ -151,6 +166,15 @@ class Event @Inject constructor() {
                         1 -> eventPager.PastEventPager(navController = navController)
                     }
                 }
+            }
+        }
+
+        if (showAuthInviteSheet.value) {
+            ContractServiceLocator.locate(AuthContract::class).AuthInviteBottomSheet(
+                sheetState = authInviteSheetState, showSheet = showAuthInviteSheet
+            ) {
+                showAuthInviteSheet.value = false
+                navController.navigate("dashboard/to/auth")
             }
         }
     }
