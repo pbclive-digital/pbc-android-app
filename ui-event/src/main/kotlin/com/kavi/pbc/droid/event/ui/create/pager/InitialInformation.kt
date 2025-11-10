@@ -68,12 +68,10 @@ class InitialInformation @Inject constructor() {
         var timePickerMode by remember { mutableStateOf(TimePickerMode.UNSELECTED) }
 
         LaunchedEffect(eventType.value) {
-            println("Changed event type")
             viewModel.updateEventType(eventType = eventType.value)
         }
 
         LaunchedEffect(venueType.value) {
-            println("Changed venue type")
             viewModel.updateVenueType(venueType = venueType.value)
         }
 

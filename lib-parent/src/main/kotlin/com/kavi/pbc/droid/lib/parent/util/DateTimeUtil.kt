@@ -12,8 +12,6 @@ object DateTimeUtil {
     }
 
     fun checkIsToday(date: Long): Boolean {
-        println("Today: ${getDateFromTimestamp(System.currentTimeMillis())}")
-        println("Date: ${getDateFromTimestamp(date)}")
         return getDateFromTimestamp(date) == getDateFromTimestamp(System.currentTimeMillis())
     }
 }

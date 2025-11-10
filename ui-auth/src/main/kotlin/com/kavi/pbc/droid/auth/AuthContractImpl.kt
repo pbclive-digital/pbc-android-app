@@ -42,8 +42,6 @@ class AuthContractImpl @Inject constructor(
 
     override fun signInWithLastSignInAcc(onSignedIn: () -> Unit, onNoSignIn: () -> Unit) {
         Firebase.auth.currentUser?.let { user ->
-            println("Email: ${user.email}")
-            println("ID: ${user.uid}")
             user.email?.let {
                 requestAuthToken(email = it, userId = user.uid, onSignedIn = onSignedIn, onNoSignIn = onNoSignIn)
             }?: run {
