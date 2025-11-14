@@ -72,7 +72,9 @@ class EventSelected @Inject constructor() {
         )
         val showAuthInviteSheet = remember { mutableStateOf(false) }
 
-        val potluckSheetState = rememberModalBottomSheetState()
+        val potluckSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
         val showPotluckSheet = remember { mutableStateOf(false) }
 
         val registrationSheetState = rememberModalBottomSheetState()

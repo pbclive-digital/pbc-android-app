@@ -46,6 +46,11 @@ class EventCreateViewModel @Inject constructor(
     fun setModifyingEvent(eventKey: String) {
         localDataSource.getModifyingEvent(tempEventKey = eventKey).onSuccess { event ->
             _newEvent.value = event
+            if (event.potluckAvailable) {
+                event.potluckItemList?.let {
+                    _potluckItemList.value = it
+                }
+            }
         }
     }
 

@@ -2,6 +2,8 @@ package com.kavi.pbc.droid.event.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import okhttp3.MultipartBody
@@ -49,4 +51,14 @@ interface EventServiceApi {
 
     @DELETE("/event/unregister/{eventId}/{userId}")
     suspend fun unregisterFromEvent(@Path("eventId") eventId: String, @Path("userId") userId: String): BaseResponse<EventRegistration>
+
+    @GET("/event/get/potluck/{eventId}")
+    suspend fun getEventPotluck(@Path("eventId") eventId: String): BaseResponse<EventPotluck>
+
+    @POST("/event/potluck/sign-up/{eventId}/{potluckItemId}")
+    suspend fun signUpToPotluck(@Path("eventId") eventId: String, @Path("potluckItemId") potluckItemId: String,
+                                @Body potluckContributor: EventPotluckContributor): BaseResponse<EventPotluck>
+
+    @DELETE("/event/potluck/sign-out/{eventId}")
+    suspend fun signOutFromPotluck(@Path("eventId") eventId: String): BaseResponse<EventPotluck>
 }

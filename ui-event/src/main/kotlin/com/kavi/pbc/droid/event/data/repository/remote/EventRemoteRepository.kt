@@ -2,6 +2,8 @@ package com.kavi.pbc.droid.event.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import com.kavi.pbc.droid.network.Network
@@ -58,5 +60,14 @@ class EventRemoteRepository @Inject constructor(
 
     suspend fun unregisterFromEvent(eventId: String, userId: String): ResultWrapper<BaseResponse<EventRegistration>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.unregisterFromEvent(eventId = eventId, userId = userId) }
+    }
+
+    suspend fun getEventPotluck(eventId: String): ResultWrapper<BaseResponse<EventPotluck>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.getEventPotluck(eventId = eventId) }
+    }
+
+    suspend fun signUpToPotluck(eventId: String, potluckItemId: String, contributor: EventPotluckContributor): ResultWrapper<BaseResponse<EventPotluck>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.signUpToPotluck(eventId = eventId,
+            potluckItemId = potluckItemId, potluckContributor = contributor) }
     }
 }

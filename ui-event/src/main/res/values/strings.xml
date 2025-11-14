@@ -64,4 +64,8 @@
     <string name="label_event_remaining_seats">Remaining seats: %d</string>
     <string name="phrase_event_registering">We are delight to have you in the event of \"%s\"!!! Once you register, we will reserve a space for you. For any reason, if you are not going to attend, please make sure to unregister.</string>
     <string name="phrase_event_unregistering">We are sad not to see you in the event of \"%s\"!!! Once you un-register, your reservation will revoke. Thank you so much to make your space available due to your unavailability.</string>
+
+    <string name="label_event_contribute_potluck">Potluck Contribution</string>
+    <string name="phrase_event_contribute_potluck">Following are the potluck items that you can contribute on the event. By tapping on the item or tap on \'plus\' icon you can sign-up for that and by tap on \'X\' icon, you can sign-out.</string>
+    <string name="label_event_user_contribution_count">You have already signed %d of %s(s)</string>
 </resources>

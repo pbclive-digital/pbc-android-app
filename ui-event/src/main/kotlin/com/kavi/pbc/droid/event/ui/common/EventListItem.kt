@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.lib.common.ui.component.event
+package com.kavi.pbc.droid.event.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

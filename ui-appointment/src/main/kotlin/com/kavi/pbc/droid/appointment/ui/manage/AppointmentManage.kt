@@ -31,7 +31,6 @@ import com.kavi.pbc.droid.appointment.R
 import com.kavi.pbc.droid.appointment.ui.common.AppointmentItem
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.Title
-import com.kavi.pbc.droid.lib.common.ui.component.event.EventListItem
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject

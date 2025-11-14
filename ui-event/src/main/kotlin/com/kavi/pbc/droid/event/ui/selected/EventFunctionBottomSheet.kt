@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -34,7 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kavi.pbc.droid.event.R
+import com.kavi.pbc.droid.event.ui.common.EventPotluckItemUI
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
+import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
 import java.util.Locale
@@ -44,7 +48,10 @@ class EventFunctionBottomSheet @Inject constructor() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun PotluckSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>) {
+    fun PotluckSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>, viewModel: EventSelectedViewModel = hiltViewModel()) {
+
+        val eventPotluckData = viewModel.eventPotluckData.collectAsState()
+
         ModalBottomSheet(
             sheetState = sheetState,
             onDismissRequest = {
@@ -60,10 +67,53 @@ class EventFunctionBottomSheet @Inject constructor() {
             ) {
                 if (Session.isLogIn()) {
                     Column {
+                        Text(
+                            text = stringResource(R.string.label_event_contribute_potluck),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
 
+                        HorizontalDivider(
+                            modifier = Modifier.padding(2.dp),
+                            thickness = 2.dp
+                        )
+
+                        Text(
+                            text = stringResource(R.string.phrase_event_contribute_potluck),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Justify,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp)
+                        )
+
+                        LazyColumn (
+                            modifier = Modifier
+                                .padding(top = 12.dp)
+                                .height(300.dp)
+                        ) {
+                            items(eventPotluckData.value.potluckItemList) { potluckItem ->
+                                EventPotluckItemUI(
+                                    modifier = Modifier.padding(bottom = 8.dp),
+                                    potluckItem = potluckItem,
+                                    currentUserContributions = viewModel.checkedCurrentUserContribution(potluckItem = potluckItem),
+                                    progress = viewModel.potluckItemProgress(potluckItem = potluckItem),
+                                    onSignUp = {
+                                        viewModel.signUpForPotluckItem(potluckItem = potluckItem)
+                                    },
+                                    onSignOut = {
+                                        viewModel.signOutFromPotluckItem(potluckItem = potluckItem)
+                                    }
+                                )
+                            }
+                        }
                     }
-                } else {
-                    InviteToSignUpUI()
                 }
             }
         }
@@ -176,8 +226,6 @@ class EventFunctionBottomSheet @Inject constructor() {
                             }
                         }
                     }
-                } else {
-                    InviteToSignUpUI()
                 }
             }
 
@@ -186,10 +234,5 @@ class EventFunctionBottomSheet @Inject constructor() {
                 viewModel.revokeActionFunctionStatus()
             }
         }
-    }
-
-    @Composable
-    fun InviteToSignUpUI() {
-
     }
 }

@@ -3,6 +3,8 @@ package com.kavi.pbc.droid.event.ui.selected
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckItem
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
@@ -30,6 +32,9 @@ class EventSelectedViewModel @Inject constructor(
     private val _eventRegistrationData = MutableStateFlow(EventRegistration("", 0))
     val eventRegistrationData: StateFlow<EventRegistration> = _eventRegistrationData
 
+    private val _eventPotluckData = MutableStateFlow(EventPotluck("", mutableListOf()))
+    val eventPotluckData: StateFlow<EventPotluck> = _eventPotluckData
+
     fun revokeActionFunctionStatus() {
         _actionFunctionStatus.value = false
     }
@@ -39,6 +44,30 @@ class EventSelectedViewModel @Inject constructor(
 
         if (_givenEvent.value.registrationRequired)
             fetchRegistrationDetails()
+
+        if (_givenEvent.value.potluckAvailable)
+            fetchPotluckDetails()
+    }
+
+    fun potluckItemProgress(potluckItem: EventPotluckItem): Float {
+        return (potluckItem.contributorList.size.toFloat() / potluckItem.availableCount.toFloat())
+    }
+
+    fun checkedCurrentUserContribution(potluckItem: EventPotluckItem): Int {
+        Session.user?.let { currentUser ->
+            val contribution = potluckItem.contributorList.filter { contributor -> contributor.contributorId == currentUser.id }
+            return contribution.size
+        }?: run {
+            return 0
+        }
+    }
+
+    fun signUpForPotluckItem(potluckItem: EventPotluckItem) {
+
+    }
+
+    fun signOutFromPotluckItem(potluckItem: EventPotluckItem) {
+
     }
 
     fun remainingSeatCountAvailable(): Int {
@@ -117,6 +146,21 @@ class EventSelectedViewModel @Inject constructor(
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
                         _eventRegistrationData.value = it
+                    }
+                }
+            }
+        }
+    }
+
+    private fun fetchPotluckDetails() {
+        viewModelScope.launch {
+            when(val response = remoteDataSource.getEventPotluck(_givenEvent.value.id!!)) {
+                is ResultWrapper.NetworkError -> {}
+                is ResultWrapper.HttpError -> {}
+                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        _eventPotluckData.value = it
                     }
                 }
             }

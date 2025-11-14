@@ -36,11 +36,11 @@ import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.data.model.EventMangeMode
 import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
+import com.kavi.pbc.droid.event.ui.common.EventItemForAdmin
 import com.kavi.pbc.droid.event.ui.manage.dialog.DeleteConfirmationDialog
 import com.kavi.pbc.droid.event.ui.manage.dialog.PublishConfirmationDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.Title
-import com.kavi.pbc.droid.lib.common.ui.component.event.EventItemForAdmin
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject
 
