@@ -8,4 +8,8 @@ data class EventPotluckItem(
     val itemName: String,
     val availableCount: Int,
     val contributorList: MutableList<EventPotluckContributor> = mutableListOf()
-)
+) {
+    fun completionProgress(): Float {
+        return (contributorList.size.toFloat() / availableCount.toFloat())
+    }
+}

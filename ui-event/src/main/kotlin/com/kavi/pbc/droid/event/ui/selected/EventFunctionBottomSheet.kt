@@ -38,7 +38,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.EventPotluckItemUI
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
-import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
 import java.util.Locale
@@ -103,7 +102,6 @@ class EventFunctionBottomSheet @Inject constructor() {
                                     modifier = Modifier.padding(bottom = 8.dp),
                                     potluckItem = potluckItem,
                                     currentUserContributions = viewModel.checkedCurrentUserContribution(potluckItem = potluckItem),
-                                    progress = viewModel.potluckItemProgress(potluckItem = potluckItem),
                                     onSignUp = {
                                         viewModel.signUpForPotluckItem(potluckItem = potluckItem)
                                     },

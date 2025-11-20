@@ -59,6 +59,7 @@ interface EventServiceApi {
     suspend fun signUpToPotluck(@Path("eventId") eventId: String, @Path("potluckItemId") potluckItemId: String,
                                 @Body potluckContributor: EventPotluckContributor): BaseResponse<EventPotluck>
 
-    @DELETE("/event/potluck/sign-out/{eventId}")
-    suspend fun signOutFromPotluck(@Path("eventId") eventId: String): BaseResponse<EventPotluck>
+    @DELETE("/event/potluck/sign-out/{eventId}/{potluckItemId}/{contributorId}")
+    suspend fun signOutFromPotluck(@Path("eventId") eventId: String, @Path("potluckItemId") potluckItemId: String,
+                                   @Path("contributorId") contributorId: String): BaseResponse<EventPotluck>
 }

@@ -13,10 +13,6 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,11 +32,8 @@ import java.util.Locale
 @Composable
 fun EventPotluckItemUI(modifier: Modifier = Modifier,
                        potluckItem: EventPotluckItem,
-                       progress: Float,
                        currentUserContributions: Int,
                        onSignUp: () -> Unit, onSignOut: () -> Unit) {
-    var progress by remember { mutableFloatStateOf(progress) }
-
     Row (
         modifier = modifier
             .fillMaxWidth()
@@ -100,7 +93,7 @@ fun EventPotluckItemUI(modifier: Modifier = Modifier,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 LinearProgressIndicator(
-                    progress = { progress },
+                    progress = { potluckItem.completionProgress() },
                     color = MaterialTheme.colorScheme.primary,
                     trackColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier
@@ -149,7 +142,6 @@ fun Preview_EventPotluckItemUI() {
             availableCount = 5,
             contributorList = mutableListOf()
         ),
-        progress = .5f,
         currentUserContributions = 0,
         onSignUp = {}, onSignOut = {}
     )

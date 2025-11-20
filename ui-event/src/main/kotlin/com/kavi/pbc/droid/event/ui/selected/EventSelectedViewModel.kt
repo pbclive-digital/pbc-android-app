@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
+import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckItem
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
@@ -49,25 +50,60 @@ class EventSelectedViewModel @Inject constructor(
             fetchPotluckDetails()
     }
 
-    fun potluckItemProgress(potluckItem: EventPotluckItem): Float {
-        return (potluckItem.contributorList.size.toFloat() / potluckItem.availableCount.toFloat())
-    }
-
     fun checkedCurrentUserContribution(potluckItem: EventPotluckItem): Int {
         Session.user?.let { currentUser ->
             val contribution = potluckItem.contributorList.filter { contributor -> contributor.contributorId == currentUser.id }
             return contribution.size
-        }?: run {
-            return 0
         }
+        return 0
     }
 
     fun signUpForPotluckItem(potluckItem: EventPotluckItem) {
+        Session.user?.let {
+            val eventPotluckContributor = EventPotluckContributor(
+                contributorId = it.id!!,
+                contributorName = "${it.firstName} ${it.lastName}",
+                contributorContactNumber = it.phoneNumber ?: run { "" }
+            )
 
+            viewModelScope.launch {
+                when(val response = remoteDataSource
+                    .signUpToPotluck(eventId =_givenEvent.value.id!!, potluckItemId = potluckItem.itemId, eventPotluckContributor)) {
+                    is ResultWrapper.NetworkError -> {}
+                    is ResultWrapper.HttpError -> {}
+                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let { updatedEventPotluck ->
+                            _eventPotluckData.value = updatedEventPotluck
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun signOutFromPotluckItem(potluckItem: EventPotluckItem) {
 
+        println("TEST SIGN OUT")
+
+        Session.user?.let {
+
+            println("TEST SIGN OUT: USER AVAILABLE")
+
+            viewModelScope.launch {
+                when(val response = remoteDataSource
+                    .signOutFromPotluck(eventId =_givenEvent.value.id!!, potluckItemId = potluckItem.itemId, contributorId = it.id!!)) {
+                    is ResultWrapper.NetworkError -> {}
+                    is ResultWrapper.HttpError -> {}
+                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let { updatedEventPotluck ->
+                            _eventPotluckData.value = updatedEventPotluck
+                        }
+                    }
+                }
+            }
+        }
     }
 
     fun remainingSeatCountAvailable(): Int {

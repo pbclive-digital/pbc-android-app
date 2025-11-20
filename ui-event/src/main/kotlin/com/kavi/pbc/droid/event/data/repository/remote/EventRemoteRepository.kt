@@ -70,4 +70,9 @@ class EventRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { eventServiceApi.signUpToPotluck(eventId = eventId,
             potluckItemId = potluckItemId, potluckContributor = contributor) }
     }
+
+    suspend fun signOutFromPotluck(eventId: String, potluckItemId: String, contributorId: String): ResultWrapper<BaseResponse<EventPotluck>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.signOutFromPotluck(eventId = eventId,
+            potluckItemId = potluckItemId, contributorId = contributorId) }
+    }
 }
