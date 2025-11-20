@@ -47,9 +47,20 @@ class EventFunctionBottomSheet @Inject constructor() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun PotluckSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>, viewModel: EventSelectedViewModel = hiltViewModel()) {
+    fun PotluckSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>,
+                       viewModel: EventSelectedViewModel = hiltViewModel()) {
 
         val eventPotluckData = viewModel.eventPotluckData.collectAsState()
+
+        val potluckItemCount = eventPotluckData.value.potluckItemList.size
+
+        val lazyColumHeight = if (potluckItemCount <= 3) {
+            400.dp
+        } else if(potluckItemCount in 4..6) {
+            500.dp
+        } else {
+            600.dp
+        }
 
         ModalBottomSheet(
             sheetState = sheetState,
@@ -95,7 +106,7 @@ class EventFunctionBottomSheet @Inject constructor() {
                         LazyColumn (
                             modifier = Modifier
                                 .padding(top = 12.dp)
-                                .height(300.dp)
+                                .height(lazyColumHeight)
                         ) {
                             items(eventPotluckData.value.potluckItemList) { potluckItem ->
                                 EventPotluckItemUI(

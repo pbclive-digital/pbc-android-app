@@ -255,7 +255,7 @@ class EventSelected @Inject constructor() {
                         }
                     }
 
-                    Spacer(modifier = Modifier.weight(1f))
+                    //Spacer(modifier = Modifier.weight(1f))
 
                     if (givenEvent.registrationRequired) {
                         var bottomPadding = 0.dp
