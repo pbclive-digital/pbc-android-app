@@ -58,7 +58,7 @@ class EventSelectedViewModel @Inject constructor(
         return 0
     }
 
-    fun signUpForPotluckItem(potluckItem: EventPotluckItem) {
+    fun signUpForPotluckItem(potluckItem: EventPotluckItem, onComplete: (isSuccess: Boolean)-> Unit) {
         Session.user?.let {
             val eventPotluckContributor = EventPotluckContributor(
                 contributorId = it.id!!,
@@ -69,12 +69,19 @@ class EventSelectedViewModel @Inject constructor(
             viewModelScope.launch {
                 when(val response = remoteDataSource
                     .signUpToPotluck(eventId =_givenEvent.value.id!!, potluckItemId = potluckItem.itemId, eventPotluckContributor)) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError -> {
+                        onComplete.invoke(false)
+                    }
+                    is ResultWrapper.HttpError -> {
+                        onComplete.invoke(false)
+                    }
+                    is ResultWrapper.UnAuthError -> {
+                        onComplete.invoke(false)
+                    }
                     is ResultWrapper.Success -> {
                         response.value.body?.let { updatedEventPotluck ->
                             _eventPotluckData.value = updatedEventPotluck
+                            onComplete.invoke(true)
                         }
                     }
                 }
@@ -82,23 +89,24 @@ class EventSelectedViewModel @Inject constructor(
         }
     }
 
-    fun signOutFromPotluckItem(potluckItem: EventPotluckItem) {
-
-        println("TEST SIGN OUT")
-
+    fun signOutFromPotluckItem(potluckItem: EventPotluckItem, onComplete: (isSuccess: Boolean)-> Unit) {
         Session.user?.let {
-
-            println("TEST SIGN OUT: USER AVAILABLE")
-
             viewModelScope.launch {
                 when(val response = remoteDataSource
                     .signOutFromPotluck(eventId =_givenEvent.value.id!!, potluckItemId = potluckItem.itemId, contributorId = it.id!!)) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError -> {
+                        onComplete.invoke(false)
+                    }
+                    is ResultWrapper.HttpError -> {
+                        onComplete.invoke(false)
+                    }
+                    is ResultWrapper.UnAuthError -> {
+                        onComplete.invoke(false)
+                    }
                     is ResultWrapper.Success -> {
                         response.value.body?.let { updatedEventPotluck ->
                             _eventPotluckData.value = updatedEventPotluck
+                            onComplete.invoke(true)
                         }
                     }
                 }

@@ -111,14 +111,10 @@ class EventFunctionBottomSheet @Inject constructor() {
                             items(eventPotluckData.value.potluckItemList) { potluckItem ->
                                 EventPotluckItemUI(
                                     modifier = Modifier.padding(bottom = 8.dp),
+                                    viewModel = viewModel,
                                     potluckItem = potluckItem,
-                                    currentUserContributions = viewModel.checkedCurrentUserContribution(potluckItem = potluckItem),
-                                    onSignUp = {
-                                        viewModel.signUpForPotluckItem(potluckItem = potluckItem)
-                                    },
-                                    onSignOut = {
-                                        viewModel.signOutFromPotluckItem(potluckItem = potluckItem)
-                                    }
+                                    currentUserContributions = viewModel
+                                        .checkedCurrentUserContribution(potluckItem = potluckItem)
                                 )
                             }
                         }
@@ -132,7 +128,7 @@ class EventFunctionBottomSheet @Inject constructor() {
     @Composable
     fun RegistrationSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>, viewModel: EventSelectedViewModel = hiltViewModel()) {
 
-        val registrationStatus by viewModel.actionFunctionStatus.collectAsState()
+        val actionStatus by viewModel.actionFunctionStatus.collectAsState()
         var isLoading by remember { mutableStateOf(false) }
 
         ModalBottomSheet(
@@ -238,8 +234,8 @@ class EventFunctionBottomSheet @Inject constructor() {
                 }
             }
 
-            if (registrationStatus) {
-                isLoading = false
+            if (actionStatus) {
+                isLoading = false // This is necessary to make it false, to stop the loading indicator.
                 viewModel.revokeActionFunctionStatus()
             }
         }

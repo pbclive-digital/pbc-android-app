@@ -24,7 +24,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -58,6 +60,7 @@ import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventItem
 import com.kavi.pbc.droid.lib.common.ui.component.news.NewsItem
+import com.kavi.pbc.droid.lib.common.ui.model.UIStatus
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
@@ -265,6 +268,7 @@ class Home @Inject constructor(
     @Composable
     private fun NewsColum(viewModel: HomeViewModel) {
 
+        val newsUiState by viewModel.newUIStatus.collectAsState()
         val dashboardNews by viewModel.dashboardNewsList.collectAsState()
 
         LaunchedEffect(Unit) {
@@ -281,15 +285,48 @@ class Home @Inject constructor(
                 fontSize = 28.sp
             )
 
-            Column {
-                dashboardNews.forEachIndexed { index,  news ->
-                    NewsItem(news = news)
-                    if (index < dashboardNews.lastIndex) {
-                        HorizontalDivider(
-                            modifier = Modifier.fillMaxWidth(),
-                            thickness = 1.dp,
-                            color = Color.LightGray
-                        )
+            Box {
+                when(newsUiState) {
+                    UIStatus.PENDING -> {
+                        Box(
+                            modifier = Modifier
+                                .height(100.dp)
+                                .fillMaxWidth(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+                    UIStatus.SUCCESS -> {
+                        Column {
+                            dashboardNews.forEachIndexed { index,  news ->
+                                NewsItem(news = news)
+                                if (index < dashboardNews.lastIndex) {
+                                    HorizontalDivider(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        thickness = 1.dp,
+                                        color = Color.LightGray
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    UIStatus.ERROR -> {
+                        Box (
+                            modifier = Modifier
+                                .padding(top = 12.dp)
+                                .fillMaxWidth()
+                                .height(100.dp)
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(MaterialTheme.colorScheme.surface),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(12.dp),
+                                text = stringResource(R.string.label_dashboard_no_news),
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }

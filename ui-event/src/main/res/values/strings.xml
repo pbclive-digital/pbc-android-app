@@ -51,6 +51,8 @@
     <string name="phrase_manage_events">This shows all On-Going / Upcoming events and Drafted events. Draft events are shown only in here. Only Admin users can see them till they published.</string>
     <string name="label_draft_events">Draft Events</string>
     <string name="label_active_events">Active Events</string>
+    <string name="label_event_no_active_event">No active event found</string>
+    <string name="label_event_no_draft_event">No active event found</string>
 
     <string name="label_event_delete_confirmation">Are you sure?</string>
     <string name="phrase_event_delete_confirmation">Do you want to delete this Event? Once you delete it, all the data related to this event will delete.</string>
@@ -68,4 +70,6 @@
     <string name="label_event_contribute_potluck">Potluck Contribution</string>
     <string name="phrase_event_contribute_potluck">Following are the potluck items that you can contribute on the event. By tapping on the item or tap on \'plus\' icon you can sign-up for that and by tap on \'X\' icon, you can sign-out.</string>
     <string name="label_event_user_contribution_count">You have already signed %d of %s(s)</string>
+    <string name="phrase_event_potluck_reg_failure">Failed to sign-in your name to this potluck at this time. Please try again later.</string>
+    <string name="phrase_event_potluck_unreg_failure">Failed to sign-out your name from this potluck at this time. Please try again later.</string>
 </resources>

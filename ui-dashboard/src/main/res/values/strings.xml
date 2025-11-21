@@ -18,4 +18,6 @@
     <string name="label_manage_user">Manage Users</string>
     <string name="label_create_news">Create News</string>
     <string name="label_message_broadcast">Broadcast Message</string>
+
+    <string name="label_dashboard_no_news">Failed to retrieve NEWS at this time, Please try again later to see latest NEWS from PBC</string>
 </resources>

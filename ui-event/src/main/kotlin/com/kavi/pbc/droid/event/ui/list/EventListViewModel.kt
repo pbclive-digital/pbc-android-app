@@ -22,14 +22,25 @@ class EventListViewModel @Inject constructor(
     private val _pastEventList = MutableStateFlow<List<Event>>(mutableListOf())
     val pastEventList: StateFlow<List<Event>> = _pastEventList
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     fun fetchUpcomingEvents(isForceFetch: Boolean = false) {
         if (_upcomingEventList.value.isEmpty() || isForceFetch) {
+            _isLoading.value = true
             viewModelScope.launch {
                 when (val response = remoteDataSource.getUpcomingEvents()) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError -> {
+                        _isLoading.value = false
+                    }
+                    is ResultWrapper.HttpError -> {
+                        _isLoading.value = false
+                    }
+                    is ResultWrapper.UnAuthError -> {
+                        _isLoading.value = false
+                    }
                     is ResultWrapper.Success -> {
+                        _isLoading.value = false
                         response.value.body?.let {
                             _upcomingEventList.value = it
                         }
@@ -42,11 +53,19 @@ class EventListViewModel @Inject constructor(
     fun fetchPastEvents(isForceFetch: Boolean = false) {
         if (_pastEventList.value.isEmpty() || isForceFetch) {
             viewModelScope.launch {
+                _isLoading.value = true
                 when (val response = remoteDataSource.getPastEvents()) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError -> {
+                        _isLoading.value = false
+                    }
+                    is ResultWrapper.HttpError -> {
+                        _isLoading.value = false
+                    }
+                    is ResultWrapper.UnAuthError -> {
+                        _isLoading.value = false
+                    }
                     is ResultWrapper.Success -> {
+                        _isLoading.value = false
                         response.value.body?.let {
                             _pastEventList.value = it
                         }

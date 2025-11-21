@@ -197,7 +197,7 @@ class EventManage @Inject constructor(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No draft event found",
+                        text = stringResource(R.string.label_event_no_draft_event),
                         textAlign = TextAlign.Center,
                     )
                 }
@@ -256,7 +256,7 @@ class EventManage @Inject constructor(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = "No active event found",
+                        text = stringResource(R.string.label_event_no_active_event),
                         textAlign = TextAlign.Center
                     )
                 }
