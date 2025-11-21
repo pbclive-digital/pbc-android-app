@@ -287,6 +287,7 @@ class Home @Inject constructor(
 
             Box {
                 when(newsUiState) {
+                    UIStatus.INACTIVE -> { /* No implementation */}
                     UIStatus.PENDING -> {
                         Box(
                             modifier = Modifier

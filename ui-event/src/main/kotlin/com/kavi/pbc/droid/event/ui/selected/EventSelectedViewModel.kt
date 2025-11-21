@@ -177,10 +177,6 @@ class EventSelectedViewModel @Inject constructor(
         }
     }
 
-    fun registerToPotluckItem() {
-
-    }
-
     private fun fetchRegistrationDetails() {
         viewModelScope.launch {
             when(val response = remoteDataSource.getEventRegistration(_givenEvent.value.id!!)) {

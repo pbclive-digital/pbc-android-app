@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.user.ui.manage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.user.User
+import com.kavi.pbc.droid.lib.common.ui.model.UIStatus
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.user.data.model.SearchModel
 import com.kavi.pbc.droid.user.data.model.UserRoleUpdateReq
@@ -19,14 +20,14 @@ class UserManageViewModel @Inject constructor(
     private val remoteDataSource: UserRemoteRepository
 ): ViewModel() {
 
-    private val _nameOrEmailValidateState = MutableStateFlow(false)
-    val nameOrEmailValidateState: StateFlow<Boolean> = _nameOrEmailValidateState
-
     private val _userTypeModificationStatus = MutableStateFlow(false)
     val userTypeModificationStatus: StateFlow<Boolean> = _userTypeModificationStatus
 
     private val _userResultList = MutableStateFlow<MutableList<User>>(mutableListOf())
     val userResultList: StateFlow<MutableList<User>> = _userResultList
+
+    private val _userResultUiState = MutableStateFlow(UIStatus.INACTIVE)
+    val userResultUiStatus: StateFlow<UIStatus> = _userResultUiState
 
     private val _selectedUser = MutableStateFlow(User(email = ""))
     val selectedUser: StateFlow<User> = _selectedUser
@@ -35,11 +36,12 @@ class UserManageViewModel @Inject constructor(
     private var givenEmail = ""
 
     fun findUser(nameOrEmail: String?) {
+        _userResultUiState.value = UIStatus.PENDING
         when(validateNameOrEmail(nameOrEmail = nameOrEmail)) {
             SearchModel.EMAIL_SEARCH -> fetchUserByEmail()
             SearchModel.NAME_SEARCH -> fetchUserByName()
             SearchModel.INVALID -> {
-                _nameOrEmailValidateState.value = false
+                _userResultUiState.value = UIStatus.ERROR
             }
         }
     }
@@ -76,6 +78,14 @@ class UserManageViewModel @Inject constructor(
         _selectedUser.value = selectedUser
     }
 
+    fun clearSearchList() {
+        _userResultList.value = mutableListOf()
+    }
+
+    fun revokeUserSearchUiStatus() {
+        _userResultUiState.value = UIStatus.INACTIVE
+    }
+
     private fun updateGivenUserInResultList(user: User) {
         val newList = _userResultList.value
             .filterNot { it.id == user.id }
@@ -88,11 +98,18 @@ class UserManageViewModel @Inject constructor(
     private fun fetchUserByEmail() {
         viewModelScope.launch {
             when(val response = remoteDataSource.getUserByEmail(email = givenEmail)) {
-                is ResultWrapper.NetworkError -> {}
-                is ResultWrapper.HttpError -> {}
-                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.NetworkError -> {
+                    _userResultUiState.value = UIStatus.ERROR
+                }
+                is ResultWrapper.HttpError -> {
+                    _userResultUiState.value = UIStatus.ERROR
+                }
+                is ResultWrapper.UnAuthError -> {
+                    _userResultUiState.value = UIStatus.ERROR
+                }
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
+                        _userResultUiState.value = UIStatus.SUCCESS
                         val dataList = mutableListOf(it)
                         _userResultList.value = dataList
                     }
@@ -104,11 +121,18 @@ class UserManageViewModel @Inject constructor(
     private fun fetchUserByName() {
         viewModelScope.launch {
             when(val response = remoteDataSource.getUserByName(name = givenName)) {
-                is ResultWrapper.NetworkError -> {}
-                is ResultWrapper.HttpError -> {}
-                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.NetworkError -> {
+                    _userResultUiState.value = UIStatus.ERROR
+                }
+                is ResultWrapper.HttpError -> {
+                    _userResultUiState.value = UIStatus.ERROR
+                }
+                is ResultWrapper.UnAuthError -> {
+                    _userResultUiState.value = UIStatus.ERROR
+                }
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
+                        _userResultUiState.value = UIStatus.SUCCESS
                         _userResultList.value = it
                     }
                 }

@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.user.ui.manage
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,10 +25,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
@@ -35,10 +37,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.kavi.pbc.droid.data.dto.user.User
+import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineTextField
 import com.kavi.pbc.droid.lib.common.ui.component.Title
+import com.kavi.pbc.droid.lib.common.ui.model.UIStatus
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.user.R
 import com.kavi.pbc.droid.user.ui.common.UserListItem
@@ -53,6 +56,8 @@ class UserManage @Inject constructor() {
     @Composable
     fun UserManageUI(navController: NavController, viewModel: UserManageViewModel = hiltViewModel()) {
 
+        val context = LocalContext.current
+
         val userNameOrEmail = remember { mutableStateOf(TextFieldValue("")) }
         val userResultList by viewModel.userResultList.collectAsState()
 
@@ -64,106 +69,119 @@ class UserManage @Inject constructor() {
         )
         val showViewSheet = remember { mutableStateOf(false) }
 
-        //var selectedUser by remember { mutableStateOf(User(email = "")) }
-        val selectedUser by viewModel.selectedUser.collectAsState()
+        val userSearchStatus by viewModel.userResultUiStatus.collectAsState()
 
-        Box(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(top = 56.dp, start = 16.dp, end = 16.dp)
-                .fillMaxSize()
-        ) {
-            Column(
+        Box {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(top = 56.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxSize()
             ) {
-                Title(
-                    modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                    titleText = stringResource(R.string.label_user_manage),
-                )
-
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 30.dp),
-                    horizontalAlignment = Alignment.Companion.CenterHorizontally
+                        .fillMaxWidth()
                 ) {
-                    Text(
-                        text = stringResource(R.string.phrase_user_manage),
-                        fontFamily = PBCFontFamily,
-                        fontSize = 16.sp,
-                        textAlign = TextAlign.Companion.Justify,
-                        color = MaterialTheme.colorScheme.onSurface,
-                        modifier = Modifier
-                            .fillMaxWidth()
+                    Title(
+                        modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                        titleText = stringResource(R.string.label_user_manage),
                     )
 
-                    Row(
+                    Column(
                         modifier = Modifier
-                            .padding(top = 8.dp)
-                            .fillMaxWidth(),
-                        verticalAlignment = Alignment.Companion.CenterVertically,
-                        horizontalArrangement = Arrangement.Center
+                            .fillMaxSize()
+                            .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 30.dp),
+                        horizontalAlignment = Alignment.Companion.CenterHorizontally
                     ) {
-                        AppOutlineTextField(
+                        Text(
+                            text = stringResource(R.string.phrase_user_manage),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 16.sp,
+                            textAlign = TextAlign.Companion.Justify,
+                            color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
-                                .padding(top = 8.dp),
-                            headingText = stringResource(R.string.label_user_search_value).uppercase(),
-                            contentText = userNameOrEmail,
-                            onValueChange = { newValue ->
-                                userNameOrEmail.value = newValue
-                            }
+                                .fillMaxWidth()
                         )
 
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        AppIconButton(
-                            modifier = Modifier.padding(top = 12.dp),
-                            icon = painterResource(R.drawable.icon_user_search),
-                            buttonSize = 50.dp
-                        ) {
-                            viewModel.findUser(userNameOrEmail.value.text)
-                        }
-                    }
-
-                    if (userResultList.isNotEmpty()) {
-                        LazyColumn (
+                        Row(
                             modifier = Modifier
-                                .fillMaxHeight()
-                                .fillMaxWidth()
-                                .padding(top = 20.dp)
+                                .padding(top = 8.dp)
+                                .fillMaxWidth(),
+                            verticalAlignment = Alignment.Companion.CenterVertically,
+                            horizontalArrangement = Arrangement.Center
                         ) {
-                            items(userResultList) { user ->
-                                UserListItem(user = user, modifier = Modifier.padding(bottom = 4.dp), onModify = {
-                                    //selectedUser = user
-                                    viewModel.updateSelectedUser(user)
-                                    showModifySheet.value = true
-                                }, onView = {
-                                    //selectedUser = user
-                                    viewModel.updateSelectedUser(user)
-                                    showViewSheet.value = true
-                                })
+                            AppOutlineTextField(
+                                modifier = Modifier
+                                    .padding(top = 8.dp),
+                                headingText = stringResource(R.string.label_user_search_value).uppercase(),
+                                contentText = userNameOrEmail,
+                                onValueChange = { newValue ->
+                                    userNameOrEmail.value = newValue
+                                }
+                            )
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            AppIconButton(
+                                modifier = Modifier.padding(top = 12.dp),
+                                icon = painterResource(R.drawable.icon_user_search),
+                                buttonSize = 50.dp
+                            ) {
+                                viewModel.findUser(userNameOrEmail.value.text)
+                            }
+
+                            Spacer(modifier = Modifier.width(4.dp))
+
+                            AppIconButton(
+                                modifier = Modifier.padding(top = 12.dp),
+                                icon = painterResource(R.drawable.icon_user_clear),
+                                buttonSize = 50.dp
+                            ) {
+                                userNameOrEmail.value = TextFieldValue()
+                                viewModel.clearSearchList()
                             }
                         }
-                    } else {
-                        Box (
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .fillMaxWidth()
-                                .height(50.dp)
-                                .padding(top = 20.dp)
-                                .clip(RoundedCornerShape(12.dp))
-                                .background(MaterialTheme.colorScheme.background),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = stringResource(R.string.label_user_search_empty),
-                                textAlign = TextAlign.Center,
-                            )
+
+                        if (userResultList.isNotEmpty()) {
+                            LazyColumn (
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth()
+                                    .padding(top = 20.dp)
+                            ) {
+                                items(userResultList) { user ->
+                                    UserListItem(user = user, modifier = Modifier.padding(bottom = 4.dp), onModify = {
+                                        viewModel.updateSelectedUser(user)
+                                        showModifySheet.value = true
+                                    }, onView = {
+                                        viewModel.updateSelectedUser(user)
+                                        showViewSheet.value = true
+                                    })
+                                }
+                            }
+                        } else {
+                            Box (
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth()
+                                    .height(50.dp)
+                                    .padding(top = 20.dp)
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(MaterialTheme.colorScheme.background),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.label_user_search_empty),
+                                    textAlign = TextAlign.Center,
+                                )
+                            }
                         }
                     }
                 }
             }
+
+            if (userSearchStatus == UIStatus.PENDING)
+                AppFullScreenLoader()
         }
 
         if (showModifySheet.value) {
@@ -172,6 +190,11 @@ class UserManage @Inject constructor() {
 
         if (showViewSheet.value) {
             userFunctionBottomSheet.UserViewBottomSheet(sheetState = viewUserSheetState, showSheet = showViewSheet)
+        }
+
+        if (userSearchStatus == UIStatus.ERROR) {
+            Toast.makeText(context, stringResource(R.string.label_user_search_error), Toast.LENGTH_LONG)
+            viewModel.revokeUserSearchUiStatus()
         }
     }
 }

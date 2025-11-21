@@ -37,7 +37,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.kavi.pbc.droid.auth.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
-import com.kavi.pbc.droid.lib.common.ui.component.AppLoader
+import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
@@ -187,7 +187,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
     }
 
     if(isLoading) {
-        AppLoader()
+        AppFullScreenLoader()
     }
 
     if (onUserCreated) {

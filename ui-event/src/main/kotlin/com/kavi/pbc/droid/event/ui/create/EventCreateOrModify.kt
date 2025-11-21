@@ -34,7 +34,7 @@ import com.kavi.pbc.droid.event.ui.create.common.NavigatorPanel
 import com.kavi.pbc.droid.event.ui.create.pager.EventImageInformation
 import com.kavi.pbc.droid.event.ui.create.pager.InitialInformation
 import com.kavi.pbc.droid.event.ui.create.pager.SecondaryInformation
-import com.kavi.pbc.droid.lib.common.ui.component.AppLoader
+import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -95,104 +95,124 @@ class EventCreateOrModify @Inject constructor() {
             viewModel.setModifyingEvent(eventKey = modifyingEventKey)
         }
 
-        Box (
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.surface)
-                .padding(top = 56.dp, start = 16.dp, end = 16.dp)
-                .fillMaxSize()
-        ) {
-            Column(
+        Box {
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(top = 56.dp, start = 16.dp, end = 16.dp)
+                    .fillMaxSize()
             ) {
-                Title(
-                    modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                    titleText = if(isModify) stringResource(R.string.label_modify_event) else stringResource(R.string.label_create_event),
-                )
-
-                Column (
+                Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = 12.dp, bottom = 30.dp)
-                        .verticalScroll(rememberScrollState())
+                        .fillMaxWidth()
                 ) {
-                    HorizontalPager(
-                        state = pagerState,
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        userScrollEnabled = false,
-                        contentPadding = PaddingValues(horizontal = 0.dp),
-                        snapPosition = SnapPosition.Center
-                    ) { page ->
-                        when (page) {
-                            0 -> { initialInformation.InitialInformationUI() }
-                            1 -> { secondaryInformation.SecondaryInformationUI() }
-                            2 -> { eventImageInformation.EventImageUI() }
-                        }
-                    }
+                    Title(
+                        modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                        titleText = if (isModify) stringResource(R.string.label_modify_event) else stringResource(
+                            R.string.label_create_event
+                        ),
+                    )
 
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    NavigatorPanel(
+                    Column(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 12.dp, start = 4.dp, end = 4.dp, bottom = 8.dp),
-                        hidePrev = hidePrev,
-                        hideNext = hideNext,
-                        makeFinish = makeFinish,
-                        isModify = isModify,
-                        onPrevious = {
-                            scope.launch {
-                                if (pagerState.currentPage != 0) {
-                                    val prevPage = (pagerState.currentPage - 1 + pageCount) % pageCount
-                                    pagerState.animateScrollToPage(prevPage)
+                            .fillMaxSize()
+                            .padding(top = 12.dp, bottom = 30.dp)
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        HorizontalPager(
+                            state = pagerState,
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            userScrollEnabled = false,
+                            contentPadding = PaddingValues(horizontal = 0.dp),
+                            snapPosition = SnapPosition.Center
+                        ) { page ->
+                            when (page) {
+                                0 -> {
+                                    initialInformation.InitialInformationUI()
+                                }
+
+                                1 -> {
+                                    secondaryInformation.SecondaryInformationUI()
+                                }
+
+                                2 -> {
+                                    eventImageInformation.EventImageUI()
                                 }
                             }
-                        },
-                        onNext = {
-                            scope.launch {
-                                if (pagerState.currentPage != (pageCount - 1)) {
-                                    var gotoNext =  false
-                                    when(pagerState.currentPage) {
-                                        0 -> {
-                                            gotoNext = viewModel.validateFirstPage()
-                                        }
-                                        1 -> {
-                                            gotoNext = viewModel.validateSecondPage()
-                                        }
-                                        2 -> gotoNext = true
-                                    }
+                        }
 
-                                    if (!makeFinish) {
-                                        if (gotoNext) {
-                                            val nextPage = (pagerState.currentPage + 1) % pageCount
-                                            pagerState.animateScrollToPage(nextPage)
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        NavigatorPanel(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp, start = 4.dp, end = 4.dp, bottom = 8.dp),
+                            hidePrev = hidePrev,
+                            hideNext = hideNext,
+                            makeFinish = makeFinish,
+                            isModify = isModify,
+                            onPrevious = {
+                                scope.launch {
+                                    if (pagerState.currentPage != 0) {
+                                        val prevPage =
+                                            (pagerState.currentPage - 1 + pageCount) % pageCount
+                                        pagerState.animateScrollToPage(prevPage)
+                                    }
+                                }
+                            },
+                            onNext = {
+                                scope.launch {
+                                    if (pagerState.currentPage != (pageCount - 1)) {
+                                        var gotoNext = false
+                                        when (pagerState.currentPage) {
+                                            0 -> {
+                                                gotoNext = viewModel.validateFirstPage()
+                                            }
+
+                                            1 -> {
+                                                gotoNext = viewModel.validateSecondPage()
+                                            }
+
+                                            2 -> gotoNext = true
+                                        }
+
+                                        if (!makeFinish) {
+                                            if (gotoNext) {
+                                                val nextPage =
+                                                    (pagerState.currentPage + 1) % pageCount
+                                                pagerState.animateScrollToPage(nextPage)
+                                            } else {
+                                                Toast.makeText(
+                                                    context,
+                                                    context.getString(R.string.phrase_validation_failure_form_one),
+                                                    Toast.LENGTH_LONG
+                                                ).show()
+                                            }
                                         } else {
-                                            Toast.makeText(
-                                                context,
-                                                context.getString(R.string.phrase_validation_failure_form_one),
-                                                Toast.LENGTH_LONG
-                                            ).show()
+                                            isLoading.value = true
+                                            viewModel.uploadEventImageAndCreateOrUpdateEvent(
+                                                isModify = isModify
+                                            )
                                         }
                                     } else {
-                                        isLoading.value = true
-                                        viewModel.uploadEventImageAndCreateOrUpdateEvent(isModify = isModify)
-                                    }
-                                } else {
-                                    if (makeFinish) {
-                                        isLoading.value = true
-                                        viewModel.uploadEventImageAndCreateOrUpdateEvent(isModify = isModify)
+                                        if (makeFinish) {
+                                            isLoading.value = true
+                                            viewModel.uploadEventImageAndCreateOrUpdateEvent(
+                                                isModify = isModify
+                                            )
+                                        }
                                     }
                                 }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
             }
-        }
 
-        if(isLoading.value) {
-            AppLoader()
+            if (isLoading.value) {
+                AppFullScreenLoader()
+            }
         }
 
         if (eventCreateOrUpdateStatus) {

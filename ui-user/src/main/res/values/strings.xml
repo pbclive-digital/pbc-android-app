@@ -5,6 +5,7 @@
     <string name="label_user_search_value">Email / Name</string>
     <string name="label_user_search_button">Search</string>
     <string name="label_user_search_empty">No User Found / Searched</string>
+    <string name="label_user_search_error">Invalid name, email or issue on searching. Please verify the provided name or email.</string>
 
     <string name="label_user_modify_role">Modify User\'s Role</string>
     <string name="phrase_user_modify_role">This is to assign new role to selected user. You can select any predefined user roles in the app and assign that to user. Below drop-down menu already selected the current role of the selected user.</string>
