@@ -24,6 +24,10 @@ android {
             initWith(getByName("debug"))
             matchingFallbacks.add("debug")
         }
+        create("staging-release") {
+            initWith(getByName("release"))
+            matchingFallbacks.add("release")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(

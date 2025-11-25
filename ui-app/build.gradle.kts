@@ -28,6 +28,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        /*
+        * This is a sign-in configuration to staging-release variant. This provided certificate path is from the
+        * `pbc-app-secrets` private repository.
+        * */
+        create("staging-release") {
+            storeFile = file("../../pbc-app-secrets/android-staging-sign-in-certificate/PBCLive-staging-keystore.jks")
+            storePassword = "PBC123!"
+            keyAlias = "PBCLive_alias"
+            keyPassword = "PBC123!"
+        }
+    }
+
     buildTypes {
         debug {
             applicationIdSuffix = ".debug"
@@ -40,6 +53,21 @@ android {
             applicationIdSuffix = ".debug"
 
             matchingFallbacks.add("debug")
+        }
+        create("staging-release") {
+            initWith(getByName("release"))
+            applicationIdSuffix = ".debug"
+            matchingFallbacks.add("release")
+
+            isMinifyEnabled = false
+            isDebuggable = false
+
+            signingConfig = signingConfigs.getByName("staging-release")
+
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
         release {
             isMinifyEnabled = false
