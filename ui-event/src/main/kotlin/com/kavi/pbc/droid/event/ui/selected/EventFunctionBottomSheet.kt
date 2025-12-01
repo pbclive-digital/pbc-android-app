@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.EventPotluckItemUI
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
@@ -67,7 +68,8 @@ class EventFunctionBottomSheet @Inject constructor() {
             onDismissRequest = {
                 showSheet.value = false
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            scrimColor = MaterialTheme.colorScheme.shadow.copy(alpha = .5f)
         ) {
             Box (
                 modifier = Modifier
@@ -136,7 +138,8 @@ class EventFunctionBottomSheet @Inject constructor() {
             onDismissRequest = {
                 showSheet.value = false
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            scrimColor = MaterialTheme.colorScheme.shadow.copy(alpha = .5f)
         ) {
             Box (
                 modifier = Modifier

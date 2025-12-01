@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.user.User
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.lib.common.ui.component.AppDropDownMenu
@@ -62,7 +63,8 @@ class UserFunctionBottomSheet @Inject constructor() {
             onDismissRequest = {
                 showSheet.value = false
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            scrimColor = MaterialTheme.colorScheme.shadow.copy(alpha = .5f)
         ) {
             Column (
                 modifier = Modifier
@@ -131,7 +133,8 @@ class UserFunctionBottomSheet @Inject constructor() {
             onDismissRequest = {
                 showSheet.value = false
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            scrimColor = MaterialTheme.colorScheme.shadow.copy(alpha = .5f)
         ) {
             Box (
                 modifier = Modifier

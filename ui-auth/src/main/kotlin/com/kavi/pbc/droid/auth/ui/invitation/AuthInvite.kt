@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.auth.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -40,7 +41,8 @@ class AuthInvite @Inject constructor() {
             onDismissRequest = {
                 showSheet.value = false
             },
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
+            scrimColor = MaterialTheme.colorScheme.shadow.copy(alpha = .5f)
         ) {
             Box (
                 modifier = Modifier
