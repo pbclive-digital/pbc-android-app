@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.appointment.ui.common
 
+import android.widget.Space
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,21 +25,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.appointment.Appointment
+import com.kavi.pbc.droid.data.dto.appointment.AppointmentStatus
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
 
 @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
-fun AppointmentItem(modifier: Modifier = Modifier, appointment: Appointment) {
+fun AppointmentItem(modifier: Modifier = Modifier, appointment: Appointment,
+                    onDelete:() -> Unit, onModify:() -> Unit) {
 
     BoxWithConstraints (
         modifier = modifier.padding(top = 2.dp)
     ) {
+        val textLength = (maxWidth.value * .65f).dp
+
         Row (
             modifier = Modifier
                 .padding(4.dp)
@@ -69,15 +76,22 @@ fun AppointmentItem(modifier: Modifier = Modifier, appointment: Appointment) {
                     }
                 }
 
-                Text(
-                    text = titleText,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontFamily = PBCFontFamily,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row {
+                    Text(
+                        modifier = Modifier.width(textLength),
+                        text = titleText,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontFamily = PBCFontFamily,
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    AppointmentStatusTag(appointmentStatus = appointment.appointmentStatus)
+                }
 
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -105,7 +119,7 @@ fun AppointmentItem(modifier: Modifier = Modifier, appointment: Appointment) {
                                 .size(40.dp)
                                 .padding(4.dp)
                                 .clickable {
-                                    //onModify.invoke()
+                                    onModify.invoke()
                                 }
                         )
                         /*if (isDraftEvent) {
@@ -129,7 +143,7 @@ fun AppointmentItem(modifier: Modifier = Modifier, appointment: Appointment) {
                                 .size(40.dp)
                                 .padding(4.dp)
                                 .clickable {
-                                    //onDelete.invoke()
+                                    onDelete.invoke()
                                 }
                         )
                     }

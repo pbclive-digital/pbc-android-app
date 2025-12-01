@@ -38,8 +38,8 @@ fun AppOutlineTextField(
         value = contentText.value,
         maxLines = 1,
         label = { Text(text = headingText) },
-        onValueChange = { newColorHex ->
-            onValueChange?.invoke(newColorHex)
+        onValueChange = { newValue ->
+            onValueChange?.invoke(newValue)
         },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType)
     )
@@ -69,8 +69,8 @@ fun AppOutlineMultiLineTextField(
         value = contentText.value,
         maxLines = maxLines,
         label = { Text(text = headingText) },
-        onValueChange = { newColorHex ->
-            onValueChange?.invoke(newColorHex)
+        onValueChange = { newValue ->
+            onValueChange?.invoke(newValue)
         }
     )
 }

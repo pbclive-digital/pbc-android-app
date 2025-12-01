@@ -3,6 +3,22 @@
     <string name="label_appointments">Appointments</string>
     <string name="phase_appointments">From here you can make an appointment with any residence monk in Pittsburgh Buddhist Center. This will helps Bhanthe to plan their calendar to available for you.</string>
 
-    <string name="label_make_appointments">Make an Appointment</string>
-    <string name="label_new_appointments">New Appointment</string>
+    <string name="label_appointment_make">Make an Appointment</string>
+    <string name="label_appointment_new">New Appointment</string>
+
+    <string name="label_appointment_title">Title</string>
+    <string name="label_appointment_when">When</string>
+    <string name="phase_appointment_when">Select your date and time to have an appointment with Monk.</string>
+    <string name="label_appointment_with">With</string>
+    <string name="label_appointment_with_select">Select a monk</string>
+    <string name="phase_appointment_with">Select with which bhanthe you want to make an appointment with or keep it empty, available bhanthe will pick your appointment.</string>
+    <string name="label_appointment_why">Why</string>
+    <string name="label_appointment_reason">Brief Reason for appointment</string>
+    <string name="phase_appointment_why">Please provide a brief about you appointment. This will help bhanthe to prepare before the appointment</string>
+    <string name="label_appointment_create">Create Appointment</string>
+    <string name="label_appointment_modify">Modify Appointment</string>
+
+    <string name="label_appointment_create_failed">Failed to create new appointment now. Please try again late.</string>
+    <string name="label_appointment_delete_success">Successfully deleted the Appointment.</string>
+    <string name="label_appointment_delete_failed">Failed to delete the appointment now. Please try again late.</string>
 </resources>

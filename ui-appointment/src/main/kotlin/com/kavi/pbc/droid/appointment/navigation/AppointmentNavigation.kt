@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.appointment.ui.create.AppointmentCreate
+import com.kavi.pbc.droid.appointment.ui.create.AppointmentCreateOrModify
 import com.kavi.pbc.droid.appointment.ui.manage.AppointmentManage
 import javax.inject.Inject
 
@@ -17,7 +17,7 @@ class AppointmentNavigation @Inject constructor() {
     lateinit var appointmentManage: AppointmentManage
 
     @Inject
-    lateinit var appointmentCreate: AppointmentCreate
+    lateinit var appointmentCreateOrModify: AppointmentCreateOrModify
 
     @Composable
     fun AppointmentNavGraph(startDestination: String = "appointment/appointment-manage") {
@@ -31,7 +31,12 @@ class AppointmentNavigation @Inject constructor() {
                 appointmentManage.AppointmentManageUI(navController = navController)
             }
             composable (route = "appointment/appointment-create") {
-                appointmentCreate.AppointmentCreateUI(navController = navController)
+                appointmentCreateOrModify.AppointmentCreateOrModifyUI(navController = navController)
+            }
+            composable (route = "appointment/appointment-edit/{appointmentKey}") { backStackEntry ->
+                val appointmentKey = backStackEntry.arguments?.getString("appointmentKey")
+                appointmentCreateOrModify.AppointmentCreateOrModifyUI(navController = navController,
+                    modifyingAppointmentKey = appointmentKey)
             }
         }
     }

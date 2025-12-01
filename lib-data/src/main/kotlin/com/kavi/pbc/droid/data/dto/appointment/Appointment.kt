@@ -7,14 +7,15 @@ import java.util.Date
 
 @Serializable
 data class Appointment(
-    val id: String,
-    val userId: String,
+    val id: String? = null,
+    var title: String = "",
+    val userId: String = "",
     val user: User,
-    val selectedMonkId: String,
-    val selectedMonk: User? = null,
-    val date: Long,
-    val time: String,
-    val reason: String,
+    var selectedMonkId: String = "",
+    var selectedMonk: User? = null,
+    var date: Long = 0,
+    var time: String = "",
+    var reason: String = "",
     val appointmentStatus: AppointmentStatus = AppointmentStatus.PENDING
 ) {
     fun getFormatDate(): String {
