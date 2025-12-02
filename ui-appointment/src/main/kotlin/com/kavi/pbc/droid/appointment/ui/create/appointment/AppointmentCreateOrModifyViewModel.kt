@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.appointment.ui.create
+package com.kavi.pbc.droid.appointment.ui.create.appointment
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +20,7 @@ import javax.inject.Inject
 import kotlin.text.ifEmpty
 
 @HiltViewModel
-class AppointmentCreateViewModel @Inject constructor(
+class AppointmentCreateOrModifyViewModel @Inject constructor(
     val localRepository: AppointmentLocalRepository,
     val remoteRepository: AppointmentRemoteRepository
 ): ViewModel() {

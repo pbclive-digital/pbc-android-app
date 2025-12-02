@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_appointments">Appointments</string>
+    <string name="label_appointment_requests">Requests</string>
     <string name="phase_appointments">From here you can make an appointment with any residence monk in Pittsburgh Buddhist Center. This will helps Bhanthe to plan their calendar to available for you.</string>
 
     <string name="label_appointment_make">Make an Appointment</string>
@@ -17,8 +18,19 @@
     <string name="phase_appointment_why">Please provide a brief about you appointment. This will help bhanthe to prepare before the appointment</string>
     <string name="label_appointment_create">Create Appointment</string>
     <string name="label_appointment_modify">Modify Appointment</string>
+    <string name="label_appointment_how">How</string>
+    <string name="phrase_appointment_how">Select which way you are comfortable to have an appointment by Remote \/ ON-Site</string>
+    <string name="label_appointment_how_select">Select</string>
 
     <string name="label_appointment_create_failed">Failed to create new appointment now. Please try again late.</string>
     <string name="label_appointment_delete_success">Successfully deleted the Appointment.</string>
     <string name="label_appointment_delete_failed">Failed to delete the appointment now. Please try again late.</string>
+
+    <string name="label_appointment_request">Appointment Request</string>
+    <string name="label_appointment_request_create">Create Appointment Request</string>
+    <string name="label_appointment_request_modify">Modify Appointment Request</string>
+    <string name="label_appointment_req_delete_success">Successfully deleted the Appointment Request.</string>
+    <string name="label_appointment_req_delete_failed">Failed to delete the appointment request now. Please try again late.</string>
+
+    <string name="phrase_appointment_create_stop">You already created 3 appointment requests/appointments.</string>
 </resources>

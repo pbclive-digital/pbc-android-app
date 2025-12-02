@@ -2,6 +2,7 @@ package com.kavi.pbc.droid.appointment.data.repository.local
 
 import com.kavi.pbc.droid.data.dto.Config
 import com.kavi.pbc.droid.data.dto.appointment.Appointment
+import com.kavi.pbc.droid.data.dto.appointment.AppointmentRequest
 import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
 import com.kavi.pbc.droid.lib.datastore.DataKey
 import java.util.UUID
@@ -23,5 +24,16 @@ class AppointmentLocalRepository @Inject constructor(
     fun getModifyingAppointment(tempAppointmentKey: String): Result<Appointment> {
         val appointment = inMemoryStore.retrieveValue<Appointment>(key = tempAppointmentKey)
         return appointment
+    }
+
+    fun setModifyingAppointmentRequest(appointmentReq: AppointmentRequest): String {
+        val randomAppointmentReqKey = UUID.randomUUID().toString()
+        inMemoryStore.storeValue(randomAppointmentReqKey, appointmentReq)
+        return randomAppointmentReqKey
+    }
+
+    fun getModifyingAppointmentRequest(tempAppointmentReqKey: String): Result<AppointmentRequest> {
+        val appointmentReq = inMemoryStore.retrieveValue<AppointmentRequest>(key = tempAppointmentReqKey)
+        return appointmentReq
     }
 }
