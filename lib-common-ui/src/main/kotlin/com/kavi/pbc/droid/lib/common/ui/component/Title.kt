@@ -23,6 +23,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -49,7 +50,11 @@ fun Title(modifier: Modifier = Modifier, titleText: String) {
 }
 
 @Composable
-fun TitleWithAction(modifier: Modifier = Modifier, titleText: String, icon: Painter, iconAction: (() -> Unit)? = null) {
+fun TitleWithAction(modifier: Modifier = Modifier,
+                    titleText: String,
+                    icon: Painter,
+                    iconSize: Dp = 56.dp,
+                    iconAction: (() -> Unit)? = null) {
     Row (
         modifier = modifier
             .fillMaxWidth(),
@@ -66,10 +71,9 @@ fun TitleWithAction(modifier: Modifier = Modifier, titleText: String, icon: Pain
         Image(
             painter = icon,
             contentDescription = "Dhamma chakra icon",
-            contentScale = ContentScale.Companion.Crop,
-            modifier = Modifier.Companion
-                .size(56.dp)
-                .clip(CircleShape)
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(iconSize)
                 .clickable {
                     iconAction?.invoke()
                 }

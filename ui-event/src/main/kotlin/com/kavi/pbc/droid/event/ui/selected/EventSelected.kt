@@ -45,10 +45,12 @@ import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.VenueType
+import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
+import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
@@ -100,10 +102,43 @@ class EventSelected @Inject constructor() {
                     .fillMaxWidth()
                     .height(screenHeight)
             ) {
-                Title(
-                    modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                    titleText = stringResource(R.string.label_event),
-                )
+                Session.user?.let {
+                    when(it.userType) {
+                        UserType.ADMIN, UserType.MANAGER -> {
+                            TitleWithAction(
+                                modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                                titleText = stringResource(R.string.label_event),
+                                icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_manage),
+                                iconSize = 40.dp
+                            ) {
+                                // Navigate to event manage screen
+                            }
+                        }
+                        UserType.MONK -> {
+                            if (it.residentMonk) {
+                                TitleWithAction(
+                                    modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                                    titleText = stringResource(R.string.label_event),
+                                    icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_manage),
+                                    iconSize = 40.dp
+                                ) {
+                                    // Navigate to event manage screen
+                                }
+                            } else {
+                                Title(
+                                    modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                                    titleText = stringResource(R.string.label_event)
+                                )
+                            }
+                        }
+                        UserType.CONSUMER -> {
+                            Title(
+                                modifier = Modifier.padding(start = 12.dp, end = 12.dp),
+                                titleText = stringResource(R.string.label_event)
+                            )
+                        }
+                    }
+                }
 
                 Column(
                     modifier = Modifier
