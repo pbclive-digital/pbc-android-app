@@ -6,6 +6,7 @@ import com.kavi.pbc.droid.appointment.data.model.AppointmentCreationStatus
 import com.kavi.pbc.droid.appointment.data.repository.local.AppointmentLocalRepository
 import com.kavi.pbc.droid.appointment.data.repository.remote.AppointmentRemoteRepository
 import com.kavi.pbc.droid.data.dto.appointment.Appointment
+import com.kavi.pbc.droid.data.dto.appointment.AppointmentStatus
 import com.kavi.pbc.droid.data.dto.user.User
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -71,10 +72,11 @@ class AppointmentCreateOrModifyViewModel @Inject constructor(
         _residenceMonkList.value = monkList
     }
 
-    fun createNewAppointment() {
+    fun createNewAppointment(appointmentReqId: String? = null) {
         Session.user?.let {
             _appointmentCreationStatus.value = AppointmentCreationStatus.PENDING
             viewModelScope.launch {
+                appointmentReqId?.let { _newAppointment.value.appointmentStatus = AppointmentStatus.ACCEPTED }
                 when (val response = remoteRepository.createAppointment(_newAppointment.value)) {
                     is ResultWrapper.NetworkError,
                     is ResultWrapper.HttpError -> {
@@ -85,7 +87,11 @@ class AppointmentCreateOrModifyViewModel @Inject constructor(
                     }
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
-                            _appointmentCreationStatus.value = AppointmentCreationStatus.SUCCESS
+                            appointmentReqId?.let {
+                                deleteAppointmentRequest(it)
+                            }?: run {
+                                _appointmentCreationStatus.value = AppointmentCreationStatus.SUCCESS
+                            }
                         }
                     }
                 }
@@ -109,6 +115,22 @@ class AppointmentCreateOrModifyViewModel @Inject constructor(
                         response.value.body?.let {
                             _appointmentCreationStatus.value = AppointmentCreationStatus.SUCCESS
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    fun deleteAppointmentRequest(appointmentReqId: String) {
+        viewModelScope.launch {
+            when(val response = remoteRepository.deleteAppointmentRequest(appointmentReqId = appointmentReqId)) {
+                is ResultWrapper.NetworkError, is ResultWrapper.HttpError,
+                is ResultWrapper.UnAuthError -> {
+                    _appointmentCreationStatus.value = AppointmentCreationStatus.FAILURE
+                }
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        _appointmentCreationStatus.value = AppointmentCreationStatus.SUCCESS
                     }
                 }
             }

@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.kavi.droid.color.palette.KvColorPalette
 
@@ -22,6 +23,13 @@ fun PBCAppTheme(
     content: @Composable () -> Unit
 ) {
     val dynamicColor = isDynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+
+    val lightTheme = KvColorPalette.colorSchemeThemePalette.lightColorScheme.copy(
+        scrim = Color.Black.copy(alpha = .5f)
+    )
+    val darkTheme = KvColorPalette.colorSchemeThemePalette.darkColorScheme.copy(
+        scrim = Color.White.copy(alpha = .5f)
+    )
 
     appColorScheme.value?.let { colorScheme ->
         MaterialTheme(
@@ -37,8 +45,8 @@ fun PBCAppTheme(
             dynamicColor && !isDarkTheme -> {
                 dynamicLightColorScheme(LocalContext.current)
             }
-            isDarkTheme -> KvColorPalette.colorSchemeThemePalette.darkColorScheme
-            else -> KvColorPalette.colorSchemeThemePalette.lightColorScheme
+            isDarkTheme -> darkTheme
+            else -> lightTheme
         }
 
         MaterialTheme(

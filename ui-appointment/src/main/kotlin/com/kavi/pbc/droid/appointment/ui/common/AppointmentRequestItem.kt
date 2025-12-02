@@ -24,11 +24,14 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.appointment.AppointmentRequest
 import com.kavi.pbc.droid.data.dto.appointment.AppointmentRequestType
+import com.kavi.pbc.droid.data.dto.user.User
+import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
@@ -154,4 +157,16 @@ fun AppointmentRequestItem(modifier: Modifier = Modifier, appointmentReq: Appoin
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun Preview_AppointmentRequestItem() {
+    Session.user = User(email = "test@gmail.com")
+    AppointmentRequestItem(
+        appointmentReq = AppointmentRequest(title = "", selectedMonk = null, selectedMonkId = "",
+            reason = "", userId = "",
+            user = User(email = "", firstName = "TEST", userType = UserType.CONSUMER)),
+        onAccept = {}, onDelete = {}, onModify = {}
+    )
 }

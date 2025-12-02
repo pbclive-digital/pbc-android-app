@@ -1,7 +1,7 @@
 package com.kavi.pbc.droid.data.dto.appointment
 
 enum class AppointmentStatus {
-    APPROVED, PENDING, OVERDUE
+    ACCEPTED, PENDING, OVERDUE
 }
 
 enum class AppointmentRequestType {

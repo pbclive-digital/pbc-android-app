@@ -13,13 +13,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.kavi.droid.color.palette.extension.shadow
 
+@Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
 fun AppBasicDialog(
     showDialog: Boolean,

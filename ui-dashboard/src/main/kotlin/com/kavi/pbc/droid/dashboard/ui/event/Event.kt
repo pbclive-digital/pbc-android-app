@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.quaternary
@@ -113,7 +114,9 @@ class Event @Inject constructor() {
                         ) {
                             Text(
                                 text = stringResource(R.string.label_upcoming),
-                                fontFamily = PBCFontFamily
+                                fontFamily = PBCFontFamily,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
 
@@ -127,7 +130,9 @@ class Event @Inject constructor() {
                         ) {
                             Text(
                                 text = stringResource(R.string.label_past),
-                                fontFamily = PBCFontFamily
+                                fontFamily = PBCFontFamily,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
                     }

@@ -22,6 +22,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.kavi.droid.color.palette.color.ColorPackageType
+import com.kavi.droid.color.palette.color.MatPackage
 import com.kavi.pbc.droid.data.dto.appointment.AppointmentStatus
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
@@ -31,9 +33,9 @@ fun AppointmentStatusTag(appointmentStatus: AppointmentStatus) {
     var tagColor by remember { mutableStateOf(Color.Transparent) }
 
     tagColor = when(appointmentStatus) {
-        AppointmentStatus.PENDING -> Color.Yellow
-        AppointmentStatus.APPROVED -> Color.Green
-        AppointmentStatus.OVERDUE -> Color.Red
+        AppointmentStatus.PENDING -> MatPackage.MatGold.copy(colorPackage = ColorPackageType.PK_700).color
+        AppointmentStatus.ACCEPTED -> MatPackage.MatLGreen.copy(colorPackage = ColorPackageType.PK_700).color
+        AppointmentStatus.OVERDUE -> MatPackage.MatRed.copy(colorPackage = ColorPackageType.PK_700).color
     }
 
     Card (
@@ -62,5 +64,5 @@ fun AppointmentStatusTag(appointmentStatus: AppointmentStatus) {
 @Preview
 @Composable
 fun Preview_AppointmentStatus() {
-    AppointmentStatusTag(appointmentStatus = AppointmentStatus.APPROVED)
+    AppointmentStatusTag(appointmentStatus = AppointmentStatus.ACCEPTED)
 }

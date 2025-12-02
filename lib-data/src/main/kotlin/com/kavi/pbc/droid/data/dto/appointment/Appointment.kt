@@ -16,7 +16,7 @@ data class Appointment(
     var date: Long = 0,
     var time: String = "",
     var reason: String = "",
-    val appointmentStatus: AppointmentStatus = AppointmentStatus.PENDING
+    var appointmentStatus: AppointmentStatus = AppointmentStatus.PENDING
 ) {
     fun getFormatDate(): String {
         val dateFormat = DateFormat.getDateInstance()

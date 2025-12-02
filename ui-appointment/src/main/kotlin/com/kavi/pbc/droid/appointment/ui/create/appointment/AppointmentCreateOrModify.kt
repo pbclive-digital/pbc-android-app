@@ -57,6 +57,8 @@ class AppointmentCreateOrModify @Inject constructor() {
     @Composable
     fun AppointmentCreateOrModifyUI(navController: NavController,
                                     modifyingAppointmentKey: String? = null,
+                                    isConversion: Boolean = false,
+                                    appointmentReqId: String? = null,
                                     viewModel: AppointmentCreateOrModifyViewModel = hiltViewModel()) {
 
         val context = LocalContext.current
@@ -71,7 +73,7 @@ class AppointmentCreateOrModify @Inject constructor() {
         var isModify by remember { mutableStateOf(false) }
 
         modifyingAppointmentKey?.let {
-            isModify = true
+            isModify = !isConversion
             viewModel.setModifyingAppointment(appointmentKey = it)
         }
 
@@ -259,10 +261,11 @@ class AppointmentCreateOrModify @Inject constructor() {
                             else stringResource(R.string.label_appointment_create),
                             modifier = Modifier.padding(top = 12.dp)
                         ) {
-                            if (isModify)
+                            if (isModify) {
                                 viewModel.updateAppointment()
-                            else
-                                viewModel.createNewAppointment()
+                            } else {
+                                viewModel.createNewAppointment(appointmentReqId = appointmentReqId)
+                            }
                         }
                     }
                 }

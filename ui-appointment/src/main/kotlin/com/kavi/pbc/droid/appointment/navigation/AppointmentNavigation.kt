@@ -34,13 +34,16 @@ class AppointmentNavigation @Inject constructor() {
             composable (route = "appointment/appointment-manage") {
                 appointmentManage.AppointmentManageUI(navController = navController)
             }
-            composable (route = "appointment/appointment-create") {
-                appointmentCreateOrModify.AppointmentCreateOrModifyUI(navController = navController)
-            }
             composable (route = "appointment/appointment-edit/{appointmentKey}") { backStackEntry ->
                 val appointmentKey = backStackEntry.arguments?.getString("appointmentKey")
                 appointmentCreateOrModify.AppointmentCreateOrModifyUI(navController = navController,
                     modifyingAppointmentKey = appointmentKey)
+            }
+            composable (route = "appointment/appointment-convert/{appointmentKey}/{appointmentReqId}") { backStackEntry ->
+                val appointmentKey = backStackEntry.arguments?.getString("appointmentKey")
+                val appointmentReqId = backStackEntry.arguments?.getString("appointmentReqId")
+                appointmentCreateOrModify.AppointmentCreateOrModifyUI(navController = navController,
+                    modifyingAppointmentKey = appointmentKey, isConversion = true, appointmentReqId = appointmentReqId)
             }
             composable (route = "appointment/appointment-request-create") {
                 appointmentRequestCreateOrModify.AppointmentRequestCreateOrModifyUI(navController = navController)

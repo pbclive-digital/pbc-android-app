@@ -35,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ import com.kavi.pbc.droid.appointment.data.model.AppointmentReqDeleteStatus
 import com.kavi.pbc.droid.appointment.data.repository.local.AppointmentLocalRepository
 import com.kavi.pbc.droid.appointment.ui.common.AppointmentItem
 import com.kavi.pbc.droid.appointment.ui.common.AppointmentRequestItem
-import com.kavi.pbc.droid.data.dto.user.UserType
+import com.kavi.pbc.droid.data.dto.appointment.Appointment
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
@@ -117,20 +118,13 @@ class AppointmentManage @Inject constructor(
                             if (!user.residentMonk) {
                                 AppButtonWithIcon(
                                     modifier = Modifier.padding(top = 12.dp),
-                                    label = stringResource(R.string.label_appointment_make),
+                                    label = stringResource(R.string.label_appointment_make_request),
                                     icon = painterResource(R.drawable.icon_appointment)
                                 ) {
-                                    when(user.userType) {
-                                        UserType.CONSUMER, UserType.MANAGER, UserType.MONK -> {
-                                            if (eligibleToCreateRequest)
-                                                navController.navigate("appointment/appointment-request-create")
-                                            else
-                                                Toast.makeText(context, context.getString(R.string.phrase_appointment_create_stop), Toast.LENGTH_LONG).show()
-                                        }
-                                        UserType.ADMIN -> {
-                                            navController.navigate("appointment/appointment-create")
-                                        }
-                                    }
+                                    if (eligibleToCreateRequest)
+                                        navController.navigate("appointment/appointment-request-create")
+                                    else
+                                        Toast.makeText(context, context.getString(R.string.phrase_appointment_create_stop), Toast.LENGTH_LONG).show()
                                 }
                             }
                         }
@@ -202,7 +196,9 @@ class AppointmentManage @Inject constructor(
                 ) {
                     Text(
                         text = stringResource(R.string.label_appointment_requests),
-                        fontFamily = PBCFontFamily
+                        fontFamily = PBCFontFamily,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
 
@@ -216,7 +212,9 @@ class AppointmentManage @Inject constructor(
                 ) {
                     Text(
                         text = stringResource(R.string.label_appointments),
-                        fontFamily = PBCFontFamily
+                        fontFamily = PBCFontFamily,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
             }
@@ -310,7 +308,17 @@ class AppointmentManage @Inject constructor(
                         viewModel.deleteAppointmentRequest(appointmentReqId = appointmentReq.id!!)
                     },
                     onAccept = {
+                        val appointment = Appointment(
+                            title = appointmentReq.title,
+                            userId = appointmentReq.userId,
+                            user = appointmentReq.user,
+                            selectedMonkId = appointmentReq.selectedMonkId,
+                            selectedMonk = appointmentReq.selectedMonk,
+                            reason = appointmentReq.reason
+                        )
 
+                        val tempAppointmentKey = appointmentLocalRepository.setModifyingAppointment(appointment = appointment)
+                        navController.navigate("appointment/appointment-convert/$tempAppointmentKey/${appointmentReq.id}")
                     }
                 )
             }

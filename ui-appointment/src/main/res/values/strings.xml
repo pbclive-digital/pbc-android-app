@@ -5,6 +5,7 @@
     <string name="phase_appointments">From here you can make an appointment with any residence monk in Pittsburgh Buddhist Center. This will helps Bhanthe to plan their calendar to available for you.</string>
 
     <string name="label_appointment_make">Make an Appointment</string>
+    <string name="label_appointment_make_request">Make an Appointment Request</string>
     <string name="label_appointment_new">New Appointment</string>
 
     <string name="label_appointment_title">Title</string>
