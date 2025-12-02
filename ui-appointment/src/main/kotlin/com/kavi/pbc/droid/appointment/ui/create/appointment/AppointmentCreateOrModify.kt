@@ -259,7 +259,10 @@ class AppointmentCreateOrModify @Inject constructor() {
                             else stringResource(R.string.label_appointment_create),
                             modifier = Modifier.padding(top = 12.dp)
                         ) {
-                            viewModel.createNewAppointment()
+                            if (isModify)
+                                viewModel.updateAppointment()
+                            else
+                                viewModel.createNewAppointment()
                         }
                     }
                 }

@@ -8,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface AppointmentServiceApi {
@@ -15,8 +16,14 @@ interface AppointmentServiceApi {
     @POST("/appointment/create")
     suspend fun createAppointment(@Body appointment: Appointment): BaseResponse<String>
 
+    @PUT("/appointment/update")
+    suspend fun updateAppointment(@Body appointment: Appointment): BaseResponse<Appointment>
+
     @POST("/appointment/request/create")
     suspend fun createAppointmentRequest(@Body appointmentReq: AppointmentRequest): BaseResponse<String>
+
+    @PUT("/appointment/request/update")
+    suspend fun updateAppointmentRequest(@Body appointmentReq: AppointmentRequest): BaseResponse<AppointmentRequest>
 
     @GET("/appointment/request/create/eligibility/{userId}")
     suspend fun validateRequestCreationEligibility(@Path("userId") userId: String): BaseResponse<AppointmentRequestEligibility>

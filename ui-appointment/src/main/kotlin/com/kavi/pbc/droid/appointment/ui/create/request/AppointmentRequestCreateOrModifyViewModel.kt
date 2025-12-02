@@ -62,7 +62,30 @@ class AppointmentRequestCreateOrModifyViewModel @Inject constructor(
             _newAppointmentReqCreateStatus.value = AppointmentReqCreationStatus.PENDING
             viewModelScope.launch {
                 when (val response = remoteRepository
-                    .createAppointmentRequest(newAppointmentRequest.value)) {
+                    .createAppointmentRequest(_newAppointmentRequest.value)) {
+                    is ResultWrapper.NetworkError,
+                    is ResultWrapper.HttpError -> {
+                        _newAppointmentReqCreateStatus.value = AppointmentReqCreationStatus.FAILURE
+                    }
+                    is ResultWrapper.UnAuthError -> {
+                        _newAppointmentReqCreateStatus.value = AppointmentReqCreationStatus.UNAUTHENTICATE
+                    }
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let {
+                            _newAppointmentReqCreateStatus.value = AppointmentReqCreationStatus.SUCCESS
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateAppointmentRequest() {
+        Session.user?.let {
+            _newAppointmentReqCreateStatus.value = AppointmentReqCreationStatus.PENDING
+            viewModelScope.launch {
+                when (val response = remoteRepository
+                    .updateAppointmentRequest(_newAppointmentRequest.value)) {
                     is ResultWrapper.NetworkError,
                     is ResultWrapper.HttpError -> {
                         _newAppointmentReqCreateStatus.value = AppointmentReqCreationStatus.FAILURE

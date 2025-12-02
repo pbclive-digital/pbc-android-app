@@ -93,6 +93,28 @@ class AppointmentCreateOrModifyViewModel @Inject constructor(
         }
     }
 
+    fun updateAppointment() {
+        Session.user?.let {
+            _appointmentCreationStatus.value = AppointmentCreationStatus.PENDING
+            viewModelScope.launch {
+                when (val response = remoteRepository.updateAppointment(_newAppointment.value)) {
+                    is ResultWrapper.NetworkError,
+                    is ResultWrapper.HttpError -> {
+                        _appointmentCreationStatus.value = AppointmentCreationStatus.FAILURE
+                    }
+                    is ResultWrapper.UnAuthError -> {
+                        _appointmentCreationStatus.value = AppointmentCreationStatus.UNAUTHENTICATE
+                    }
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let {
+                            _appointmentCreationStatus.value = AppointmentCreationStatus.SUCCESS
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     fun updateTitle(title: String) {
         _newAppointment.value.title = title
     }

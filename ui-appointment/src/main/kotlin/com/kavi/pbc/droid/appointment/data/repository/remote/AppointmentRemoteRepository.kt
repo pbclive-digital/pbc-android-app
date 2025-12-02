@@ -19,8 +19,16 @@ class AppointmentRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { appointmentServiceApi.createAppointment(appointment) }
     }
 
+    suspend fun updateAppointment(appointment: Appointment): ResultWrapper<BaseResponse<Appointment>> {
+        return network.invokeApiCall(dispatcher) { appointmentServiceApi.updateAppointment(appointment) }
+    }
+
     suspend fun createAppointmentRequest(appointmentReq: AppointmentRequest): ResultWrapper<BaseResponse<String>> {
         return network.invokeApiCall(dispatcher) { appointmentServiceApi.createAppointmentRequest(appointmentReq) }
+    }
+
+    suspend fun updateAppointmentRequest(appointmentReq: AppointmentRequest): ResultWrapper<BaseResponse<AppointmentRequest>> {
+        return network.invokeApiCall(dispatcher) { appointmentServiceApi.updateAppointmentRequest(appointmentReq) }
     }
 
     suspend fun getRequestCreateEligibility(userId: String): ResultWrapper<BaseResponse<AppointmentRequestEligibility>> {

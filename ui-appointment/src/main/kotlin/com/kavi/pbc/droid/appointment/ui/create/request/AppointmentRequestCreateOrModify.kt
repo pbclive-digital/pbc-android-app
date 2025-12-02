@@ -232,7 +232,10 @@ class AppointmentRequestCreateOrModify @Inject constructor() {
                             else stringResource(R.string.label_appointment_request_create),
                             modifier = Modifier.padding(top = 12.dp)
                         ) {
-                            viewModel.createNewAppointmentRequest()
+                            if(isModify)
+                                viewModel.updateAppointmentRequest()
+                            else
+                                viewModel.createNewAppointmentRequest()
                         }
                     }
                 }
