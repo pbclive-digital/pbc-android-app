@@ -138,7 +138,7 @@ class Temple @Inject constructor() {
                         }
                     }
 
-                    if (Session.user?.userType == UserType.ADMIN) {
+                    if (Session.user?.userType == UserType.ADMIN || Session.user?.residentMonk == true) {
                         Text(
                             text = stringResource(R.string.label_admin),
                             fontFamily = PBCFontFamily,
