@@ -21,13 +21,17 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -50,9 +54,12 @@ import com.kavi.pbc.droid.appointment.data.repository.local.AppointmentLocalRepo
 import com.kavi.pbc.droid.appointment.ui.common.AppointmentItem
 import com.kavi.pbc.droid.appointment.ui.common.AppointmentRequestItem
 import com.kavi.pbc.droid.data.dto.appointment.Appointment
+import com.kavi.pbc.droid.data.dto.appointment.AppointmentRequest
+import com.kavi.pbc.droid.data.dto.user.User
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
+import com.kavi.pbc.droid.lib.common.ui.component.user.UserViewBottomSheet
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
@@ -283,6 +290,7 @@ class AppointmentManage @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     private fun AppointmentRequestList(
         screenHeight: Dp,
@@ -290,6 +298,12 @@ class AppointmentManage @Inject constructor(
         viewModel: AppointmentManageViewModel = hiltViewModel()
     ) {
         val appointmentRequestList by viewModel.userAppointmentRequestList.collectAsState()
+
+        val viewUserSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showViewSheet = remember { mutableStateOf(false) }
+        var selectedAppointmentReq by remember { mutableStateOf(AppointmentRequest(user = User(email = ""))) }
 
         LazyColumn (
             modifier = Modifier
@@ -307,6 +321,10 @@ class AppointmentManage @Inject constructor(
                     onDelete = {
                         viewModel.deleteAppointmentRequest(appointmentReqId = appointmentReq.id!!)
                     },
+                    onView = {
+                        showViewSheet.value = true
+                        selectedAppointmentReq = appointmentReq
+                    },
                     onAccept = {
                         val appointment = Appointment(
                             title = appointmentReq.title,
@@ -322,6 +340,10 @@ class AppointmentManage @Inject constructor(
                     }
                 )
             }
+        }
+
+        if (showViewSheet.value) {
+            UserViewBottomSheet(sheetState = viewUserSheetState, showSheet = showViewSheet, selectedUser = selectedAppointmentReq.user)
         }
     }
 }

@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,9 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +29,6 @@ import androidx.compose.ui.unit.sp
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.user.User
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
-import com.kavi.pbc.droid.user.R
 
 @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
@@ -93,15 +88,6 @@ fun UserListItem(modifier: Modifier = Modifier, user: User, onView: () -> Unit, 
 
                     Spacer(modifier = Modifier.weight(1f))
 
-                    /*AsyncImage(
-                        model = user.profilePicUrl,
-                        error = painterResource(R.drawable.icon_user_default_pic),
-                        contentDescription = "Event image picture",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(75.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                    )*/
                     Row(
                         modifier = Modifier
                             .padding(top = 4.dp)
@@ -134,123 +120,6 @@ fun UserListItem(modifier: Modifier = Modifier, user: User, onView: () -> Unit, 
                         )
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun BasicUserInfoCard(profileUser: User) {
-    Card(
-        modifier = Modifier
-            .padding(top = 20.dp)
-            .fillMaxWidth()
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(12.dp),
-                spotColor = MaterialTheme.colorScheme.shadow
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface,
-        ),
-        shape = RoundedCornerShape(12.dp),
-    ) {
-        Column (
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.label_user_basic_info),
-                fontFamily = PBCFontFamily,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Start,
-                fontSize = 22.sp,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Text(
-                text = stringResource(R.string.phrase_user_basic_info),
-                fontFamily = PBCFontFamily,
-                fontWeight = FontWeight.Light,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth()
-            )
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_user_email),
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = profileUser.email,
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
-            }
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_user_phone),
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = profileUser.phoneNumber ?: run { "" },
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
-            }
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_user_address),
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = profileUser.address ?: run { "" },
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
             }
         }
     }

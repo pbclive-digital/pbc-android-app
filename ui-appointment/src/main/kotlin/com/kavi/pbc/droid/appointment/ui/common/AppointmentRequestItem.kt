@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -39,13 +38,11 @@ import com.kavi.pbc.droid.network.session.Session
 @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
 fun AppointmentRequestItem(modifier: Modifier = Modifier, appointmentReq: AppointmentRequest,
-                           onDelete:() -> Unit, onModify:() -> Unit, onAccept:() -> Unit) {
+                          onView:() -> Unit, onDelete:() -> Unit, onModify:() -> Unit, onAccept:() -> Unit) {
 
     BoxWithConstraints (
         modifier = modifier.padding(top = 2.dp)
     ) {
-        val textLength = (maxWidth.value * .65f).dp
-
         Row (
             modifier = Modifier
                 .padding(4.dp)
@@ -80,7 +77,6 @@ fun AppointmentRequestItem(modifier: Modifier = Modifier, appointmentReq: Appoin
 
                 Row {
                     Text(
-                        modifier = Modifier.width(textLength),
                         text = titleText,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontFamily = PBCFontFamily,
@@ -117,8 +113,20 @@ fun AppointmentRequestItem(modifier: Modifier = Modifier, appointmentReq: Appoin
                         Session.user?.let { user ->
                             if (user.residentMonk) {
                                 Icon(
+                                    painter = painterResource(R.drawable.icon_view),
+                                    contentDescription = "View User",
+                                    tint = MaterialTheme.colorScheme.shadow,
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .padding(4.dp)
+                                        .clickable {
+                                            onView.invoke()
+                                        }
+                                )
+
+                                Icon(
                                     painter = painterResource(R.drawable.icon_accept),
-                                    contentDescription = "Edit Event",
+                                    contentDescription = "Accept Event",
                                     tint = MaterialTheme.colorScheme.shadow,
                                     modifier = Modifier
                                         .size(40.dp)
@@ -166,7 +174,7 @@ fun Preview_AppointmentRequestItem() {
     AppointmentRequestItem(
         appointmentReq = AppointmentRequest(title = "", selectedMonk = null, selectedMonkId = "",
             reason = "", userId = "",
-            user = User(email = "", firstName = "TEST", userType = UserType.CONSUMER)),
-        onAccept = {}, onDelete = {}, onModify = {}
+            user = User(email = "", firstName = "TEST", userType = UserType.MONK, residentMonk = true)),
+        onView = {}, onAccept = {}, onDelete = {}, onModify = {}
     )
 }

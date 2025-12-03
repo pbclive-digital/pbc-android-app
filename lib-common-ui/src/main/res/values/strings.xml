@@ -14,4 +14,10 @@
     <string name="label_modify">Modify</string>
 
     <string name="label_date_picker">Select Date</string>
+
+    <string name="label_user_basic_info">Basic Info</string>
+    <string name="phrase_user_basic_info">Basic information and available contact details about selected user.</string>
+    <string name="label_user_email">Email</string>
+    <string name="label_user_phone">Phone #</string>
+    <string name="label_user_address">Address</string>
 </resources>

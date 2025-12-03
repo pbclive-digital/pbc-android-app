@@ -41,6 +41,7 @@ import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineTextField
 import com.kavi.pbc.droid.lib.common.ui.component.Title
+import com.kavi.pbc.droid.lib.common.ui.component.user.UserViewBottomSheet
 import com.kavi.pbc.droid.lib.common.ui.model.UIStatus
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.user.R
@@ -189,7 +190,7 @@ class UserManage @Inject constructor() {
         }
 
         if (showViewSheet.value) {
-            userFunctionBottomSheet.UserViewBottomSheet(sheetState = viewUserSheetState, showSheet = showViewSheet)
+            UserViewBottomSheet(sheetState = viewUserSheetState, showSheet = showViewSheet, selectedUser = viewModel.selectedUser.value)
         }
 
         if (userSearchStatus == UIStatus.ERROR) {
