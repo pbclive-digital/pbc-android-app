@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
     alias(libs.plugins.google.android.hilt)
     alias(libs.plugins.google.gms.google.services)
 }
@@ -111,7 +111,7 @@ dependencies {
 
     // DI Hilt
     implementation(libs.google.android.hilt)
-    kapt(libs.google.android.hilt.compiler)
+    ksp(libs.google.android.hilt.compiler)
     implementation(libs.google.android.hilt.navigation)
 
     // Firebase
