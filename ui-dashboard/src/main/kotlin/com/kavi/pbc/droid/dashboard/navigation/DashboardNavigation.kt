@@ -15,6 +15,7 @@ import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AppointmentContract
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
+import com.kavi.pbc.droid.lib.parent.contract.module.NewsContract
 import com.kavi.pbc.droid.lib.parent.contract.module.ProfileContract
 import com.kavi.pbc.droid.lib.parent.contract.module.TempleContract
 import com.kavi.pbc.droid.lib.parent.contract.module.UserContract
@@ -55,6 +56,9 @@ class DashboardNavigation @Inject constructor() {
             }
             composable (route = "dashboard/admin/to/user") {
                 ContractServiceLocator.locate(UserContract::class).RetrieveNavGraph()
+            }
+            composable (route = "dashboard/admin/to/news") {
+                ContractServiceLocator.locate(NewsContract::class).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/temple/about-us") {
                 ContractServiceLocator.locate(TempleContract::class).RetrieveNavGraph()

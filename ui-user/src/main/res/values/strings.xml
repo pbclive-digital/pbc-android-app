@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="label_user_manage">User Management</string>
+    <string name="label_user_manage">Manage Users</string>
     <string name="phrase_user_manage">From here, you can find users by giving user\'s email. After finding valid user, as an Admin user you have privilege to change user\'s role.</string>
     <string name="label_user_search_value">Email / Name</string>
     <string name="label_user_search_button">Search</string>

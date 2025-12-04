@@ -123,6 +123,7 @@ dependencies {
     implementation(libs.kv.color.palette)
 
     implementation(project(":ui-appointment"))
+    implementation(project(":ui-news"))
     implementation(project(":ui-user"))
     implementation(project(":ui-temple"))
     implementation(project(":ui-profile"))
