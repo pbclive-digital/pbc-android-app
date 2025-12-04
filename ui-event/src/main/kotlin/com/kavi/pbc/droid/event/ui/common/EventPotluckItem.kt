@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.event.ui.common
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -37,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckItem
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.selected.EventSelectedViewModel
@@ -55,6 +57,7 @@ fun EventPotluckItemUI(modifier: Modifier = Modifier,
     Row (
         modifier = modifier
             .fillMaxWidth()
+            .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
             .clip( RoundedCornerShape(8.dp))
             .shadow(elevation = 2.dp)
             .clickable {
@@ -152,7 +155,7 @@ fun EventPotluckItemUI(modifier: Modifier = Modifier,
             ) {
                 LinearProgressIndicator(
                     progress = { potluckItem.completionProgress() },
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.quaternary,
                     trackColor = MaterialTheme.colorScheme.background,
                     modifier = Modifier
                         .weight(.85f)

@@ -6,6 +6,7 @@ jvmVersion = "21"
 
 agp = "8.13.0"
 kotlin = "2.2.0"
+ksp = "2.2.0-2.0.2"
 coreKtx = "1.16.0"
 lifecycleRuntimeKtx = "2.9.2"
 activityCompose = "1.10.1"
@@ -13,7 +14,7 @@ composeBom = "2025.07.00"
 composeMaterial = "1.8.3"
 composeNavigation = "2.9.3"
 jetpackDatastoreVersion = "1.1.7"
-kvColorPalette = "3.2.0"
+kvColorPalette = "3.3.0"
 coilCompose = "2.7.0"
 junit = "4.13.2"
 androidXJunit = "1.2.1"
@@ -86,6 +87,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-kapt = { id = "kotlin-kapt", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

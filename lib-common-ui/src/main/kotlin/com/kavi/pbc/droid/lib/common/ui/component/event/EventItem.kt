@@ -29,6 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.kavi.droid.color.palette.extension.inverseDefault
+import com.kavi.droid.color.palette.extension.inverseOnBackground
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -68,7 +70,7 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                         .fillMaxSize()
                         .background(
                             Brush.verticalGradient(
-                                colors = listOf(Color.Transparent, Color.Black.copy(alpha = 0.8f)),
+                                colors = listOf(Color.Transparent, MaterialTheme.colorScheme.inverseDefault.copy(alpha = .9f)),
                                 startY = screenWidth.value / 2
                             )
                         )
@@ -84,17 +86,17 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                 ) {
                     Text(
                         text = event.name,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.inverseOnBackground,
                         fontFamily = PBCFontFamily,
                         fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         modifier = Modifier
                             .width((screenWidth.value * 0.65).dp),
                         text = event.description,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.inverseOnBackground,
                         fontFamily = PBCFontFamily,
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Medium,
@@ -105,7 +107,7 @@ fun EventItem(modifier: Modifier = Modifier, event: Event) {
                     Text(
                         modifier = Modifier.padding(top = 4.dp),
                         text = "on ${event.getFormatDate()} at ${event.getPlace()}",
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = MaterialTheme.colorScheme.inverseOnBackground,
                         fontFamily = PBCFontFamily,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Light,
