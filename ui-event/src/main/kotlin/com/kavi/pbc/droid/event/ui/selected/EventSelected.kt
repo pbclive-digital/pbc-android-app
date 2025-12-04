@@ -108,8 +108,9 @@ class EventSelected @Inject constructor() {
                             TitleWithAction(
                                 modifier = Modifier.padding(start = 12.dp, end = 12.dp),
                                 titleText = stringResource(R.string.label_event),
-                                icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_manage),
-                                iconSize = 40.dp
+                                actionPainter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_manage),
+                                isIcon = true,
+                                actionPainterSize = 40.dp
                             ) {
                                 // Navigate to event manage screen
                             }
@@ -119,8 +120,8 @@ class EventSelected @Inject constructor() {
                                 TitleWithAction(
                                     modifier = Modifier.padding(start = 12.dp, end = 12.dp),
                                     titleText = stringResource(R.string.label_event),
-                                    icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_manage),
-                                    iconSize = 40.dp
+                                    actionPainter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.icon_manage),
+                                    actionPainterSize = 40.dp
                                 ) {
                                     // Navigate to event manage screen
                                 }

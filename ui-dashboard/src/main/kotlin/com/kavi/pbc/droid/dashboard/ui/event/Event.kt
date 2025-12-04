@@ -91,8 +91,8 @@ class Event @Inject constructor() {
                     TitleWithAction(
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
                         titleText = stringResource(R.string.label_event),
-                        icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
-                        iconAction = {
+                        actionPainter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
+                        action = {
                             showAuthInviteSheet.value = true
                         }
                     )

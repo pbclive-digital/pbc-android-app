@@ -25,8 +25,8 @@ fun MeditationUI(navController: NavController, modifier: Modifier = Modifier) {
         TitleWithAction(
             modifier = Modifier.padding(start = 12.dp, end = 12.dp),
             titleText = stringResource(R.string.label_meditation),
-            icon = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
-            iconAction = {}
+            actionPainter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
+            action = {}
         )
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +28,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.kavi.droid.color.palette.extension.inverseDefault
+import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.lib.common.ui.R
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
@@ -52,9 +55,10 @@ fun Title(modifier: Modifier = Modifier, titleText: String) {
 @Composable
 fun TitleWithAction(modifier: Modifier = Modifier,
                     titleText: String,
-                    icon: Painter,
-                    iconSize: Dp = 56.dp,
-                    iconAction: (() -> Unit)? = null) {
+                    actionPainter: Painter,
+                    actionPainterSize: Dp = 56.dp,
+                    isIcon: Boolean = false,
+                    action: (() -> Unit)? = null) {
     Row (
         modifier = modifier
             .fillMaxWidth(),
@@ -68,16 +72,29 @@ fun TitleWithAction(modifier: Modifier = Modifier,
             color = MaterialTheme.colorScheme.onBackground
         )
         Spacer(modifier = Modifier.weight(1f))
-        Image(
-            painter = icon,
-            contentDescription = "Dhamma chakra icon",
-            contentScale = ContentScale.Crop,
-            modifier = Modifier
-                .size(iconSize)
-                .clickable {
-                    iconAction?.invoke()
-                }
-        )
+        if (isIcon) {
+            Icon(
+                painter = actionPainter,
+                contentDescription = "Provided icon",
+                tint = MaterialTheme.colorScheme.shadow,
+                modifier = Modifier
+                    .size(actionPainterSize)
+                    .clickable {
+                        action?.invoke()
+                    }
+            )
+        } else {
+            Image(
+                painter = actionPainter,
+                contentDescription = "provided image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(actionPainterSize)
+                    .clickable {
+                        action?.invoke()
+                    }
+            )
+        }
     }
 }
 
@@ -128,8 +145,8 @@ fun Title_Preview() {
     Column {
         TitleWithAction(
             titleText = "Sample Title",
-            icon = painterResource(R.drawable.icon_pbc),
-            iconAction = {})
+            actionPainter = painterResource(R.drawable.icon_pbc),
+            action = {})
         Title(titleText = "Sample Title")
         TitleWithProfile(titleText = "", profilePicUrl = "", profileAction = {})
     }
