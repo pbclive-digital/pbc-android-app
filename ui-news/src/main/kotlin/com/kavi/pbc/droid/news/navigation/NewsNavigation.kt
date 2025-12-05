@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.news.ui.NewsManage
+import com.kavi.pbc.droid.news.ui.manage.NewsManage
 import javax.inject.Inject
 
 class NewsNavigation @Inject constructor() {
@@ -24,7 +24,7 @@ class NewsNavigation @Inject constructor() {
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
             composable (route = "news/manage") {
-                newsManage.NewsManageUI()
+                newsManage.NewsManageUI(navController)
             }
         }
     }

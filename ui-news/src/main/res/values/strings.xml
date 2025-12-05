@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_news_manage">Manage News</string>
+    <string name="phrase_news_manage">This section is to manage all the News in PBC. From here can create new News, publish drafted news etc...</string>
+    <string name="label_news_create">Create News</string>
+
+    <string name="label_news_draft">Draft News</string>
+    <string name="label_news_no_draft">No any drafted news available.</string>
+    <string name="label_news_active">Active News</string>
+    <string name="label_news_no_active">No any Active news available.</string>
 </resources>
