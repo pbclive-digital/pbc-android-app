@@ -8,4 +8,9 @@
     <string name="label_news_no_draft">No any drafted news available.</string>
     <string name="label_news_active">Active News</string>
     <string name="label_news_no_active">No any Active news available.</string>
+
+    <string name="label_news_delete_confirmation">Are you sure?</string>
+    <string name="phrase_news_delete_confirmation">Do you want to delete this news? Once you delete it, all the data related to this news will delete</string>
+    <string name="label_news_publish_confirmation">Is it ready to publish?</string>
+    <string name="phrase_news_publish_confirmation">Is this event ready to publish?. Once you published it, all users will see this as a News.</string>
 </resources>

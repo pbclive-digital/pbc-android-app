@@ -14,8 +14,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -28,18 +31,29 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.shadow
+import com.kavi.pbc.droid.data.dto.news.NewsStatus
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.news.R
+import com.kavi.pbc.droid.news.data.model.NewsManageMode
 import com.kavi.pbc.droid.news.ui.common.NewsItemForAdmin
+import com.kavi.pbc.droid.news.ui.manage.dialog.DeleteConfirmationDialog
+import com.kavi.pbc.droid.news.ui.manage.dialog.PublishConfirmationDialog
 import javax.inject.Inject
+import kotlin.Boolean
 
 class NewsManage @Inject constructor() {
 
     @Composable
-    fun NewsManageUI(navController: NavController) {
+    fun NewsManageUI(navController: NavController, viewModel: NewsManageViewModel = hiltViewModel()) {
         val context = LocalContext.current
+
+        val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
+        val deletingNewsId = remember { mutableStateOf("") }
+        val newsMode = remember { mutableStateOf(NewsManageMode.UNSELECTED) }
+        val showPublishConfirmationDialog = remember { mutableStateOf(false) }
+        val publishingNewsId = remember { mutableStateOf("") }
 
         Box {
             Box(
@@ -81,17 +95,62 @@ class NewsManage @Inject constructor() {
                             //navController.navigate("event/event-create")
                         }
 
-                        DraftedNews(navController = navController)
+                        DraftedNews(
+                            navController = navController,
+                            publishConfirmation = showPublishConfirmationDialog,
+                            publishingId = publishingNewsId,
+                            deleteConfirmation = showDeleteConfirmationDialog,
+                            deletingId = deletingNewsId,
+                            newsMode = newsMode
+                        )
 
-                        ActiveNews(navController = navController)
+                        ActiveNews(
+                            navController = navController,
+                            deleteConfirmation = showDeleteConfirmationDialog,
+                            deletingId = deletingNewsId,
+                            newsMode = newsMode
+                        )
                     }
                 }
             }
         }
+
+        DeleteConfirmationDialog(
+            showDialog = showDeleteConfirmationDialog,
+            onAgree = {
+                showDeleteConfirmationDialog.value = false
+                viewModel.deleteNews(newsId = deletingNewsId.value, newsMode = newsMode.value)
+                deletingNewsId.value = ""
+                newsMode.value = NewsManageMode.UNSELECTED
+            },
+            onDisagree = {
+                showDeleteConfirmationDialog.value = false
+                deletingNewsId.value = ""
+                newsMode.value = NewsManageMode.UNSELECTED
+            }
+        )
+
+        PublishConfirmationDialog(
+            showDialog = showPublishConfirmationDialog,
+            onAgree = {
+                showPublishConfirmationDialog.value = false
+                viewModel.publishDraftNews(newsId = publishingNewsId.value)
+                publishingNewsId.value = ""
+            },
+            onDisagree = {
+                showPublishConfirmationDialog.value = false
+                publishingNewsId.value = ""
+            }
+        )
     }
 
     @Composable
-    fun DraftedNews(navController: NavController, viewModel: NewsManageViewModel = hiltViewModel()) {
+    fun DraftedNews(navController: NavController, viewModel: NewsManageViewModel = hiltViewModel(),
+                    publishConfirmation: MutableState<Boolean>,
+                    publishingId: MutableState<String>,
+                    deleteConfirmation: MutableState<Boolean>,
+                    deletingId: MutableState<String>,
+                    newsMode: MutableState<NewsManageMode>) {
 
         val draftNewsList by viewModel.draftNewsList.collectAsState()
 
@@ -118,12 +177,12 @@ class NewsManage @Inject constructor() {
                         //val tempEventKey = eventLocalDataSource.setModifyingEvent(event = event)
                         //navController.navigate("event/event-edit/$tempEventKey")
                     }, onPublish = {
-                        //publishConfirmation.value = true
-                        //publishingId.value = event.id!!
+                        publishConfirmation.value = true
+                        publishingId.value = news.id
                     }, onDelete = {
-                        //deleteConfirmation.value = true
-                        //eventMode.value = EventMangeMode.DRAFT
-                        //deletingEventId.value = event.id!!
+                        deleteConfirmation.value = true
+                        newsMode.value = NewsManageMode.DRAFT
+                        deletingId.value = news.id
                     })
                     if (index < draftNewsList.lastIndex) {
                         HorizontalDivider(
@@ -151,7 +210,10 @@ class NewsManage @Inject constructor() {
     }
 
     @Composable
-    fun ActiveNews(navController: NavController, viewModel: NewsManageViewModel = hiltViewModel()) {
+    fun ActiveNews(navController: NavController, viewModel: NewsManageViewModel = hiltViewModel(),
+                   deleteConfirmation: MutableState<Boolean>,
+                   deletingId: MutableState<String>,
+                   newsMode: MutableState<NewsManageMode>) {
 
         val activeNewsList by viewModel.activeNewsList.collectAsState()
 
@@ -178,12 +240,11 @@ class NewsManage @Inject constructor() {
                         //val tempEventKey = eventLocalDataSource.setModifyingEvent(event = event)
                         //navController.navigate("event/event-edit/$tempEventKey")
                     }, onPublish = {
-                        //publishConfirmation.value = true
-                        //publishingId.value = event.id!!
+                        /* Nothing to implement */
                     }, onDelete = {
-                        //deleteConfirmation.value = true
-                        //eventMode.value = EventMangeMode.DRAFT
-                        //deletingEventId.value = event.id!!
+                        deleteConfirmation.value = true
+                        newsMode.value = NewsManageMode.ACTIVE
+                        deletingId.value = news.id
                     })
                     if (index < activeNewsList.lastIndex) {
                         HorizontalDivider(

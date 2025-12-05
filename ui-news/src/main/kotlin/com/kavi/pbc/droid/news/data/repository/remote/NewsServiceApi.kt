@@ -20,6 +20,9 @@ interface NewsServiceApi {
     @POST("/news/create")
     suspend fun createNews(@Body news: News): BaseResponse<String>
 
+    @PUT("/news/update/publish/{newsId}")
+    suspend fun publishDraftNews(@Path("newsId") newsId: String, @Body news: News): BaseResponse<News>
+
     @PUT("/news/update/{newsId}")
     suspend fun updateNews(@Path("newsId") newsId: String, @Body news: News): BaseResponse<News>
 

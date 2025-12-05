@@ -51,9 +51,15 @@ fun NewsItemForAdmin(
         Spacer(modifier = Modifier.height(4.dp))
 
         Row {
+            val secondLineText = if (isDraftNews) {
+                "created on ${news.getFormatCreatedDate()}"
+            } else {
+                "published on ${news.getFormatPublishedDate()}"
+            }
+
             Text(
                 modifier = Modifier.weight(1f),
-                text = news.content,
+                text = secondLineText,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = PBCFontFamily,
                 fontSize = 16.sp,

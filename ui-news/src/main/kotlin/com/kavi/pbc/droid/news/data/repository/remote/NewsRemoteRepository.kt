@@ -26,6 +26,10 @@ class NewsRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { newsServiceApi.createNews(news) }
     }
 
+    suspend fun publishDraftNews(newsId: String, news: News): ResultWrapper<BaseResponse<News>> {
+        return network.invokeApiCall(dispatcher) { newsServiceApi.publishDraftNews(newsId, news) }
+    }
+
     suspend fun updateNews(newsId: String, news: News): ResultWrapper<BaseResponse<News>> {
         return network.invokeApiCall(dispatcher) { newsServiceApi.updateNews(newsId, news) }
     }
