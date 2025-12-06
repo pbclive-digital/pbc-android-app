@@ -37,17 +37,19 @@ import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.news.R
 import com.kavi.pbc.droid.news.data.model.NewsManageMode
+import com.kavi.pbc.droid.news.data.repository.local.NewsLocalRepository
 import com.kavi.pbc.droid.news.ui.common.NewsItemForAdmin
 import com.kavi.pbc.droid.news.ui.manage.dialog.DeleteConfirmationDialog
 import com.kavi.pbc.droid.news.ui.manage.dialog.PublishConfirmationDialog
 import javax.inject.Inject
 import kotlin.Boolean
 
-class NewsManage @Inject constructor() {
+class NewsManage @Inject constructor(
+    val newsLocalRepository: NewsLocalRepository
+) {
 
     @Composable
     fun NewsManageUI(navController: NavController, viewModel: NewsManageViewModel = hiltViewModel()) {
-        val context = LocalContext.current
 
         val showDeleteConfirmationDialog = remember { mutableStateOf(false) }
         val deletingNewsId = remember { mutableStateOf("") }
@@ -92,7 +94,7 @@ class NewsManage @Inject constructor() {
                             label = stringResource(R.string.label_news_create),
                             icon = painterResource(R.drawable.icon_news)
                         ) {
-                            //navController.navigate("event/event-create")
+                            navController.navigate("news/news-create")
                         }
 
                         DraftedNews(
@@ -174,15 +176,15 @@ class NewsManage @Inject constructor() {
                 draftNewsList.forEachIndexed { index, news ->
                     NewsItemForAdmin(news = news, isDraftNews = true, onModify = {
                         // Navigate to edit screen
-                        //val tempEventKey = eventLocalDataSource.setModifyingEvent(event = event)
-                        //navController.navigate("event/event-edit/$tempEventKey")
+                        val tempNewsKey = newsLocalRepository.setModifyingNews(news = news)
+                        navController.navigate("news/news-edit/$tempNewsKey")
                     }, onPublish = {
                         publishConfirmation.value = true
-                        publishingId.value = news.id
+                        publishingId.value = news.id!!
                     }, onDelete = {
                         deleteConfirmation.value = true
                         newsMode.value = NewsManageMode.DRAFT
-                        deletingId.value = news.id
+                        deletingId.value = news.id!!
                     })
                     if (index < draftNewsList.lastIndex) {
                         HorizontalDivider(
@@ -237,14 +239,14 @@ class NewsManage @Inject constructor() {
                 activeNewsList.forEachIndexed { index, news ->
                     NewsItemForAdmin(news = news, isDraftNews = false, onModify = {
                         // Navigate to edit screen
-                        //val tempEventKey = eventLocalDataSource.setModifyingEvent(event = event)
-                        //navController.navigate("event/event-edit/$tempEventKey")
+                        val tempNewsKey = newsLocalRepository.setModifyingNews(news = news)
+                        navController.navigate("news/news-edit/$tempNewsKey")
                     }, onPublish = {
                         /* Nothing to implement */
                     }, onDelete = {
                         deleteConfirmation.value = true
                         newsMode.value = NewsManageMode.ACTIVE
-                        deletingId.value = news.id
+                        deletingId.value = news.id!!
                     })
                     if (index < activeNewsList.lastIndex) {
                         HorizontalDivider(

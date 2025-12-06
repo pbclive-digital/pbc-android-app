@@ -4,12 +4,12 @@ import java.text.DateFormat
 import java.util.Date
 
 data class News(
-    val id: String,
-    val title: String,
-    val content: String,
-    val newsStatus: NewsStatus,
-    val facebookLink: String? = null,
-    val createdTime: Long,
+    val id: String? = null,
+    var title: String = "",
+    var content: String = "",
+    val newsStatus: NewsStatus = NewsStatus.DRAFT,
+    var facebookLink: String? = null,
+    val createdTime: Long = 0,
     var publishedTime: Long = 0
 ) {
     fun getFormatCreatedDate(): String {

@@ -13,7 +13,7 @@ data class Event(
     var eventDate: Long = 0,
     var startTime: String = "",
     var endTime: String = "",
-    val createdTime: Long = 0,
+    val createdTime: Long = System.currentTimeMillis(),
     var venueType: VenueType = VenueType.DEFAULT,
     var venue: String? = null,
     var venueAddress: String? = null,
