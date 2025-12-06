@@ -205,6 +205,9 @@ class NewsManage @Inject constructor(
                     Text(
                         text = stringResource(R.string.label_news_no_draft),
                         textAlign = TextAlign.Center,
+                        fontFamily = PBCFontFamily,
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }
@@ -267,6 +270,9 @@ class NewsManage @Inject constructor(
                     Text(
                         text = stringResource(R.string.label_news_no_active),
                         textAlign = TextAlign.Center,
+                        fontFamily = PBCFontFamily,
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }

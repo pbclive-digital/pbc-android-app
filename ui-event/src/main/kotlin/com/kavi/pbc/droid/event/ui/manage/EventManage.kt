@@ -199,6 +199,9 @@ class EventManage @Inject constructor(
                     Text(
                         text = stringResource(R.string.label_event_no_draft_event),
                         textAlign = TextAlign.Center,
+                        fontFamily = PBCFontFamily,
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }
@@ -257,7 +260,10 @@ class EventManage @Inject constructor(
                 ) {
                     Text(
                         text = stringResource(R.string.label_event_no_active_event),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        fontFamily = PBCFontFamily,
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }
