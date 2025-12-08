@@ -9,7 +9,6 @@ import com.kavi.pbc.droid.data.dto.event.PotluckItem
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
-import com.kavi.pbc.droid.event.util.FilePickerUtil
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +16,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -215,7 +217,7 @@ class EventCreateViewModel @Inject constructor(
     }
 
     fun uploadEventImageAndCreateOrUpdateEvent(isModify: Boolean = false) {
-        val imagePartRequest = FilePickerUtil.createMultiPartRequest(eventImageFile)
+        val imagePartRequest = createMultiPartRequest(eventImageFile)
         val formatedEventName = _newEvent.value.name.replace(" ", "_").replace("-", "_")
 
         if (imagePartRequest != null) {
@@ -248,6 +250,16 @@ class EventCreateViewModel @Inject constructor(
             } else {
                 createNewEvent()
             }
+        }
+    }
+
+    fun createMultiPartRequest(providedFile: File?): MultipartBody.Part? {
+        providedFile?.let { file ->
+            val requestFile = RequestBody.create("image/png".toMediaType(), file)
+            val imagePart = MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
+            return imagePart
+        }?: run {
+            return null
         }
     }
 

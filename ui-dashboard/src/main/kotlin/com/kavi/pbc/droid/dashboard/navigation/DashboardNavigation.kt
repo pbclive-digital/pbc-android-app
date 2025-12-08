@@ -69,6 +69,9 @@ class DashboardNavigation @Inject constructor() {
             composable (route = "dashboard/to/appointment") {
                 ContractServiceLocator.locate(AppointmentContract::class).RetrieveNavGraph()
             }
+            composable (route = "dashboard/to/news/list") {
+                ContractServiceLocator.locate(NewsContract::class).RetrieveNavGraphWithDynamicDestination("news/active-list")
+            }
         }
     }
 }

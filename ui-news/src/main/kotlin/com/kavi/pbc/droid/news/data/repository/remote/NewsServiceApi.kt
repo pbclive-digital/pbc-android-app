@@ -2,11 +2,14 @@ package com.kavi.pbc.droid.news.data.repository.remote
 
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.news.News
+import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 
 interface NewsServiceApi {
@@ -19,6 +22,10 @@ interface NewsServiceApi {
 
     @POST("/news/create")
     suspend fun createNews(@Body news: News): BaseResponse<String>
+
+    @Multipart
+    @POST("/news/add/image/{newsTitle}")
+    suspend fun uploadNewsImage(@Path("newsTitle") newsTitle: String, @Part file: MultipartBody.Part): BaseResponse<String>
 
     @PUT("/news/update/publish/{newsId}")
     suspend fun publishDraftNews(@Path("newsId") newsId: String, @Body news: News): BaseResponse<News>

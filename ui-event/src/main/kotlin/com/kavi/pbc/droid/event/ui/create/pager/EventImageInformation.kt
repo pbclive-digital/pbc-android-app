@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,10 +37,10 @@ import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.create.EventCreateViewModel
-import com.kavi.pbc.droid.event.util.FilePickerUtil
-import com.kavi.pbc.droid.event.util.OpenFileResult
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
+import com.kavi.pbc.droid.lib.parent.util.FilePickerUtil
+import com.kavi.pbc.droid.lib.parent.util.OpenFileResult
 import javax.inject.Inject
 
 class EventImageInformation @Inject constructor() {
@@ -61,7 +60,7 @@ class EventImageInformation @Inject constructor() {
 
                     when(val result = FilePickerUtil.handleOpenDocument(activity, imageUri)) {
                         OpenFileResult.DifferentResult, OpenFileResult.OpenFileWasCancelled, OpenFileResult.ErrorOpeningFile -> {
-
+                            // Nothing to do here
                         }
                         is OpenFileResult.FileWasOpened -> {
                             viewModel.updateEventImageFile(result.file)

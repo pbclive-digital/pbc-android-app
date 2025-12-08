@@ -20,4 +20,6 @@
     <string name="label_user_email">Email</string>
     <string name="label_user_phone">Phone #</string>
     <string name="label_user_address">Address</string>
+
+    <string name="label_news_read_more">Read More</string>
 </resources>

@@ -9,6 +9,7 @@ data class News(
     var content: String = "",
     val newsStatus: NewsStatus = NewsStatus.DRAFT,
     var facebookLink: String? = null,
+    var newsImage: String? = null,
     val createdTime: Long = 0,
     var publishedTime: Long = 0
 ) {

@@ -71,6 +71,7 @@ class UserManage @Inject constructor() {
         val showViewSheet = remember { mutableStateOf(false) }
 
         val userSearchStatus by viewModel.userResultUiStatus.collectAsState()
+        val selectedUser by viewModel.selectedUser.collectAsState()
 
         Box {
             Box(
@@ -190,11 +191,11 @@ class UserManage @Inject constructor() {
         }
 
         if (showViewSheet.value) {
-            UserViewBottomSheet(sheetState = viewUserSheetState, showSheet = showViewSheet, selectedUser = viewModel.selectedUser.value)
+            UserViewBottomSheet(sheetState = viewUserSheetState, showSheet = showViewSheet, selectedUser = selectedUser)
         }
 
         if (userSearchStatus == UIStatus.ERROR) {
-            Toast.makeText(context, stringResource(R.string.label_user_search_error), Toast.LENGTH_LONG)
+            Toast.makeText(context, stringResource(R.string.label_user_search_error), Toast.LENGTH_LONG).show()
             viewModel.revokeUserSearchUiStatus()
         }
     }

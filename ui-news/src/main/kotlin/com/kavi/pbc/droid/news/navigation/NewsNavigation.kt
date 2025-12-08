@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.news.ui.create.NewsCreateOrModify
+import com.kavi.pbc.droid.news.ui.list.ActiveNewsList
 import com.kavi.pbc.droid.news.ui.manage.NewsManage
 import javax.inject.Inject
 
@@ -19,11 +20,14 @@ class NewsNavigation @Inject constructor() {
     @Inject
     lateinit var newsCreateOrModify: NewsCreateOrModify
 
+    @Inject
+    lateinit var activeNewsList: ActiveNewsList
+
     @Composable
-    fun NewsNavGraph() {
+    fun NewsNavGraph(startDestination: String = "news/news-manage") {
         val navController = rememberNavController()
         NavHost(
-            navController = navController, startDestination = "news/news-manage",
+            navController = navController, startDestination = startDestination,
             enterTransition = { fadeIn(animationSpec = tween(durationMillis = 500)) },
             exitTransition = { fadeOut(animationSpec = tween(durationMillis = 500)) }
         ) {
@@ -36,6 +40,9 @@ class NewsNavigation @Inject constructor() {
             composable (route = "news/news-edit/{newsKey}") { backStackEntry ->
                 val newsKey = backStackEntry.arguments?.getString("newsKey")
                 newsCreateOrModify.NewsCreateOrModifyUI(navController = navController, modifyingNewsKey = newsKey)
+            }
+            composable (route = "news/active-list") {
+                activeNewsList.ActiveNewsListUI(navController)
             }
         }
     }

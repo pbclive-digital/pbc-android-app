@@ -56,6 +56,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.dashboard.data.repository.local.DashboardLocalRepository
+import com.kavi.pbc.droid.data.dto.news.News
+import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithAction
 import com.kavi.pbc.droid.lib.common.ui.component.TitleWithProfile
 import com.kavi.pbc.droid.lib.common.ui.component.event.EventItem
@@ -64,6 +66,7 @@ import com.kavi.pbc.droid.lib.common.ui.model.UIStatus
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
+import com.kavi.pbc.droid.lib.parent.contract.module.NewsContract
 import com.kavi.pbc.droid.network.session.Session
 import kotlinx.coroutines.delay
 import javax.inject.Inject
@@ -125,7 +128,7 @@ class Home @Inject constructor(
                     EventPager(viewModel = viewModel, navController = navController)
 
                     // News Colum
-                    NewsColum(viewModel = viewModel)
+                    NewsColum(navController = navController, viewModel = viewModel)
                 }
             }
         }
@@ -265,11 +268,19 @@ class Home @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    private fun NewsColum(viewModel: HomeViewModel) {
+    private fun NewsColum(navController: NavController, viewModel: HomeViewModel) {
 
         val newsUiState by viewModel.newUIStatus.collectAsState()
         val dashboardNews by viewModel.dashboardNewsList.collectAsState()
+
+        val selectedNewsSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showNewsSheet = remember { mutableStateOf(false) }
+
+        var selectedNews by remember { mutableStateOf(News()) }
 
         LaunchedEffect(Unit) {
             viewModel.getDashboardNews()
@@ -301,7 +312,10 @@ class Home @Inject constructor(
                     UIStatus.SUCCESS -> {
                         Column {
                             dashboardNews.forEachIndexed { index,  news ->
-                                NewsItem(news = news)
+                                NewsItem(news = news) {
+                                    showNewsSheet.value = true
+                                    selectedNews = news
+                                }
                                 if (index < dashboardNews.lastIndex) {
                                     HorizontalDivider(
                                         modifier = Modifier.fillMaxWidth(),
@@ -309,6 +323,16 @@ class Home @Inject constructor(
                                         color = Color.LightGray
                                     )
                                 }
+                            }
+
+                            AppLinkButton(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(top = 12.dp, bottom = 20.dp),
+                                label = stringResource(R.string.label_news_more),
+                                color = MaterialTheme.colorScheme.secondary,
+                            ) {
+                                navController.navigate("dashboard/to/news/list")
                             }
                         }
                     }
@@ -330,6 +354,12 @@ class Home @Inject constructor(
                         }
                     }
                 }
+            }
+
+            if (showNewsSheet.value) {
+                ContractServiceLocator
+                    .locate(NewsContract::class).RetrieveSelectedNewsSheet(
+                        sheetState = selectedNewsSheetState, showSheet = showNewsSheet, selectedNews = selectedNews)
             }
         }
     }

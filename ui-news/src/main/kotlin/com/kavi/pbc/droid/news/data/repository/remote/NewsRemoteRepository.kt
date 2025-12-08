@@ -5,6 +5,7 @@ import com.kavi.pbc.droid.data.dto.news.News
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class NewsRemoteRepository @Inject constructor(
@@ -24,6 +25,10 @@ class NewsRemoteRepository @Inject constructor(
 
     suspend fun createNews(news: News): ResultWrapper<BaseResponse<String>> {
         return network.invokeApiCall(dispatcher) { newsServiceApi.createNews(news) }
+    }
+
+    suspend fun uploadNewsImage(newsTitle: String, imageFile: MultipartBody.Part): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { newsServiceApi.uploadNewsImage(newsTitle, imageFile) }
     }
 
     suspend fun publishDraftNews(newsId: String, news: News): ResultWrapper<BaseResponse<News>> {

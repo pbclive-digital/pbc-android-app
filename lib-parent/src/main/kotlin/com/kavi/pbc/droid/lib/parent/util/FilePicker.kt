@@ -1,10 +1,7 @@
-package com.kavi.pbc.droid.event.util
+package com.kavi.pbc.droid.lib.parent.util
 
 import android.app.Activity
 import android.net.Uri
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -27,16 +24,6 @@ object FilePickerUtil {
             } else OpenFileResult.ErrorOpeningFile
         } else {
             OpenFileResult.ErrorOpeningFile
-        }
-    }
-
-    fun createMultiPartRequest(providedFile: File?): MultipartBody.Part? {
-        providedFile?.let { file ->
-            val requestFile = RequestBody.create("image/png".toMediaType(), file)
-            val imagePart = MultipartBody.Part.createFormData("eventImage", file.name, requestFile)
-            return imagePart
-        }?: run {
-            return null
         }
     }
 

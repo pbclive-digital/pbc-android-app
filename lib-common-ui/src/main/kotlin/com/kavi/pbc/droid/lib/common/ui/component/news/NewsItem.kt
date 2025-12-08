@@ -1,6 +1,7 @@
 package com.kavi.pbc.droid.lib.common.ui.component.news
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -9,15 +10,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kavi.pbc.droid.data.dto.news.News
+import com.kavi.pbc.droid.lib.common.ui.R
+import com.kavi.pbc.droid.lib.common.ui.component.AppLinkButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
-fun NewsItem(modifier: Modifier = Modifier, news: News) {
+fun NewsItem(modifier: Modifier = Modifier, news: News, onReadMore: () -> Unit) {
     Column (
         modifier = Modifier
             .fillMaxWidth()
@@ -37,8 +41,21 @@ fun NewsItem(modifier: Modifier = Modifier, news: News) {
             fontFamily = PBCFontFamily,
             fontSize = 16.sp,
             fontWeight = FontWeight.Medium,
-            maxLines = 2,
+            maxLines = 3,
             overflow = TextOverflow.Ellipsis
         )
+
+        Row (modifier = Modifier
+            .padding(top = 4.dp)
+            .fillMaxWidth()
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+            AppLinkButton(
+                label = stringResource(R.string.label_news_read_more),
+                color = MaterialTheme.colorScheme.secondary,
+            ) {
+                onReadMore.invoke()
+            }
+        }
     }
 }
