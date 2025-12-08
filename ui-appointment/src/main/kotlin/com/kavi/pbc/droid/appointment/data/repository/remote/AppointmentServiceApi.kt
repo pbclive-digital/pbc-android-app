@@ -28,10 +28,10 @@ interface AppointmentServiceApi {
     @GET("/appointment/request/create/eligibility/{userId}")
     suspend fun validateRequestCreationEligibility(@Path("userId") userId: String): BaseResponse<AppointmentRequestEligibility>
 
-    @GET("/appointment/get/{userId}")
+    @GET("/appointment/get/user/{userId}")
     suspend fun getUserAppointmentList(@Path("userId") userId: String): BaseResponse<List<Appointment>>
 
-    @GET("/appointment/request/get/{userId}")
+    @GET("/appointment/request/get/user/{userId}")
     suspend fun getUserAppointmentRequestList(@Path("userId") userId: String): BaseResponse<List<AppointmentRequest>>
 
     @DELETE("/appointment/delete/{appointmentId}")
