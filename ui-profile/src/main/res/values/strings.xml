@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_profile">Profile</string>
+    <string name="label_profile_edit">Modify Profile</string>
     <string name="label_sign_out">Sign Out</string>
     <string name="label_delete_acc">Delete Account</string>
 

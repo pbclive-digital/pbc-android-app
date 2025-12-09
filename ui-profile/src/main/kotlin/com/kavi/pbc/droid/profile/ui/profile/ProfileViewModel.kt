@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.profile.ui
+package com.kavi.pbc.droid.profile.ui.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

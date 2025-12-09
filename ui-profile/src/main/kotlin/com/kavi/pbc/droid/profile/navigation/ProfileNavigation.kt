@@ -9,13 +9,17 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
-import com.kavi.pbc.droid.profile.ui.Profile
+import com.kavi.pbc.droid.profile.ui.profile.Profile
+import com.kavi.pbc.droid.profile.ui.update.ProfileUpdate
 import javax.inject.Inject
 
 class ProfileNavigation @Inject constructor() {
 
     @Inject
     lateinit var profile: Profile
+
+    @Inject
+    lateinit var profileUpdate: ProfileUpdate
 
     @Composable
     fun ProfileNavGraph() {
@@ -27,6 +31,9 @@ class ProfileNavigation @Inject constructor() {
         ) {
             composable (route = "profile/profile-ui") {
                 profile.ProfileUI(navController = navController)
+            }
+            composable (route = "profile/profile-update" ) {
+                profileUpdate.ProfileUpdateUI(navController = navController)
             }
             composable (route = "profile/to/auth") {
                 ContractServiceLocator.locate(AuthContract::class).RetrieveNavGraph()

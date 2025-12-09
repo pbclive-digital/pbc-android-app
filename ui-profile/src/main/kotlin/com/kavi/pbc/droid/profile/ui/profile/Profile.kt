@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.profile.ui
+package com.kavi.pbc.droid.profile.ui.profile
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -48,8 +48,8 @@ import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.profile.R
-import com.kavi.pbc.droid.profile.ui.dialog.DeleteConfirmationDialog
-import com.kavi.pbc.droid.profile.ui.dialog.SignOutConfirmationDialog
+import com.kavi.pbc.droid.profile.ui.profile.dialog.DeleteConfirmationDialog
+import com.kavi.pbc.droid.profile.ui.profile.dialog.SignOutConfirmationDialog
 import javax.inject.Inject
 
 class Profile @Inject constructor() {
@@ -115,7 +115,7 @@ class Profile @Inject constructor() {
                     }
 
                     // Basic information block
-                    BasicInfoCard(profileUser = profileUser)
+                    BasicInfoCard(profileUser = profileUser, navController = navController)
 
                     // User favorites block
                     UserFavorites()
@@ -176,7 +176,7 @@ class Profile @Inject constructor() {
 }
 
 @Composable
-private fun BasicInfoCard(profileUser: User) {
+private fun BasicInfoCard(profileUser: User, navController: NavController) {
     Card(
         modifier = Modifier
             .padding(top = 20.dp)
@@ -211,6 +211,7 @@ private fun BasicInfoCard(profileUser: User) {
                     color = MaterialTheme.colorScheme.secondary,
                 ) {
                     // Open dialog box to edit details
+                    navController.navigate("profile/profile-update")
                 }
             }
 

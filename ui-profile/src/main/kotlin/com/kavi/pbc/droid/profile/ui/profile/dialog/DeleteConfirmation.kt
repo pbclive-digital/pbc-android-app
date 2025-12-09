@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.profile.ui.dialog
+package com.kavi.pbc.droid.profile.ui.profile.dialog
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +20,7 @@ import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.profile.R
 
 @Composable
-fun SignOutConfirmationDialog(
+fun DeleteConfirmationDialog(
     showDialog: MutableState<Boolean>,
     onAgree: () -> Unit,
     onDisagree: () -> Unit
@@ -31,7 +31,7 @@ fun SignOutConfirmationDialog(
             onDisagree.invoke()
         }
     ) {
-        SignOutConfirmationContent(
+        DeleteConfirmationContent(
             onAgree = onAgree,
             onDisagree = onDisagree
         )
@@ -39,7 +39,7 @@ fun SignOutConfirmationDialog(
 }
 
 @Composable
-private fun SignOutConfirmationContent(onAgree: () -> Unit, onDisagree: () -> Unit) {
+private fun DeleteConfirmationContent(onAgree: () -> Unit, onDisagree: () -> Unit) {
     Box (
         modifier = Modifier
             .padding(24.dp)
@@ -54,7 +54,7 @@ private fun SignOutConfirmationContent(onAgree: () -> Unit, onDisagree: () -> Un
             )
             Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = stringResource(R.string.phrase_sure_sign_out),
+                text = stringResource(R.string.phrase_sure_delete),
                 fontSize = 18.sp,
                 fontFamily = PBCFontFamily,
                 fontWeight = FontWeight.Normal,
