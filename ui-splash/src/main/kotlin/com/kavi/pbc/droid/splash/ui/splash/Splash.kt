@@ -96,11 +96,11 @@ private fun PulsarIcon(pulseCount: Int = 2) {
     }
 
     Box(
-        contentAlignment = Alignment.Companion.Center,
-        modifier = Modifier.Companion.fillMaxSize()
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
     ) {
         val primaryColor = MaterialTheme.colorScheme.tertiary
-        Canvas(Modifier.Companion.fillMaxSize(), onDraw = {
+        Canvas(Modifier.fillMaxSize(), onDraw = {
             for (i in 0 until pulseCount) {
                 val (radius, alpha) = effects[i]
                 drawCircle(color = primaryColor, radius = radius, alpha = alpha)
@@ -110,8 +110,8 @@ private fun PulsarIcon(pulseCount: Int = 2) {
         Image(
             painter = painterResource(R.drawable.image_dhamma_chakra),
             contentDescription = "Dhamma chakra icon",
-            contentScale = ContentScale.Companion.Crop,
-            modifier = Modifier.Companion
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
                 .size(pulsarRadius.dp)
                 .clip(CircleShape)
                 .onGloballyPositioned {
