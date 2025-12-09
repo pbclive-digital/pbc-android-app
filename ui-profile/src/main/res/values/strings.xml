@@ -4,12 +4,15 @@
     <string name="label_profile_edit">Modify Profile</string>
     <string name="label_sign_out">Sign Out</string>
     <string name="label_delete_acc">Delete Account</string>
+    <string name="label_profile_update">Update</string>
 
     <string name="label_basic_info">Basic Info</string>
     <string name="phrase_basic_info">Basic information about you. You can edit them at anytime you need.</string>
 
     <string name="label_email">Email</string>
     <string name="label_name">Name</string>
+    <string name="label_first_name">First Name</string>
+    <string name="label_last_name">Last Name</string>
     <string name="label_phone">Phone #</string>
     <string name="label_address">Address</string>
 
@@ -19,4 +22,7 @@
     <string name="label_sure">Are you sure?</string>
     <string name="phrase_sure_sign_out">Do you want to sign-out now? You can sign-in back at anytime.</string>
     <string name="phrase_sure_delete">Do you want to delete you account? Once you delete your account, all information we kept will also delete. You can sign-up back as using same email or different email.</string>
+
+    <string name="label_profile_update_failure">Failed to update your profile. Please try again later.</string>
+    <string name="label_profile_update_success">Successfully update your profile.</string>
 </resources>

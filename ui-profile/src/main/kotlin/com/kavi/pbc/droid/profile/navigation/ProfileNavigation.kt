@@ -32,8 +32,9 @@ class ProfileNavigation @Inject constructor() {
             composable (route = "profile/profile-ui") {
                 profile.ProfileUI(navController = navController)
             }
-            composable (route = "profile/profile-update" ) {
-                profileUpdate.ProfileUpdateUI(navController = navController)
+            composable (route = "profile/profile-update/{profileKey}" ) { backStackEntry ->
+                val profileKey = backStackEntry.arguments?.getString("profileKey")
+                profileUpdate.ProfileUpdateUI(navController = navController, modifyProfileKey = profileKey)
             }
             composable (route = "profile/to/auth") {
                 ContractServiceLocator.locate(AuthContract::class).RetrieveNavGraph()

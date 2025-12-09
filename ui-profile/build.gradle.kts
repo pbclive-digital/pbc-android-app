@@ -81,6 +81,7 @@ dependencies {
     implementation(project(":lib-network"))
     implementation(project(":lib-data"))
     implementation(project(":lib-common-ui"))
+    implementation(project(":lib-local-datastore"))
     implementation(project(":lib-parent"))
 
     testImplementation(libs.junit)

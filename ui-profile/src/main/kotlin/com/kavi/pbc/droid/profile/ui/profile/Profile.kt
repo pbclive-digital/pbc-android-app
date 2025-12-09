@@ -48,12 +48,14 @@ import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.profile.R
+import com.kavi.pbc.droid.profile.data.repository.local.ProfileLocalRepository
 import com.kavi.pbc.droid.profile.ui.profile.dialog.DeleteConfirmationDialog
 import com.kavi.pbc.droid.profile.ui.profile.dialog.SignOutConfirmationDialog
 import javax.inject.Inject
 
-class Profile @Inject constructor() {
-
+class Profile @Inject constructor(
+    val profileLocalRepository: ProfileLocalRepository
+) {
     @Composable
     fun ProfileUI(navController: NavController, modifier: Modifier = Modifier, viewModel: ProfileViewModel = hiltViewModel()) {
 
@@ -173,199 +175,200 @@ class Profile @Inject constructor() {
             popUpTo(0) { inclusive = true }
         }
     }
-}
 
-@Composable
-private fun BasicInfoCard(profileUser: User, navController: NavController) {
-    Card(
-        modifier = Modifier
-            .padding(top = 20.dp)
-            .fillMaxWidth()
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(12.dp),
-                spotColor = MaterialTheme.colorScheme.shadow
+    @Composable
+    private fun BasicInfoCard(profileUser: User, navController: NavController) {
+        Card(
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .fillMaxWidth()
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(12.dp),
+                    spotColor = MaterialTheme.colorScheme.shadow
+                ),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background,
             ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
-        ),
-        shape = RoundedCornerShape(12.dp),
-    ) {
-        Column (
-            modifier = Modifier.padding(16.dp)
+            shape = RoundedCornerShape(12.dp),
         ) {
-            Row {
+            Column (
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Row {
+                    Text(
+                        text = stringResource(R.string.label_basic_info),
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Normal,
+                        textAlign = TextAlign.Start,
+                        fontSize = 22.sp
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    AppLinkButton(
+                        label = stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_edit),
+                        labelTextSize = 18.sp,
+                        color = MaterialTheme.colorScheme.secondary,
+                    ) {
+                        // Open dialog box to edit details
+                        val profileKey = profileLocalRepository.setModifyingProfile(profileUser)
+                        navController.navigate("profile/profile-update/$profileKey")
+                    }
+                }
+
                 Text(
-                    text = stringResource(R.string.label_basic_info),
+                    text = stringResource(R.string.phrase_basic_info),
+                    fontFamily = PBCFontFamily,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()
+                )
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_email),
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Start,
+                        fontSize = 18.sp,
+                        modifier = Modifier.width(100.dp)
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        text = profileUser.email,
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_name),
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Start,
+                        fontSize = 18.sp,
+                        modifier = Modifier.width(100.dp)
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        text = "${profileUser.firstName} ${profileUser.lastName}",
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_phone),
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Start,
+                        fontSize = 18.sp,
+                        modifier = Modifier.width(100.dp)
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        text = profileUser.phoneNumber ?: run { "" },
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
+
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.label_address),
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Start,
+                        fontSize = 18.sp,
+                        modifier = Modifier.width(100.dp)
+                    )
+
+                    Spacer(modifier = Modifier.weight(1f))
+
+                    Text(
+                        text = profileUser.address ?: run { "" },
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
+            }
+        }
+    }
+
+    @Composable
+    private fun UserFavorites() {
+        Card(
+            modifier = Modifier
+                .padding(top = 20.dp)
+                .fillMaxWidth()
+                .shadow(
+                    elevation = 8.dp,
+                    shape = RoundedCornerShape(12.dp),
+                    spotColor = MaterialTheme.colorScheme.shadow
+                ),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
+            shape = RoundedCornerShape(12.dp),
+        ) {
+            Column (
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Text(
+                    text = stringResource(R.string.label_favorite),
                     fontFamily = PBCFontFamily,
                     fontWeight = FontWeight.Normal,
                     textAlign = TextAlign.Start,
                     fontSize = 22.sp
                 )
 
-                Spacer(modifier = Modifier.weight(1f))
-
-                AppLinkButton(
-                    label = stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_edit),
-                    labelTextSize = 18.sp,
-                    color = MaterialTheme.colorScheme.secondary,
-                ) {
-                    // Open dialog box to edit details
-                    navController.navigate("profile/profile-update")
-                }
-            }
-
-            Text(
-                text = stringResource(R.string.phrase_basic_info),
-                fontFamily = PBCFontFamily,
-                fontWeight = FontWeight.Light,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth()
-            )
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
                 Text(
-                    text = stringResource(R.string.label_email),
+                    text = stringResource(R.string.phrase_favorite),
                     fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
+                    fontWeight = FontWeight.Light,
+                    fontSize = 18.sp,
                     textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = profileUser.email,
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .fillMaxWidth()
                 )
             }
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_name),
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = "${profileUser.firstName} ${profileUser.lastName}",
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
-            }
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_phone),
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = profileUser.phoneNumber ?: run { "" },
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
-            }
-
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp)
-            ) {
-                Text(
-                    text = stringResource(R.string.label_address),
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Start,
-                    fontSize = 18.sp,
-                    modifier = Modifier.width(100.dp)
-                )
-
-                Spacer(modifier = Modifier.weight(1f))
-
-                Text(
-                    text = profileUser.address ?: run { "" },
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun UserFavorites() {
-    Card(
-        modifier = Modifier
-            .padding(top = 20.dp)
-            .fillMaxWidth()
-            .shadow(
-                elevation = 8.dp,
-                shape = RoundedCornerShape(12.dp),
-                spotColor = MaterialTheme.colorScheme.shadow
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background,
-        ),
-        shape = RoundedCornerShape(12.dp),
-    ) {
-        Column (
-            modifier = Modifier.padding(16.dp)
-        ) {
-            Text(
-                text = stringResource(R.string.label_favorite),
-                fontFamily = PBCFontFamily,
-                fontWeight = FontWeight.Normal,
-                textAlign = TextAlign.Start,
-                fontSize = 22.sp
-            )
-
-            Text(
-                text = stringResource(R.string.phrase_favorite),
-                fontFamily = PBCFontFamily,
-                fontWeight = FontWeight.Light,
-                fontSize = 18.sp,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .fillMaxWidth()
-            )
         }
     }
 }

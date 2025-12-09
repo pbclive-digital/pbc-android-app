@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.user.User
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
-import com.kavi.pbc.droid.profile.data.repository.ProfileRemoteRepository
+import com.kavi.pbc.droid.profile.data.repository.remote.ProfileRemoteRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
