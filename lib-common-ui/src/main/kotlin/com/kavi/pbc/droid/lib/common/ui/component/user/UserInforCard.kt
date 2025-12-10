@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -79,13 +80,15 @@ fun BasicUserInfoCard(profileUser: User) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Text(
-                    text = profileUser.email,
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
+                SelectionContainer {
+                    Text(
+                        text = profileUser.email,
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
             }
 
             Row (
@@ -104,13 +107,15 @@ fun BasicUserInfoCard(profileUser: User) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Text(
-                    text = profileUser.phoneNumber ?: run { "" },
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
+                SelectionContainer {
+                    Text(
+                        text = profileUser.phoneNumber ?: run { "" },
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
             }
 
             Row (
@@ -129,13 +134,15 @@ fun BasicUserInfoCard(profileUser: User) {
 
                 Spacer(modifier = Modifier.weight(1f))
 
-                Text(
-                    text = profileUser.address ?: run { "" },
-                    fontFamily = PBCFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    textAlign = TextAlign.End,
-                    fontSize = 18.sp,
-                )
+                SelectionContainer {
+                    Text(
+                        text = profileUser.address ?: run { "" },
+                        fontFamily = PBCFontFamily,
+                        fontWeight = FontWeight.Medium,
+                        textAlign = TextAlign.End,
+                        fontSize = 18.sp,
+                    )
+                }
             }
         }
     }
