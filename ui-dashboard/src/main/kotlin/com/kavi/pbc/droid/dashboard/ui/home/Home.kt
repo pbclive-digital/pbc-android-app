@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.dashboard.ui.home
 
+import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -54,6 +55,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.PermissionStatus
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
 import com.kavi.pbc.droid.dashboard.R
 import com.kavi.pbc.droid.dashboard.data.repository.local.DashboardLocalRepository
 import com.kavi.pbc.droid.data.dto.news.News
@@ -96,6 +101,10 @@ class Home @Inject constructor(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
+                if (Session.isLogIn()) {
+                    NotificationPermissionRequest()
+                }
+
                 Session.user?.profilePicUrl?.let {
                     TitleWithProfile(
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
@@ -143,6 +152,29 @@ class Home @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalPermissionsApi::class)
+    @Composable
+    private fun NotificationPermissionRequest(viewModel: HomeViewModel = hiltViewModel()) {
+        val notificationPermissionState = rememberPermissionState(
+            permission = android.Manifest.permission.POST_NOTIFICATIONS
+        )
+
+        when(notificationPermissionState.status) {
+            PermissionStatus.Granted -> {
+                viewModel.pushNotificationSync()
+            }
+            is PermissionStatus.Denied -> {
+                // Permission not available to Notifications
+            }
+        }
+
+        LaunchedEffect(Unit) {
+            if (!(notificationPermissionState.status.isGranted || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)) {
+                notificationPermissionState.launchPermissionRequest()
+            }
+        }
+    }
+
     @Composable
     private fun DailyQuoteAnimatorComponent(maxHeight: Dp, viewModel: HomeViewModel,
                                             intervalMillis: Long = 10000L) {
@@ -170,7 +202,7 @@ class Home @Inject constructor(
             Box (
                 modifier = Modifier
                     .fillMaxSize()
-                    .height(maxHeight/7)
+                    .height(maxHeight / 7)
                     .padding(top = 20.dp, start = 12.dp, end = 12.dp),
                 contentAlignment = Alignment.Center
             ) {

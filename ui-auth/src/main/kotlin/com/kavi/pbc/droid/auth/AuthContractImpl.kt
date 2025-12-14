@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.kavi.pbc.droid.auth.data.repository.AuthRemoteRepository
+import com.kavi.pbc.droid.auth.data.repository.remote.AuthRemoteRepository
 import com.kavi.pbc.droid.auth.navigation.AuthNavigation
 import com.kavi.pbc.droid.auth.ui.invitation.AuthInvite
 import com.kavi.pbc.droid.data.dto.auth.AuthToken

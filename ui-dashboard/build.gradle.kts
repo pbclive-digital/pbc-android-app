@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling)
     implementation(libs.androidx.ui.tooling.preview)
 
+    // Android permission request
+    implementation(libs.google.accompanist.permissions)
+
     // DI Hilt
     implementation(libs.google.android.hilt)
     ksp(libs.google.android.hilt.compiler)

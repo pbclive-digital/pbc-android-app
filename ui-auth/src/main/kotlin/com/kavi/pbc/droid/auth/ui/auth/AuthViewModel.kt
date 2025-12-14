@@ -3,7 +3,8 @@ package com.kavi.pbc.droid.auth.ui.auth
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kavi.pbc.droid.auth.data.repository.AuthRemoteRepository
+import com.kavi.pbc.droid.auth.data.repository.local.AuthLocalRepository
+import com.kavi.pbc.droid.auth.data.repository.remote.AuthRemoteRepository
 import com.kavi.pbc.droid.auth.util.AuthUtil
 import com.kavi.pbc.droid.data.dto.auth.AuthToken
 import com.kavi.pbc.droid.data.dto.auth.TokenStatus
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val remoteDataSource: AuthRemoteRepository
+    private val remoteDataSource: AuthRemoteRepository,
+    private val localDataSource: AuthLocalRepository
 ): ViewModel() {
 
     private val _onUnRegistered = MutableStateFlow(false)
@@ -118,6 +120,9 @@ class AuthViewModel @Inject constructor(
                     response.value.body?.let { user ->
                         Session.user = user
                         _onSignedIn.value = true
+
+                        // Update push notification sync flag to true after new login
+                        localDataSource.updatePushNotificationUpdateStatus()
                     }
                 }
             }

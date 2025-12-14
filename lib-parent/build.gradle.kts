@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.material3)
+    implementation(libs.google.code.gson)
 
     implementation(project(":lib-data"))
 

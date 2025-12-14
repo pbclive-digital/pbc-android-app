@@ -3,14 +3,12 @@ package com.kavi.pbc.droid.auth.ui.register
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
-import com.google.firebase.auth.auth
-import com.kavi.pbc.droid.auth.data.repository.AuthRemoteRepository
+import com.kavi.pbc.droid.auth.data.repository.local.AuthLocalRepository
+import com.kavi.pbc.droid.auth.data.repository.remote.AuthRemoteRepository
 import com.kavi.pbc.droid.auth.util.AuthUtil
 import com.kavi.pbc.droid.data.dto.auth.AuthToken
 import com.kavi.pbc.droid.data.dto.auth.TokenStatus
 import com.kavi.pbc.droid.data.dto.user.User
-import com.kavi.pbc.droid.data.dto.user.UserAuthType
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val remoteDataSource: AuthRemoteRepository
+    private val remoteDataSource: AuthRemoteRepository,
+    private val localDataSource: AuthLocalRepository
 ): ViewModel() {
 
     private val _signedUser = MutableStateFlow(User(email = ""))
@@ -82,7 +81,9 @@ class RegistrationViewModel @Inject constructor(
                     Session.authToken = authToken
                     // Navigate to Dashboard
                     _onUserCreated.value = true
-                    //updatePushToken()
+
+                    // Update push notification sync flag to true after new login
+                    localDataSource.updatePushNotificationUpdateStatus()
                 }
             }
         }

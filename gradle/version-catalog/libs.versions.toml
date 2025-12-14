@@ -21,6 +21,8 @@ androidXJunit = "1.2.1"
 espressoCore = "3.6.1"
 
 googleGsonVersion = "2.8.9"
+googlePermissions = "0.37.3"
+
 retrofitVersion = "3.0.0"
 okHttpLoginInterceptorVersion = "5.1.0"
 
@@ -34,7 +36,7 @@ material = "1.12.0"
 jetbrainsKotlinJvm = "2.2.0"
 
 googleGmsGoogleServices = "4.4.3"
-firebaseAuth = "24.0.1"
+firebaseBom = "34.6.0"
 credentials = "1.5.0"
 credentialsPlayServicesAuth = "1.5.0"
 googleid = "1.1.1"
@@ -70,8 +72,11 @@ google-android-hilt = { module = "com.google.dagger:hilt-android", version.ref =
 google-android-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltVersion" }
 google-android-hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltComposeNavigation" }
 google-code-gson = { module = "com.google.code.gson:gson", version.ref = "googleGsonVersion" }
+google-accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "googlePermissions" }
 
-firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
 googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }

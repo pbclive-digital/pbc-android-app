@@ -26,4 +26,16 @@ class DashboardLocalRepository @Inject constructor(
     suspend fun retrieveDailyQuoteFromDatastore(): Flow<DailyQuote?> {
         return appDatastore.retrieveObject<DailyQuote>(key = DataKey.APP_DAILY_QUOTE)
     }
+
+    suspend fun isNeedToUpdatePushToken(): Flow<Boolean> {
+        return appDatastore.retrieveBoolean(key = DataKey.APP_IS_NEED_TO_UPDATE_PUSH_TOKEN)
+    }
+
+    suspend fun revokePushTokenUpdateFlag() {
+        return appDatastore.storeValue(key = DataKey.APP_IS_NEED_TO_UPDATE_PUSH_TOKEN, false)
+    }
+
+    suspend fun retrievePushToken(): Flow<String> {
+        return appDatastore.retrieveString(key = DataKey.APP_PUSH_TOKEN)
+    }
 }

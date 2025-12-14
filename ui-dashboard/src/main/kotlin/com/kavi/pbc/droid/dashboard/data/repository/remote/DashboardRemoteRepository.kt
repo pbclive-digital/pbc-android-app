@@ -1,10 +1,10 @@
 package com.kavi.pbc.droid.dashboard.data.repository.remote
 
-import com.kavi.pbc.droid.dashboard.data.repository.remote.DashboardServiceApi
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.quote.Quote
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.news.News
+import com.kavi.pbc.droid.data.dto.notification.PushTokenRequest
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -27,5 +27,11 @@ class DashboardRemoteRepository @Inject constructor(
 
     suspend fun getDashboardNews(): ResultWrapper<BaseResponse<List<News>>> {
         return network.invokeApiCall(dispatcher) { dashboardServiceApi.getDashboardNews() }
+    }
+
+    suspend fun syncPushToken(userId: String, pushTokenReq: PushTokenRequest): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { dashboardServiceApi
+            .syncPushNotificationToken(userId, pushTokenReq)
+        }
     }
 }

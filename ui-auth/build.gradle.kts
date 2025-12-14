@@ -75,6 +75,7 @@ dependencies {
     implementation(libs.google.android.hilt.navigation)
 
     // Firebase
+    implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.credentials.play.services.auth)
@@ -93,6 +94,7 @@ dependencies {
     implementation(libs.kv.color.palette)
     implementation(libs.coil.compose)
 
+    implementation(project(":lib-local-datastore"))
     implementation(project(":lib-network"))
     implementation(project(":lib-data"))
     implementation(project(":lib-common-ui"))

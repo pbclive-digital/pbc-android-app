@@ -7,15 +7,16 @@ import com.kavi.pbc.droid.dashboard.data.repository.remote.DashboardRemoteReposi
 import com.kavi.pbc.droid.data.dto.quote.Quote
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.news.News
+import com.kavi.pbc.droid.data.dto.notification.PushTokenRequest
 import com.kavi.pbc.droid.data.dto.quote.DailyQuote
 import com.kavi.pbc.droid.lib.common.ui.model.UIStatus
 import com.kavi.pbc.droid.lib.parent.util.DateTimeUtil
 import com.kavi.pbc.droid.network.model.ResultWrapper
+import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -85,6 +86,34 @@ class HomeViewModel @Inject constructor(
                     _newsUIState.value = UIStatus.SUCCESS
                     response.value.body?.let {
                         _dashboardNewsList.value = it
+                    }
+                }
+            }
+        }
+    }
+
+    fun pushNotificationSync() {
+        if (Session.isLogIn()) {
+            Session.user?.let { user ->
+                viewModelScope.launch {
+                    localDataRepository.isNeedToUpdatePushToken().collect { newPushTokenStatus ->
+                        if (newPushTokenStatus) {
+                            localDataRepository.retrievePushToken().collect { newPushToken ->
+                                when(remoteDataSource.syncPushToken(user.id!!, PushTokenRequest(
+                                    email = user.email, pushToken = newPushToken
+                                ))) {
+                                    is ResultWrapper.NetworkError,
+                                    is ResultWrapper.HttpError, is ResultWrapper.UnAuthError -> {
+                                        // Push Notification not Sync against the User
+                                    }
+                                    is ResultWrapper.Success -> {
+                                        // Push Notification Sync against the User & update the push token update
+                                        // flag to false
+                                        localDataRepository.revokePushTokenUpdateFlag()
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
