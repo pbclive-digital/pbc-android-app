@@ -1,6 +1,7 @@
 import java.net.URI
 
 listOf(
+    ":ui-broadcast",
     ":ui-news",
     ":ui-user",
     ":ui-appointment",

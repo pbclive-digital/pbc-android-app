@@ -93,13 +93,13 @@ class UserManage @Inject constructor() {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 30.dp),
-                        horizontalAlignment = Alignment.Companion.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
                             text = stringResource(R.string.phrase_user_manage),
                             fontFamily = PBCFontFamily,
                             fontSize = 16.sp,
-                            textAlign = TextAlign.Companion.Justify,
+                            textAlign = TextAlign.Justify,
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -109,7 +109,7 @@ class UserManage @Inject constructor() {
                             modifier = Modifier
                                 .padding(top = 8.dp)
                                 .fillMaxWidth(),
-                            verticalAlignment = Alignment.Companion.CenterVertically,
+                            verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.Center
                         ) {
                             AppOutlineTextField(

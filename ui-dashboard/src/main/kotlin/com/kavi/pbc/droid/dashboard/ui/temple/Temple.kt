@@ -169,7 +169,7 @@ class Temple @Inject constructor() {
                                     navController.navigate("dashboard/admin/to/news")
                                 }
                                 OptionItem(label = stringResource(R.string.label_message_broadcast), isWithDivider = false) {
-
+                                    navController.navigate("dashboard/admin/to/broadcast")
                                 }
                             }
                         }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_broadcast_message">Broadcast Message</string>
+    <string name="label_broadcast_message_title">Message Title</string>
+    <string name="label_broadcast_message_content">Message Content</string>
+
+    <string name="label_broadcast_message_send">Send</string>
+    <string name="label_broadcast_message_send_failed">Failed to send the message at this time.</string>
+    <string name="label_broadcast_message_send_success">Successfully sent the broadcast message.</string>
+</resources>

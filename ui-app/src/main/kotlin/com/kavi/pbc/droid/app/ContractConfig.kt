@@ -2,11 +2,13 @@ package com.kavi.pbc.droid.app
 
 import com.kavi.pbc.droid.appointment.AppointmentContractImpl
 import com.kavi.pbc.droid.auth.AuthContractImpl
+import com.kavi.pbc.droid.broadcast.BroadcastContractImpl
 import com.kavi.pbc.droid.dashboard.DashboardContractImpl
 import com.kavi.pbc.droid.event.EventContractImpl
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AppointmentContract
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
+import com.kavi.pbc.droid.lib.parent.contract.module.BroadcastContract
 import com.kavi.pbc.droid.lib.parent.contract.module.DashboardContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
 import com.kavi.pbc.droid.lib.parent.contract.module.NewsContract
@@ -41,6 +43,8 @@ class ContractConfig @Inject constructor() {
     lateinit var userContractImpl: UserContractImpl
     @Inject
     lateinit var newsContractImpl: NewsContractImpl
+    @Inject
+    lateinit var broadcastContractImpl: BroadcastContractImpl
 
     fun registerContracts() {
         ContractServiceLocator.register(SplashContract::class) { splashContractImpl }
@@ -52,5 +56,6 @@ class ContractConfig @Inject constructor() {
         ContractServiceLocator.register(UserContract::class) { userContractImpl }
         ContractServiceLocator.register(AppointmentContract::class) { appointmentContractImpl }
         ContractServiceLocator.register(NewsContract::class) { newsContractImpl }
+        ContractServiceLocator.register(BroadcastContract::class) { broadcastContractImpl }
     }
 }
