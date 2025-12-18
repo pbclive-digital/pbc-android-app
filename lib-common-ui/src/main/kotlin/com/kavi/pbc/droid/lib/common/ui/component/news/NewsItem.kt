@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,9 +47,17 @@ fun NewsItem(modifier: Modifier = Modifier, news: News, onReadMore: () -> Unit) 
         )
 
         Row (modifier = Modifier
-            .padding(top = 4.dp)
-            .fillMaxWidth()
+                .padding(top = 4.dp)
+                .fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            Text(
+                text = "by ${news.author.name}",
+                color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = PBCFontFamily,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Light,
+            )
             Spacer(modifier = Modifier.weight(1f))
             AppLinkButton(
                 label = stringResource(R.string.label_news_read_more),

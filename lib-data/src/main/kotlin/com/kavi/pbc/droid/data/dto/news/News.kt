@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.data.dto.news
 
+import com.kavi.pbc.droid.data.dto.user.UserSummary
 import java.text.DateFormat
 import java.util.Date
 
@@ -11,7 +12,8 @@ data class News(
     var facebookLink: String? = null,
     var newsImage: String? = null,
     val createdTime: Long = 0,
-    var publishedTime: Long = 0
+    var publishedTime: Long = 0,
+    var author: UserSummary = UserSummary()
 ) {
     fun getFormatCreatedDate(): String {
         val dateFormat = DateFormat.getDateInstance()

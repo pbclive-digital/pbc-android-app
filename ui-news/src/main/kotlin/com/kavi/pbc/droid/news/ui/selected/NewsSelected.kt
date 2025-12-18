@@ -85,10 +85,23 @@ class NewsSelected @Inject constructor() {
                     )
 
                     Text(
-                        text = selectedNews.getFormatPublishedDate(),
+                        text = "on ${selectedNews.getFormatPublishedDate()}",
                         fontFamily = PBCFontFamily,
                         fontSize = 14.sp,
-                        textAlign = TextAlign.Justify,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    )
+
+                    Text(
+                        text = "by ${selectedNews.author.name}",
+                        fontFamily = PBCFontFamily,
+                        fontSize = 14.sp,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier
                             .fillMaxWidth()

@@ -4,7 +4,9 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.news.News
+import com.kavi.pbc.droid.data.dto.user.UserSummary
 import com.kavi.pbc.droid.network.model.ResultWrapper
+import com.kavi.pbc.droid.network.session.Session
 import com.kavi.pbc.droid.news.data.model.NewsCreationStatus
 import com.kavi.pbc.droid.news.data.repository.local.NewsLocalRepository
 import com.kavi.pbc.droid.news.data.repository.remote.NewsRemoteRepository
@@ -34,6 +36,18 @@ class NewsCreateOrModifyViewModel @Inject constructor(
     val newsImageUri: StateFlow<Uri?> = _newsImageUri
 
     private var newsImageFile: File? = null
+
+    init {
+        Session.user?.let {
+            _news.value = News(
+                createdTime = System.currentTimeMillis(),
+                author = UserSummary(
+                    id = it.id!!, name = "${it.firstName} ${it.lastName}",
+                    imageUrl = it.profilePicUrl
+                )
+            )
+        }
+    }
 
     fun setModifyingNews(newsKey: String) {
         localNewsRepository.getModifyingNews(tempNewsKey = newsKey).onSuccess { news ->
