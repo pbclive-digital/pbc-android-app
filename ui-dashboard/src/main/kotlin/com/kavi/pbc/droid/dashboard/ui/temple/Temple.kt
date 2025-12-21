@@ -116,7 +116,7 @@ class Temple @Inject constructor() {
                         ) {
                             OptionItem(label = stringResource(R.string.label_ask_question)) {
                                 if (Session.isLogIn())
-                                    println("Working on this screen")
+                                    navController.navigate("dashboard/to/ask-questions")
                                 else
                                     showAuthInviteSheet.value = true
                             }

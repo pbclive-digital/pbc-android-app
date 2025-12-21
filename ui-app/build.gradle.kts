@@ -124,6 +124,7 @@ dependencies {
 
     implementation(libs.kv.color.palette)
 
+    implementation(project(":ui-ask-question"))
     implementation(project(":ui-broadcast"))
     implementation(project(":ui-appointment"))
     implementation(project(":ui-news"))

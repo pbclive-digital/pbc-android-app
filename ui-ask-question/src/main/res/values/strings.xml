@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="label_question_asked">Asked questions</string>
+    <string name="phrase_question_asked">These are all the questions that was asked by devotees about Buddhism, about PBC etc... If you have any question, you are welcome to create it as question. By the way someone may already asked that too. You can see that from below list.</string>
+
+    <string name="label_ask_your_question">Ask your question</string>
+
+    <string name="label_all_question">All Questions</string>
+    <string name="label_your_question">Your Questions</string>
+</resources>

@@ -13,6 +13,7 @@ import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.EVENT_SELECTED_
 import com.kavi.pbc.droid.lib.parent.contract.NavDestinationPath.TEMPLE_CONTACT_US_DESTINATION
 import com.kavi.pbc.droid.lib.parent.contract.ContractServiceLocator
 import com.kavi.pbc.droid.lib.parent.contract.module.AppointmentContract
+import com.kavi.pbc.droid.lib.parent.contract.module.AskQuestionContract
 import com.kavi.pbc.droid.lib.parent.contract.module.AuthContract
 import com.kavi.pbc.droid.lib.parent.contract.module.BroadcastContract
 import com.kavi.pbc.droid.lib.parent.contract.module.EventContract
@@ -72,6 +73,9 @@ class DashboardNavigation @Inject constructor() {
             }
             composable (route = "dashboard/to/appointment") {
                 ContractServiceLocator.locate(AppointmentContract::class).RetrieveNavGraph()
+            }
+            composable (route = "dashboard/to/ask-questions") {
+                ContractServiceLocator.locate(AskQuestionContract::class).RetrieveNavGraph()
             }
             composable (route = "dashboard/to/news/list") {
                 ContractServiceLocator.locate(NewsContract::class).RetrieveNavGraphWithDynamicDestination("news/active-list")
