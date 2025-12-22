@@ -144,7 +144,7 @@ class QuestionManage @Inject constructor() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = stringResource(R.string.label_all_question),
+                        text = stringResource(R.string.label_question_all),
                         fontFamily = PBCFontFamily,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold
@@ -160,7 +160,7 @@ class QuestionManage @Inject constructor() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = stringResource(R.string.label_your_question),
+                        text = stringResource(R.string.label_question_yours),
                         fontFamily = PBCFontFamily,
                         color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.SemiBold
@@ -257,7 +257,12 @@ class QuestionManage @Inject constructor() {
                         .padding(top = 4.dp),
                     question = question,
                     isOwnerQuestion = true,
-                    onDelete = {}, onModify = {}, onClick = {
+                    onDelete = {
+
+                    }, onModify = {
+                        val modifyKey = viewModel.storeModifyQuestion(question)
+                        navController.navigate("questions/modify-question-ui/$modifyKey")
+                    }, onClick = {
 
                     })
             }

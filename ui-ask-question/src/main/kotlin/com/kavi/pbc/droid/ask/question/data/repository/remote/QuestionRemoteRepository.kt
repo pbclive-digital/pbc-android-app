@@ -22,4 +22,16 @@ class QuestionRemoteRepository @Inject constructor(
     suspend fun getAllQuestionList(paginationReq: PaginationRequest? = null): ResultWrapper<BaseResponse<PaginationResponse<Question>>> {
         return network.invokeApiCall(dispatcher) { questionServiceApi.getAllQuestionList(paginationReq) }
     }
+
+    suspend fun createNewQuestion(newQuestion: Question): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { questionServiceApi.createNewQuestion(newQuestion) }
+    }
+
+    suspend fun modifyQuestion(questionId: String, newQuestion: Question): ResultWrapper<BaseResponse<Question>> {
+        return network.invokeApiCall(dispatcher) { questionServiceApi.modifyQuestion(questionId, newQuestion) }
+    }
+
+    suspend fun deleteQuestion(questionId: String): ResultWrapper<BaseResponse<String>> {
+        return network.invokeApiCall(dispatcher) { questionServiceApi.deleteQuestion(questionId) }
+    }
 }

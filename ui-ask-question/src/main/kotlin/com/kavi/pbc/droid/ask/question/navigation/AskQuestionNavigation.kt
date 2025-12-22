@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.kavi.pbc.droid.ask.question.ui.ask.AskQuestion
+import com.kavi.pbc.droid.ask.question.ui.ask.AskOrModifyQuestion
 import com.kavi.pbc.droid.ask.question.ui.manage.QuestionManage
 import javax.inject.Inject
 
@@ -14,7 +14,7 @@ class AskQuestionNavigation @Inject constructor() {
     lateinit var questionManage: QuestionManage
 
     @Inject
-    lateinit var askQuestion: AskQuestion
+    lateinit var askOrModifyQuestion: AskOrModifyQuestion
 
     @Composable
     fun AskQuestionNavGraph() {
@@ -24,7 +24,11 @@ class AskQuestionNavigation @Inject constructor() {
                 questionManage.QuestionManageUI(navController = navController)
             }
             composable (route = "questions/ask-question-ui") {
-                askQuestion.AskQuestionUI(navController = navController)
+                askOrModifyQuestion.AskOrModifyQuestionUI(navController = navController)
+            }
+            composable (route = "questions/modify-question-ui/{modifyQuestionKey}") { backStackEntry ->
+                val modifyQuestionKey = backStackEntry.arguments?.getString("modifyQuestionKey")
+                askOrModifyQuestion.AskOrModifyQuestionUI(navController = navController, modifyingQuestionKey = modifyQuestionKey)
             }
         }
     }

@@ -1,0 +1,21 @@
+package com.kavi.pbc.droid.ask.question.data.repository.local
+
+import com.kavi.pbc.droid.data.dto.question.Question
+import com.kavi.pbc.droid.lib.datastore.AppInMemoryStore
+import java.util.UUID
+import javax.inject.Inject
+
+class QuestionLocalRepository @Inject constructor(
+    val inMemoryStore: AppInMemoryStore
+) {
+    fun setModifyingQuestion(question: Question): String {
+        val randomQuestionKey = UUID.randomUUID().toString()
+        inMemoryStore.storeValue(randomQuestionKey, question)
+        return randomQuestionKey
+    }
+
+    fun getModifyingQuestion(tempQuestionKey: String): Result<Question> {
+        val question = inMemoryStore.retrieveValue<Question>(key = tempQuestionKey)
+        return question
+    }
+}

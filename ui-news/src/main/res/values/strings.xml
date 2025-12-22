@@ -19,7 +19,7 @@
     <string name="label_news_link">Facebook \/ News Link</string>
     <string name="label_news_pick_image">Pick Image for News</string>
     <string name="label_news_modify">Modify News</string>
-    <string name="label_news_create_create_failed">Failed to create the news at this time. Please try again later.</string>
+    <string name="label_news_create_failed">Failed to create the news at this time. Please try again later.</string>
 
     <string name="label_news_active_fetch_failure">Failed to fetch the active news at this time. Please try again later.</string>
     <string name="label_news_active_fetch_empty">No active News available at this time.</string>

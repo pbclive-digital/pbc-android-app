@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavi.pbc.droid.ask.question.data.repository.local.QuestionLocalRepository
 import com.kavi.pbc.droid.ask.question.data.repository.remote.QuestionRemoteRepository
 import com.kavi.pbc.droid.data.dto.pagination.PaginationRequest
 import com.kavi.pbc.droid.data.dto.question.Question
@@ -19,7 +20,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuestionManageViewModel @Inject constructor(
-    private val remoteRepository: QuestionRemoteRepository
+    private val remoteRepository: QuestionRemoteRepository,
+    private val localQuestionRepository: QuestionLocalRepository
 ): ViewModel() {
 
     private val isInitialRequestFired = mutableStateOf(false)
@@ -46,6 +48,9 @@ class QuestionManageViewModel @Inject constructor(
             }
         }
     }
+
+    fun storeModifyQuestion(question: Question): String =
+        localQuestionRepository.setModifyingQuestion(question = question)
 
     private fun getAllQuestionList() {
         viewModelScope.launch {

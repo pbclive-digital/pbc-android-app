@@ -231,7 +231,7 @@ class NewsCreateOrModify @Inject constructor() {
                     AppFullScreenLoader()
                 }
                 NewsCreationStatus.FAILURE -> {
-                    Toast.makeText(context, stringResource(R.string.label_news_create_create_failed), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, stringResource(R.string.label_news_create_failed), Toast.LENGTH_LONG).show()
                 }
                 NewsCreationStatus.SUCCESS -> {
                     navController.popBackStack()
