@@ -1,5 +1,6 @@
 package com.kavi.pbc.droid.ask.question.ui.manage
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.SnapPosition
@@ -41,8 +42,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.ask.question.R
+import com.kavi.pbc.droid.ask.question.data.model.QuestionDeleteStatus
 import com.kavi.pbc.droid.ask.question.ui.common.QuestionItem
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
+import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -60,6 +63,8 @@ class QuestionManage @Inject constructor() {
             viewModel.fetchAllQuestionList()
             viewModel.fetchUserQuestionList()
         }
+
+        val questionDeleteStatus by viewModel.questionDeleteStatus.collectAsState()
 
         Box {
             BoxWithConstraints(
@@ -113,6 +118,19 @@ class QuestionManage @Inject constructor() {
 
                         QuestionPager(screenWidth, screenHeight, navController)
                     }
+                }
+            }
+
+            when(questionDeleteStatus) {
+                QuestionDeleteStatus.NONE -> {}
+                QuestionDeleteStatus.PENDING -> {
+                    AppFullScreenLoader()
+                }
+                QuestionDeleteStatus.FAILURE -> {
+                    Toast.makeText(context, stringResource(R.string.label_question_delete_failure), Toast.LENGTH_LONG).show()
+                }
+                QuestionDeleteStatus.SUCCESS -> {
+                    Toast.makeText(context, stringResource(R.string.label_question_delete_success), Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -258,7 +276,7 @@ class QuestionManage @Inject constructor() {
                     question = question,
                     isOwnerQuestion = true,
                     onDelete = {
-
+                        viewModel.deleteGivenQuestion(questionId = question.id!!)
                     }, onModify = {
                         val modifyKey = viewModel.storeModifyQuestion(question)
                         navController.navigate("questions/modify-question-ui/$modifyKey")

@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kavi.pbc.droid.ask.question.data.model.QuestionDeleteStatus
 import com.kavi.pbc.droid.ask.question.data.repository.local.QuestionLocalRepository
 import com.kavi.pbc.droid.ask.question.data.repository.remote.QuestionRemoteRepository
 import com.kavi.pbc.droid.data.dto.pagination.PaginationRequest
@@ -37,6 +38,9 @@ class QuestionManageViewModel @Inject constructor(
 
     private val _userQuestionList = MutableStateFlow<MutableList<Question>>(mutableListOf())
     val userQuestionList: StateFlow<MutableList<Question>> = _userQuestionList
+
+    private val _questionDeleteStatus = MutableStateFlow(QuestionDeleteStatus.NONE)
+    val questionDeleteStatus: StateFlow<QuestionDeleteStatus> = _questionDeleteStatus
 
     fun fetchAllQuestionList() {
         if (!isPagingReachedEnd) {
@@ -84,6 +88,28 @@ class QuestionManageViewModel @Inject constructor(
                             _userQuestionList.value = it
                         }
                     }
+                }
+            }
+        }
+    }
+
+    fun deleteGivenQuestion(questionId: String) {
+        viewModelScope.launch {
+            _questionDeleteStatus.value = QuestionDeleteStatus.PENDING
+            when(remoteRepository.deleteQuestion(questionId = questionId)) {
+                is ResultWrapper.NetworkError, is ResultWrapper.HttpError, is ResultWrapper.UnAuthError -> {
+                    _questionDeleteStatus.value = QuestionDeleteStatus.FAILURE
+                }
+                is ResultWrapper.Success -> {
+                    _userQuestionList.value = _userQuestionList.value
+                        .filterNot { it.id == questionId }
+                        .toMutableList()
+
+                    _allQuestionList.value = _allQuestionList.value
+                        .filterNot { it.id == questionId }
+                        .toMutableList()
+
+                    _questionDeleteStatus.value = QuestionDeleteStatus.SUCCESS
                 }
             }
         }

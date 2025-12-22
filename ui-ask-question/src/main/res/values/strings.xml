@@ -7,6 +7,8 @@
 
     <string name="label_question_all">All Questions</string>
     <string name="label_question_yours">Your Questions</string>
+    <string name="label_question_delete_failure">Failed to delete the question at this time. Please try again later.</string>
+    <string name="label_question_delete_success">Successfully delete your question.</string>
 
     <string name="label_question_new">New Question</string>
     <string name="label_question_create">Create Question</string>
