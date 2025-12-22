@@ -14,14 +14,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -40,8 +41,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.ask.question.R
+import com.kavi.pbc.droid.ask.question.ui.common.QuestionItem
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.Title
+import com.kavi.pbc.droid.lib.common.ui.theme.BottomNavBarHeight
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import com.kavi.pbc.droid.network.session.Session
 import javax.inject.Inject
@@ -80,8 +83,7 @@ class QuestionManage @Inject constructor() {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 30.dp)
-                            .verticalScroll(state = rememberScrollState()),
+                            .padding(start = 12.dp, end = 12.dp, top = 16.dp, bottom = 30.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
@@ -205,16 +207,60 @@ class QuestionManage @Inject constructor() {
     @Composable
     private fun AllQuestionList(
         screenHeight: Dp,
-        navController: NavController
+        navController: NavController,
+        viewModel: QuestionManageViewModel = hiltViewModel()
     ) {
+        val allQuestionList by viewModel.allQuestionList.collectAsState()
+        val pageIndex by viewModel.pageIndex.collectAsState()
 
+        LazyColumn (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(screenHeight - BottomNavBarHeight)
+                .padding(bottom = 20.dp)
+        ) {
+            items(allQuestionList) { question ->
+                QuestionItem(
+                    question = question,
+                    modifier = Modifier
+                        .padding(top = 4.dp),
+                    onClick = {
+
+                    }
+                )
+            }
+            item {
+                LaunchedEffect(pageIndex) {
+                    viewModel.fetchAllQuestionList()
+                }
+            }
+        }
     }
 
     @Composable
     private fun YourQuestionList(
         screenHeight: Dp,
-        navController: NavController
+        navController: NavController,
+        viewModel: QuestionManageViewModel = hiltViewModel()
     ) {
+        val userQuestionList by viewModel.userQuestionList.collectAsState()
 
+        LazyColumn (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(screenHeight - BottomNavBarHeight)
+                .padding(bottom = 20.dp)
+        ) {
+            items(userQuestionList) { question ->
+                QuestionItem(
+                    modifier = Modifier
+                        .padding(top = 4.dp),
+                    question = question,
+                    isOwnerQuestion = true,
+                    onDelete = {}, onModify = {}, onClick = {
+
+                    })
+            }
+        }
     }
 }

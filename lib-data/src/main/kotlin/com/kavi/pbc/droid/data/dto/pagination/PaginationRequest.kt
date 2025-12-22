@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class PaginationRequest(
-    val previousPageLastDocKey: String?
+    var previousPageLastDocKey: String?
 )
