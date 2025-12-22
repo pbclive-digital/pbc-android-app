@@ -18,4 +18,15 @@ class QuestionLocalRepository @Inject constructor(
         val question = inMemoryStore.retrieveValue<Question>(key = tempQuestionKey)
         return question
     }
+
+    fun setSelectedQuestion(question: Question): String {
+        val randomQuestinKey = UUID.randomUUID().toString()
+        inMemoryStore.storeValue(randomQuestinKey, question)
+        return randomQuestinKey
+    }
+
+    fun getSelectedQuestion(tempQuestionKey: String): Result<Question> {
+        val question = inMemoryStore.retrieveValue<Question>(key = tempQuestionKey)
+        return question
+    }
 }

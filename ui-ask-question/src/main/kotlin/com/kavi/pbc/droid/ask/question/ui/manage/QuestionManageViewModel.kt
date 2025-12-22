@@ -56,6 +56,9 @@ class QuestionManageViewModel @Inject constructor(
     fun storeModifyQuestion(question: Question): String =
         localQuestionRepository.setModifyingQuestion(question = question)
 
+    fun storeSelectedQuestion(question: Question): String =
+        localQuestionRepository.setSelectedQuestion(question = question)
+
     private fun getAllQuestionList() {
         viewModelScope.launch {
             when (val response = remoteRepository.getAllQuestionList(paginationRequest)) {

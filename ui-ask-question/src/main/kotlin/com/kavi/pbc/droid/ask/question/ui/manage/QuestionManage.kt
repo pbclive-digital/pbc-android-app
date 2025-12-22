@@ -243,7 +243,8 @@ class QuestionManage @Inject constructor() {
                     modifier = Modifier
                         .padding(top = 4.dp),
                     onClick = {
-
+                        val selectedKey = viewModel.storeSelectedQuestion(question)
+                        navController.navigate("questions/selected-questions/$selectedKey")
                     }
                 )
             }
@@ -281,7 +282,8 @@ class QuestionManage @Inject constructor() {
                         val modifyKey = viewModel.storeModifyQuestion(question)
                         navController.navigate("questions/modify-question-ui/$modifyKey")
                     }, onClick = {
-
+                        val selectedKey = viewModel.storeSelectedQuestion(question)
+                        navController.navigate("questions/selected-questions/$selectedKey")
                     })
             }
         }
