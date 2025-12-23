@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.ask.question.data.repository.remote
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.pagination.PaginationRequest
 import com.kavi.pbc.droid.data.dto.pagination.PaginationResponse
+import com.kavi.pbc.droid.data.dto.question.AnswerComment
 import com.kavi.pbc.droid.data.dto.question.Question
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
@@ -33,5 +34,9 @@ class QuestionRemoteRepository @Inject constructor(
 
     suspend fun deleteQuestion(questionId: String): ResultWrapper<BaseResponse<String>> {
         return network.invokeApiCall(dispatcher) { questionServiceApi.deleteQuestion(questionId) }
+    }
+
+    suspend fun createNewAnswer(questionId: String, answerComment: AnswerComment): ResultWrapper<BaseResponse<Question>> {
+        return network.invokeApiCall(dispatcher) { questionServiceApi.createNewAnswer(questionId, answerComment) }
     }
 }

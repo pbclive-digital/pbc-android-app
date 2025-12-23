@@ -35,6 +35,9 @@ class AppInMemoryStore {
         } catch (ex: ClassCastException) {
             Log.e("AppInMemoryStore: Casting", "${ex.printStackTrace()}")
             return Result.failure(ex)
+        } catch (ex: NullPointerException) {
+            Log.e("AppInMemoryStore: Null-pointer", "${ex.printStackTrace()}")
+            return Result.failure(ex)
         }
     }
 

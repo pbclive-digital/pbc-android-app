@@ -83,7 +83,7 @@ fun AnswerCommentItem(modifier: Modifier = Modifier,
                 Text(
                     text = answerComment.comment,
                     fontFamily = PBCFontFamily,
-                    fontSize = 14.sp,
+                    fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onSurface
                 )
 

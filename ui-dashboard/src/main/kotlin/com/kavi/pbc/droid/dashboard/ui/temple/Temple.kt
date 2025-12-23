@@ -115,10 +115,7 @@ class Temple @Inject constructor() {
                             modifier = Modifier.padding(12.dp)
                         ) {
                             OptionItem(label = stringResource(R.string.label_ask_question)) {
-                                if (Session.isLogIn())
-                                    navController.navigate("dashboard/to/ask-questions")
-                                else
-                                    showAuthInviteSheet.value = true
+                                navController.navigate("dashboard/to/ask-questions")
                             }
                             OptionItem(label = stringResource(R.string.label_make_appointment)) {
                                 if (Session.isLogIn())

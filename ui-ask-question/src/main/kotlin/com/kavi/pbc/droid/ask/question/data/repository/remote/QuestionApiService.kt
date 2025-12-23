@@ -3,6 +3,7 @@ package com.kavi.pbc.droid.ask.question.data.repository.remote
 import com.kavi.pbc.droid.data.dto.BaseResponse
 import com.kavi.pbc.droid.data.dto.pagination.PaginationRequest
 import com.kavi.pbc.droid.data.dto.pagination.PaginationResponse
+import com.kavi.pbc.droid.data.dto.question.AnswerComment
 import com.kavi.pbc.droid.data.dto.question.Question
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -28,4 +29,8 @@ interface QuestionApiService {
 
     @DELETE("question/delete/{questionId}")
     suspend fun deleteQuestion(@Path("questionId") questionId: String): BaseResponse<String>
+
+    @PUT("question/add/comment/{questionId}")
+    suspend fun createNewAnswer(@Path("questionId") questionId: String,
+                                @Body answerComment: AnswerComment): BaseResponse<Question>
 }

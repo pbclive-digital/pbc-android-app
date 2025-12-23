@@ -42,6 +42,25 @@ class QuestionManageViewModel @Inject constructor(
     private val _questionDeleteStatus = MutableStateFlow(QuestionDeleteStatus.NONE)
     val questionDeleteStatus: StateFlow<QuestionDeleteStatus> = _questionDeleteStatus
 
+    fun refreshDataIfRequired() {
+        localQuestionRepository.isQuestionModified().onSuccess { isModified ->
+            if (isModified) {
+                // Reset Pagination
+                isPagingReachedEnd = false
+                isInitialRequestFired.value = false
+                paginationRequest.previousPageLastDocKey = null
+                _allQuestionList.value = mutableListOf()
+                // Refresh all question list
+                fetchAllQuestionList()
+                // Reset the question update status
+                localQuestionRepository.storeQuestionModifyStatus(false)
+
+                // Fetch User questions
+                fetchUserQuestionList()
+            }
+        }
+    }
+
     fun fetchAllQuestionList() {
         if (!isPagingReachedEnd) {
             if (!isInitialRequestFired.value && paginationRequest.previousPageLastDocKey == null) {
@@ -58,28 +77,6 @@ class QuestionManageViewModel @Inject constructor(
 
     fun storeSelectedQuestion(question: Question): String =
         localQuestionRepository.setSelectedQuestion(question = question)
-
-    private fun getAllQuestionList() {
-        viewModelScope.launch {
-            when (val response = remoteRepository.getAllQuestionList(paginationRequest)) {
-                is ResultWrapper.NetworkError -> {}
-                is ResultWrapper.HttpError -> {
-                    if (response.code == 404) {
-                        isPagingReachedEnd = true
-                    }
-                }
-                is ResultWrapper.UnAuthError -> {}
-                is ResultWrapper.Success -> {
-                    response.value.body?.let {
-                        _allQuestionList.update { currentList ->
-                            (currentList + it.entityList).toMutableList()
-                        }
-                        paginationRequest.previousPageLastDocKey = it.previousPageLastDocKey
-                    }
-                }
-            }
-        }
-    }
 
     fun fetchUserQuestionList() {
         Session.user?.let { user ->
@@ -113,6 +110,28 @@ class QuestionManageViewModel @Inject constructor(
                         .toMutableList()
 
                     _questionDeleteStatus.value = QuestionDeleteStatus.SUCCESS
+                }
+            }
+        }
+    }
+
+    private fun getAllQuestionList() {
+        viewModelScope.launch {
+            when (val response = remoteRepository.getAllQuestionList(paginationRequest)) {
+                is ResultWrapper.NetworkError -> {}
+                is ResultWrapper.HttpError -> {
+                    if (response.code == 404) {
+                        isPagingReachedEnd = true
+                    }
+                }
+                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        _allQuestionList.update { currentList ->
+                            (currentList + it.entityList).toMutableList()
+                        }
+                        paginationRequest.previousPageLastDocKey = it.previousPageLastDocKey
+                    }
                 }
             }
         }
