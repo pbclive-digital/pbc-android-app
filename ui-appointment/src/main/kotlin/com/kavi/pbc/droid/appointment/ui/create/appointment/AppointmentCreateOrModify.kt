@@ -83,6 +83,7 @@ class AppointmentCreateOrModify @Inject constructor() {
         val appointmentWith = remember { mutableStateOf(viewModel.getInitialSelectedMonk()) }
         val appointmentReason = remember { mutableStateOf(TextFieldValue(viewModel.newAppointment.value.reason)) }
 
+        val newAppointment by viewModel.newAppointment.collectAsState()
         val appointmentCreationStatus by viewModel.appointmentCreationStatus.collectAsState()
 
         LaunchedEffect(Unit) {
@@ -197,7 +198,7 @@ class AppointmentCreateOrModify @Inject constructor() {
                         )
 
                         Text(
-                            text = stringResource(R.string.phase_appointment_with),
+                            text = stringResource(R.string.phase_appointment_with_monk),
                             fontFamily = PBCFontFamily,
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Normal,
@@ -213,6 +214,28 @@ class AppointmentCreateOrModify @Inject constructor() {
                             title = stringResource(R.string.label_appointment_with_select),
                             selectableItems = residenceMonkList,
                             selectedItem = appointmentWith,
+                        )
+
+                        Text(
+                            text = stringResource(R.string.phase_appointment_devotee_name),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Normal,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .padding(top = 12.dp)
+                                .fillMaxWidth()
+                        )
+
+                        Text(
+                            text = "${newAppointment.user.firstName} ${newAppointment.user.lastName} (${newAppointment.user.email})",
+                            fontFamily = PBCFontFamily,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .padding(top = 10.dp)
+                                .fillMaxWidth()
                         )
 
                         Text(
