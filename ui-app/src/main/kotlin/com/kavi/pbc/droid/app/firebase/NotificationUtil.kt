@@ -16,6 +16,7 @@ object NotificationUtil {
     private const val EVENT_CHANNEL_ID = "EVENT_CHANNEL_ID"
     private const val NEWS_CHANNEL_ID = "NEWS_CHANNEL_ID"
     private const val BROADCAST_CHANNEL_ID = "BROADCAST_CHANNEL_ID"
+    private const val APPOINTMENT_CHANNEL_ID = "APPOINTMENT_CHANNEL_ID"
 
     fun getNotificationId(): Int {
         return System.currentTimeMillis().toInt()
@@ -41,9 +42,10 @@ object NotificationUtil {
 
     private fun getChannelName(channelId: String?): String {
         return when(channelId) {
-            EVENT_CHANNEL_ID -> "Contribution Notification"
-            NEWS_CHANNEL_ID -> "Promotional Notification"
+            EVENT_CHANNEL_ID -> "Event publishing Notification"
+            NEWS_CHANNEL_ID -> "News Notification"
             BROADCAST_CHANNEL_ID -> "Broadcast Notification"
+            APPOINTMENT_CHANNEL_ID -> "Appointment Notification"
             else -> "General Notification"
         }
     }
@@ -59,6 +61,10 @@ object NotificationUtil {
                     val newsId = message.data["NEWS_ID"]
                     NotificationData(channelId = channelId, newsId = newsId)
                 }
+                APPOINTMENT_CHANNEL_ID -> {
+                    val appointmentId = message.data["APPOINTMENT_ID"]
+                    NotificationData(channelId = channelId, newsId = appointmentId)
+                }
                 BROADCAST_CHANNEL_ID -> { null }
                 else -> { null }
             }
@@ -73,6 +79,7 @@ object NotificationUtil {
                 intent = Intent()
                 intent.action = Intent.ACTION_VIEW
                 getNotificationData(channelId, message)?.let {
+                    // TODO - This is to handle and navigate via deep-links to specific event
                     //val surveyIdEncoded = Base64.encodeToString(it.surveyId?.toByteArray(StandardCharsets.UTF_8), Base64.DEFAULT)
                     //intent.data = Uri.parse("app://${NetworkConfig.networkConfig.domain}/survey/details/$surveyIdEncoded");
                 }
