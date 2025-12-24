@@ -36,4 +36,16 @@ class AppointmentLocalRepository @Inject constructor(
         val appointmentReq = inMemoryStore.retrieveValue<AppointmentRequest>(key = tempAppointmentReqKey)
         return appointmentReq
     }
+
+    fun setNewlyCreatedAppointment(appointment: Appointment) {
+        inMemoryStore.storeValue(AppointmentDataKey.NEWLY_CREATED_APPOINTMENT, appointment)
+    }
+
+    fun getNewlyCreatedAppointment(): Result<Appointment> {
+        return inMemoryStore.retrieveValue<Appointment>(AppointmentDataKey.NEWLY_CREATED_APPOINTMENT)
+    }
+
+    fun clearNewlyCreatedAppointment() {
+        inMemoryStore.cleanValue(AppointmentDataKey.NEWLY_CREATED_APPOINTMENT)
+    }
 }

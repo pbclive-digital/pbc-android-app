@@ -87,6 +87,9 @@ class AppointmentCreateOrModifyViewModel @Inject constructor(
                     }
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
+                            // Storing newly created appointment locally
+                            localRepository.setNewlyCreatedAppointment(_newAppointment.value)
+
                             appointmentReqId?.let {
                                 deleteAppointmentRequest(it)
                             }?: run {

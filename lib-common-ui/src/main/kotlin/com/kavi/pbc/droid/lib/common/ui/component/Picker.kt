@@ -54,7 +54,7 @@ fun AppTimePickerDialog (
     val timePickerState = rememberTimePickerState(
         initialHour = initialHour,
         initialMinute = initialMinute,
-        is24Hour = false // Set to true for 24-hour format
+        is24Hour = true // Set to true for 24-hour format
     )
 
     AlertDialog(

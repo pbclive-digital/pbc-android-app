@@ -36,4 +36,8 @@
     <string name="label_appointment_req_delete_failed">Failed to delete the appointment request now. Please try again late.</string>
 
     <string name="phrase_appointment_create_stop">You already created 3 appointment requests/appointments.</string>
+
+    <string name="label_appointment_create_calendar_event">Create a Calendar event.</string>
+    <string name="phrase_appointment_create_calendar_event">You can push this appointment into Google Calendar. This will create event in Google Calendar for this appointment and invite to all attendees too.</string>
+    <string name="label_appointment_on_calendar">Create on Google Calendar</string>
 </resources>

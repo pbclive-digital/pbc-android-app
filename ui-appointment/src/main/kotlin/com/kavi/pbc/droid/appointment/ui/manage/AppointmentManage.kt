@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -45,6 +46,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import com.kavi.droid.color.palette.extension.quaternary
 import com.kavi.pbc.droid.appointment.R
@@ -69,20 +73,46 @@ class AppointmentManage @Inject constructor(
     private val appointmentLocalRepository: AppointmentLocalRepository
 ) {
 
+    @Inject
+    lateinit var calendarRequestBottomSheet: CalendarRequestBottomSheet
+
+    @OptIn(ExperimentalMaterial3Api::class)
     @Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
     @Composable
     fun AppointmentManageUI(navController: NavController, viewModel: AppointmentManageViewModel = hiltViewModel()) {
 
         val context = LocalContext.current
+        val lifecycleOwner = LocalLifecycleOwner.current
 
         val eligibleToCreateRequest by viewModel.eligibleToCreateRequest.collectAsState()
         val appointmentDeleteStatus by viewModel.appointmentDeleteStatus.collectAsState()
         val appointmentReqDeleteStatus by viewModel.appointmentReqDeleteStatus.collectAsState()
+        val isNewlyCreatedAppointmentAvailable by viewModel.isNewlyCreatedAppointmentAvailable.collectAsState()
+        val newlyCreatedAppointment by viewModel.newlyCreatedAppointment.collectAsState()
+
+        val askCalendarEventSheetState = rememberModalBottomSheetState(
+            skipPartiallyExpanded = true
+        )
+        val showAskCalendarEventSheet = remember { mutableStateOf(false) }
+
+        // This is for detect current composable life-cycle events
+        DisposableEffect(lifecycleOwner) {
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME) {
+                    viewModel.checkNewlyCreatedAppointment()
+                }
+            }
+            lifecycleOwner.lifecycle.addObserver(observer)
+
+            onDispose {
+                lifecycleOwner.lifecycle.removeObserver(observer)
+            }
+        }
 
         LaunchedEffect(Unit) {
             viewModel.getRequestCreateEligibility()
-            viewModel.fetchAppointmentList()
             viewModel.fetchAppointmentRequestList()
+            viewModel.fetchAppointmentList()
         }
 
         Box {
@@ -173,6 +203,20 @@ class AppointmentManage @Inject constructor(
                     viewModel.resetAppointmentReqDeleteStatus()
                 }
             }
+        }
+
+        if (isNewlyCreatedAppointmentAvailable) {
+            showAskCalendarEventSheet.value = true
+        } else {
+            showAskCalendarEventSheet.value = false
+        }
+
+        if (showAskCalendarEventSheet.value) {
+            calendarRequestBottomSheet.AskCalendarEventSheetUI(
+                sheetState = askCalendarEventSheetState,
+                showSheet = showAskCalendarEventSheet,
+                newAppointment = newlyCreatedAppointment
+            )
         }
     }
 

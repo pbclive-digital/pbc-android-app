@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.appointment.data.model.AppointmentDeleteStatus
 import com.kavi.pbc.droid.appointment.data.model.AppointmentReqDeleteStatus
+import com.kavi.pbc.droid.appointment.data.repository.local.AppointmentLocalRepository
 import com.kavi.pbc.droid.appointment.data.repository.remote.AppointmentRemoteRepository
 import com.kavi.pbc.droid.data.dto.appointment.Appointment
 import com.kavi.pbc.droid.data.dto.appointment.AppointmentRequest
+import com.kavi.pbc.droid.data.dto.user.User
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AppointmentManageViewModel @Inject constructor(
+    private val appointmentLocalRepository: AppointmentLocalRepository,
     private val appointmentRemoteRepository: AppointmentRemoteRepository
 ): ViewModel() {
 
@@ -33,6 +36,12 @@ class AppointmentManageViewModel @Inject constructor(
 
     private val _appointmentReqDeleteStatus = MutableStateFlow(AppointmentReqDeleteStatus.NONE)
     val appointmentReqDeleteStatus: StateFlow<AppointmentReqDeleteStatus> = _appointmentReqDeleteStatus
+
+    private val _newlyCreatedAppointment = MutableStateFlow(Appointment(user = User(email = "")))
+    val newlyCreatedAppointment: StateFlow<Appointment> = _newlyCreatedAppointment
+
+    private val _isNewlyCreatedAppointmentAvailable = MutableStateFlow(false)
+    val isNewlyCreatedAppointmentAvailable: StateFlow<Boolean> = _isNewlyCreatedAppointmentAvailable
 
     fun getRequestCreateEligibility() {
         Session.user?.id?.let { userId ->
@@ -68,12 +77,28 @@ class AppointmentManageViewModel @Inject constructor(
         }
     }
 
+    fun checkNewlyCreatedAppointment() {
+        appointmentLocalRepository.getNewlyCreatedAppointment().onSuccess { appointment ->
+            _isNewlyCreatedAppointmentAvailable.value = true
+            _newlyCreatedAppointment.value = appointment
+            appointmentLocalRepository.clearNewlyCreatedAppointment()
+
+            fetchAppointmentRequestList()
+        }.onFailure {
+            _isNewlyCreatedAppointmentAvailable.value = false
+        }
+    }
+
     fun fetchAppointmentRequestList() {
         Session.user?.id?.let { userId ->
             viewModelScope.launch {
                 when(val response = appointmentRemoteRepository.getUserAppointmentRequestList(userId = userId)) {
                     is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
+                    is ResultWrapper.HttpError -> {
+                        if (response.code == 404) {
+                            _userAppointmentRequestList.value = emptyList()
+                        }
+                    }
                     is ResultWrapper.UnAuthError -> {}
                     is ResultWrapper.Success -> {
                         response.value.body?.let {

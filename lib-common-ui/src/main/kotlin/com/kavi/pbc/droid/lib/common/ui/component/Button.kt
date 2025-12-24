@@ -226,7 +226,7 @@ fun AppDisabledFilledButton(label: String,
 @Composable
 fun AppOutlineButton(label: String,
                      labelTextSize: TextUnit? = null,
-                     modifier: Modifier,
+                     modifier: Modifier = Modifier,
                      onClick: () -> Unit) {
     OutlinedButton(
         onClick = onClick,
