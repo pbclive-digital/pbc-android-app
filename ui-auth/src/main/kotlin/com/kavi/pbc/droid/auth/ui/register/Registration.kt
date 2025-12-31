@@ -64,7 +64,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
             .background(color = MaterialTheme.colorScheme.surface)
     ) {
         Column {
-            Title(titleText = stringResource(R.string.label_register))
+            Title(titleText = stringResource(R.string.label_auth_register))
 
             Column (
                 modifier = Modifier.verticalScroll(rememberScrollState())
@@ -172,7 +172,7 @@ fun RegisterUI(navController: NavController, email: String, viewModel: Registrat
                 Spacer(modifier = Modifier.weight(1f))
 
                 AppFilledButton(
-                    label = stringResource(R.string.label_register),
+                    label = stringResource(R.string.label_auth_register),
                     modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)
                 ) {
                     viewModel.registerNewUser(
