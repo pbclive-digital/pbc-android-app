@@ -18,7 +18,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kavi.pbc.droid.data.dto.event.potluck.PotluckItem
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheet
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppBasicDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
@@ -28,9 +28,9 @@ import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import java.util.UUID
 
 @Composable
-fun PotluckItemCreateDialog(
+fun SignUpSheetCreateDialog(
     showDialog: MutableState<Boolean>,
-    onCreate: (potluckItem: PotluckItem) -> Unit,
+    onCreate: (signUpSheetItem: SignUpSheet) -> Unit,
     onCancel: () -> Unit
 ) {
     AppBasicDialog(
@@ -39,7 +39,7 @@ fun PotluckItemCreateDialog(
             onCancel.invoke()
         }
     ) {
-        PotluckItemCreateContent(
+        SignUpSheetCreateContent(
             onCreate = onCreate,
             onCancel = onCancel
         )
@@ -47,10 +47,10 @@ fun PotluckItemCreateDialog(
 }
 
 @Composable
-fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCancel: () -> Unit) {
+fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, onCancel: () -> Unit) {
 
-    val itemName = remember { mutableStateOf(TextFieldValue("")) }
-    val itemAvailability = remember { mutableStateOf(TextFieldValue("")) }
+    val signUpSheetName = remember { mutableStateOf(TextFieldValue("")) }
+    val signUpAvailabilityCount = remember { mutableStateOf(TextFieldValue("")) }
 
     Box (
         modifier = Modifier
@@ -58,7 +58,7 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
     ) {
         Column {
             Text(
-                text = stringResource(R.string.label_add_potluck_item_title),
+                text = stringResource(R.string.label_new_sign_up_sheet),
                 fontSize = 24.sp,
                 fontFamily = PBCFontFamily,
                 fontWeight = FontWeight.Bold,
@@ -67,7 +67,7 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
 
             Text(
                 modifier = Modifier.padding(top = 8.dp),
-                text = stringResource(R.string.phrase_add_potluck_item_title),
+                text = stringResource(R.string.phrase_new_sign_up_sheet),
                 fontSize = 18.sp,
                 fontFamily = PBCFontFamily,
                 fontWeight = FontWeight.Normal,
@@ -78,10 +78,10 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 8.dp),
-                headingText = stringResource(R.string.label_item_name).uppercase(),
-                contentText = itemName,
+                headingText = stringResource(R.string.label_sheet_name).uppercase(),
+                contentText = signUpSheetName,
                 onValueChange = { newValue ->
-                    itemName.value = newValue
+                    signUpSheetName.value = newValue
                 }
             )
 
@@ -89,11 +89,11 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 4.dp),
-                headingText = stringResource(R.string.label_item_count).uppercase(),
-                contentText = itemAvailability,
+                headingText = stringResource(R.string.label_sheet_availability_count).uppercase(),
+                contentText = signUpAvailabilityCount,
                 keyboardType = KeyboardType.Number,
                 onValueChange = { newValue ->
-                    itemAvailability.value = newValue
+                    signUpAvailabilityCount.value = newValue
                 }
             )
 
@@ -106,8 +106,13 @@ fun PotluckItemCreateContent(onCreate: (potluckItem: PotluckItem) -> Unit, onCan
                         .padding(end = 4.dp),
                     label = stringResource(com.kavi.pbc.droid.lib.common.ui.R.string.label_create)
                 ) {
-                    onCreate.invoke(PotluckItem(UUID.randomUUID().toString(),
-                        itemName.value.text, itemAvailability.value.text.toInt()))
+                    onCreate.invoke(
+                        SignUpSheet(
+                            UUID.randomUUID().toString(),
+                            signUpSheetName.value.text,
+                            signUpAvailabilityCount.value.text.toInt()
+                        )
+                    )
                 }
 
                 AppOutlineButton(

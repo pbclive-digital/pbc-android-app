@@ -46,6 +46,15 @@
     <string name="label_event_image">Image for Event</string>
     <string name="phrase_event_image">Upload an image to related to the event. This will be cover image for the event that shows in the application.</string>
     <string name="label_pick_image">Pick your image.</string>
+    <string name="label_additional_sign_up">Additional Sign-up sheets</string>
+    <string name="phrase_additional_sign_up">Is this event has any additional sign-up sheets available other than basic registrations and Potluck? Then from here you can add those additional sign-up sheets.</string>
+    <string name="label_is_additional_sign_up_sheets">Is there any additional sign-up sheets available?</string>
+    <string name="label_add_new_sign_up_sheet">Add New Sign-up Sheet</string>
+    <string name="label_new_sign_up_sheet">Add Sign-up Sheet to Event</string>
+    <string name="phrase_new_sign_up_sheet">Enter new sign-up sheet name and it\'s relevant sign-up availability.</string>
+    <string name="label_sheet_name">Sheet Name</string>
+    <string name="label_sheet_availability_count">Sign-up Count</string>
+    <string name="label_remove_sign_up_sheet">Sign-Up Sheet Removed</string>
 
     <string name="label_manage_events">Manage Events</string>
     <string name="phrase_manage_events">This shows all On-Going / Upcoming events and Drafted events. Draft events are shown only in here. Only Admin users can see them till they published.</string>

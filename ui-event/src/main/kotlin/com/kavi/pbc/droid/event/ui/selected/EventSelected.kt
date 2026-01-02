@@ -44,6 +44,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.EventStatus
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
@@ -293,7 +294,7 @@ class EventSelected @Inject constructor() {
 
                     //Spacer(modifier = Modifier.weight(1f))
 
-                    if (givenEvent.registrationRequired) {
+                    if (givenEvent.registrationRequired && givenEvent.eventStatus == EventStatus.PUBLISHED) {
                         var bottomPadding = 0.dp
                         if (!givenEvent.potluckAvailable) {
                             bottomPadding = 40.dp
@@ -340,7 +341,7 @@ class EventSelected @Inject constructor() {
                         }
                     }
 
-                    if (givenEvent.potluckAvailable) {
+                    if (givenEvent.potluckAvailable && givenEvent.eventStatus == EventStatus.PUBLISHED) {
                         Column(
                             modifier = Modifier.padding(top = 16.dp, bottom = 40.dp)
                         ) {

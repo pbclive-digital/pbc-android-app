@@ -1,5 +1,7 @@
 package com.kavi.pbc.droid.data.dto.event
 
+import com.kavi.pbc.droid.data.dto.event.potluck.PotluckItem
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheet
 import kotlinx.serialization.Serializable
 import java.text.DateFormat
 import java.util.Date
@@ -24,7 +26,9 @@ data class Event(
     var registrationRequired: Boolean = false,
     var openSeatCount: Int? = null,
     var potluckAvailable: Boolean = false,
-    var potluckItemList: MutableList<PotluckItem>? = mutableListOf()
+    var potluckItemList: MutableList<PotluckItem>? = mutableListOf(),
+    var signUpSheetAvailable: Boolean = false,
+    var signUpSheetList: MutableList<SignUpSheet>? = mutableListOf()
 ) {
     fun getFormatDate(): String {
         val dateFormat = DateFormat.getDateInstance()

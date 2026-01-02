@@ -31,9 +31,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.create.common.NavigatorPanel
-import com.kavi.pbc.droid.event.ui.create.pager.EventImageInformation
-import com.kavi.pbc.droid.event.ui.create.pager.InitialInformation
-import com.kavi.pbc.droid.event.ui.create.pager.SecondaryInformation
+import com.kavi.pbc.droid.event.ui.create.pager.SignUpSheetAndImagePager
+import com.kavi.pbc.droid.event.ui.create.pager.InformationSheetPager
+import com.kavi.pbc.droid.event.ui.create.pager.PotluckAndRegistrationPager
 import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.Title
 import kotlinx.coroutines.launch
@@ -42,13 +42,13 @@ import javax.inject.Inject
 class EventCreateOrModify @Inject constructor() {
 
     @Inject
-    lateinit var initialInformation: InitialInformation
+    lateinit var informationSheetPager: InformationSheetPager
 
     @Inject
-    lateinit var secondaryInformation: SecondaryInformation
+    lateinit var potluckAndRegistrationPager: PotluckAndRegistrationPager
 
     @Inject
-    lateinit var eventImageInformation: EventImageInformation
+    lateinit var signUpSheetAndImagePager: SignUpSheetAndImagePager
 
     @Composable
     fun EventCreateOrModifyUI(navController: NavController,
@@ -129,15 +129,15 @@ class EventCreateOrModify @Inject constructor() {
                         ) { page ->
                             when (page) {
                                 0 -> {
-                                    initialInformation.InitialInformationUI()
+                                    informationSheetPager.InformationSheetUI()
                                 }
 
                                 1 -> {
-                                    secondaryInformation.SecondaryInformationUI()
+                                    potluckAndRegistrationPager.PotluckAndRegistrationUI()
                                 }
 
                                 2 -> {
-                                    eventImageInformation.EventImageUI()
+                                    signUpSheetAndImagePager.SignUpSheetAndImageUI()
                                 }
                             }
                         }

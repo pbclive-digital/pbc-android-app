@@ -1,4 +1,4 @@
-package com.kavi.pbc.droid.data.dto.event
+package com.kavi.pbc.droid.data.dto.event.potluck
 
 import kotlinx.serialization.Serializable
 import java.util.UUID

@@ -1,6 +1,12 @@
 package com.kavi.pbc.droid.event.ui.create.pager
 
+import android.Manifest
+import android.app.Activity
+import android.os.Build
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,7 +16,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
@@ -35,39 +41,74 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
 import com.kavi.droid.color.palette.extension.shadow
-import com.kavi.pbc.droid.data.dto.event.PotluckItem
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheet
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.create.EventCreateViewModel
-import com.kavi.pbc.droid.event.ui.create.dialog.PotluckItemCreate
+import com.kavi.pbc.droid.event.ui.create.dialog.SignUpSheetCreateDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
-import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineTextField
+import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
+import com.kavi.pbc.droid.lib.parent.util.FilePickerUtil
+import com.kavi.pbc.droid.lib.parent.util.OpenFileResult
 import javax.inject.Inject
 
-class SecondaryInformation @Inject constructor() {
-
+class SignUpSheetAndImagePager @Inject constructor() {
     @Composable
-    fun SecondaryInformationUI(viewModel: EventCreateViewModel = hiltViewModel()) {
+    fun SignUpSheetAndImageUI(viewModel: EventCreateViewModel = hiltViewModel()) {
+        val context = LocalContext.current
+        val activity = context as? Activity
 
-        var isRegistrationChecked by remember { mutableStateOf(viewModel.newEvent.value.registrationRequired) }
-        val availableSeatCount = remember { mutableStateOf(TextFieldValue(
-            viewModel.newEvent.value.openSeatCount?.toString() ?: run { "" })) }
+        var isAdditionalSignUpsChecked by remember { mutableStateOf(viewModel.newEvent.value.signUpSheetAvailable) }
+        val showCreateSignUpSheetItemDialog = remember { mutableStateOf(false) }
 
-        var isPotluckChecked by remember { mutableStateOf(viewModel.newEvent.value.potluckAvailable) }
-        val showCreatePotluckItemDialog = remember { mutableStateOf(false) }
+        var imageUri by remember { mutableStateOf(viewModel.eventImageUri.value) }
 
-        val potluckItemList by viewModel.potluckItemList.collectAsState()
+        val signUpSheetItemList by viewModel.signUpSheetItemList.collectAsState()
+
+        // Image picker launcher
+        val galleryLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                uri?.let {
+                    imageUri = it
+                    viewModel.updateEventImageUrl(it)
+
+                    when(val result = FilePickerUtil.handleOpenDocument(activity, imageUri)) {
+                        OpenFileResult.DifferentResult, OpenFileResult.OpenFileWasCancelled, OpenFileResult.ErrorOpeningFile -> {
+                            // Nothing to do here
+                        }
+                        is OpenFileResult.FileWasOpened -> {
+                            viewModel.updateEventImageFile(result.file)
+                        }
+                    }
+                }
+            }
+        )
+
+        // Permission launcher
+        val permissionLauncher = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.RequestPermission(),
+            onResult = { isGranted ->
+                if (isGranted) {
+                    // Once permission is granted, open gallery
+                    galleryLauncher.launch("image/*")
+                } else {
+                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+            }
+        )
 
         Box (
             modifier = Modifier
@@ -78,11 +119,10 @@ class SecondaryInformation @Inject constructor() {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(8.dp),
+                    .padding(8.dp)
             ) {
-
                 Text(
-                    text = stringResource(R.string.label_event_registration),
+                    text = stringResource(R.string.label_additional_sign_up),
                     fontFamily = PBCFontFamily,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
@@ -97,7 +137,7 @@ class SecondaryInformation @Inject constructor() {
                 )
 
                 Text(
-                    text = stringResource(R.string.phrase_event_registration),
+                    text = stringResource(R.string.phrase_additional_sign_up),
                     fontFamily = PBCFontFamily,
                     fontSize = 16.sp,
                     textAlign = TextAlign.Justify,
@@ -109,11 +149,11 @@ class SecondaryInformation @Inject constructor() {
                 Row (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = 8.dp),
+                        .padding(top = 8.dp, end = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = stringResource(R.string.label_registration_check),
+                        text = stringResource(R.string.label_is_additional_sign_up_sheets),
                         fontFamily = PBCFontFamily,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
@@ -123,105 +163,21 @@ class SecondaryInformation @Inject constructor() {
                     Spacer(modifier = Modifier.weight(1f))
 
                     Checkbox(
-                        checked = isRegistrationChecked,
+                        checked = isAdditionalSignUpsChecked,
                         onCheckedChange = { newCheckedState ->
-                            isRegistrationChecked = newCheckedState
-                            viewModel.updateRegistrationRequiredFlag(newCheckedState)
+                            isAdditionalSignUpsChecked = newCheckedState
+                            viewModel.updateSignUpAvailabilityFlag(newCheckedState)
                         }
                     )
                 }
 
-                if (isRegistrationChecked) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.label_seat_count),
-                            fontFamily = PBCFontFamily,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                        )
-
-                        Spacer(modifier = Modifier.weight(1f))
-
-                        AppOutlineTextField(
-                            modifier = Modifier
-                                .width(150.dp)
-                                .padding(top = 8.dp),
-                            headingText = stringResource(R.string.label_count).uppercase(),
-                            contentText = availableSeatCount,
-                            keyboardType = KeyboardType.Number,
-                            onValueChange = { newValue ->
-                                availableSeatCount.value = newValue
-                                if (newValue.text.isNotEmpty())
-                                    viewModel.updateSeatCount(newValue.text.toInt())
-                            }
-                        )
-                    }
-                }
-
-                Text(
-                    text = stringResource(R.string.label_event_potluck),
-                    fontFamily = PBCFontFamily,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .padding(top = 16.dp)
-                        .fillMaxWidth()
-                )
-
-                HorizontalDivider(
-                    modifier = Modifier.padding(2.dp),
-                    thickness = 2.dp
-                )
-
-                Text(
-                    text = stringResource(R.string.phrase_event_potluck),
-                    fontFamily = PBCFontFamily,
-                    fontSize = 16.sp,
-                    textAlign = TextAlign.Justify,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
-
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.label_potluck_check),
-                        fontFamily = PBCFontFamily,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    Checkbox(
-                        checked = isPotluckChecked,
-                        onCheckedChange = { newCheckedState ->
-                            isPotluckChecked = newCheckedState
-                            viewModel.updatePotluckAvailabilityFlag(newCheckedState)
-                        }
-                    )
-                }
-
-                if (isPotluckChecked) {
+                if (isAdditionalSignUpsChecked) {
                     AppButtonWithIcon (
-                        modifier = Modifier.padding(top = 4.dp),
-                        label = stringResource(R.string.label_add_potluck_item),
+                        modifier = Modifier.padding(top = 8.dp),
+                        label = stringResource(R.string.label_add_new_sign_up_sheet),
                         icon = painterResource(R.drawable.icon_plus)
                     ) {
-                        showCreatePotluckItemDialog.value = true
+                        showCreateSignUpSheetItemDialog.value = true
                     }
 
                     Column (
@@ -231,15 +187,15 @@ class SecondaryInformation @Inject constructor() {
                             .clip(shape = RoundedCornerShape(12.dp))
                             .background(MaterialTheme.colorScheme.background)
                     ) {
-                        potluckItemList.forEachIndexed { index, potluckItem ->
-                            key (potluckItem.itemId) {
-                                PotluckListItem(
-                                    potluckItem = potluckItem,
+                        signUpSheetItemList.forEachIndexed { index, signUpSheet ->
+                            key (signUpSheet.sheetId) {
+                                SignUpSheetListItem(
+                                    signUpSheet = signUpSheet,
                                     onDelete = {
-                                        viewModel.removePotluckItem(potluckItem)
+                                        viewModel.removeSignUpSheet(signUpSheet)
                                     }
                                 )
-                                if (index < potluckItemList.lastIndex) {
+                                if (index < signUpSheetItemList.lastIndex) {
                                     HorizontalDivider(
                                         modifier = Modifier
                                             .fillMaxWidth()
@@ -253,14 +209,86 @@ class SecondaryInformation @Inject constructor() {
                     }
                 }
 
-                PotluckItemCreate(
-                    showDialog = showCreatePotluckItemDialog,
-                    onCreate = { potluckItem ->
-                        viewModel.addPotluckItem(potluckItem)
-                        showCreatePotluckItemDialog.value = false
+                Text(
+                    text = stringResource(R.string.label_event_image),
+                    fontFamily = PBCFontFamily,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .fillMaxWidth()
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(2.dp),
+                    thickness = 2.dp
+                )
+
+                Text(
+                    text = stringResource(R.string.phrase_event_image),
+                    fontFamily = PBCFontFamily,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Justify,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+
+                AppFilledButton(
+                    modifier = Modifier.padding(top = 12.dp),
+                    label = stringResource(R.string.label_pick_image).uppercase()
+                ) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        permissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                    } else {
+                        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    }
+                }
+
+                imageUri?.let {
+                    Box (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = rememberAsyncImagePainter(it),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .padding(top = 16.dp)
+                                .size(300.dp)
+                        )
+                    }
+                }?: run {
+                    viewModel.newEvent.value.eventImage?.let {
+                        Box (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            AsyncImage(
+                                model = it,
+                                contentDescription = "Profile Picture",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(300.dp)
+                                    .padding(5.dp)
+                            )
+                        }
+                    }
+                }
+
+                SignUpSheetCreateDialog(
+                    showDialog = showCreateSignUpSheetItemDialog,
+                    onCreate = { signUpSheet ->
+                        viewModel.addSignUpSheet(signUpSheet)
+                        showCreateSignUpSheetItemDialog.value = false
                     },
                     onCancel = {
-                        showCreatePotluckItemDialog.value = false
+                        showCreateSignUpSheetItemDialog.value = false
                     }
                 )
 
@@ -270,10 +298,10 @@ class SecondaryInformation @Inject constructor() {
     }
 
     @Composable
-    fun PotluckListItem(
+    fun SignUpSheetListItem(
         modifier: Modifier = Modifier,
-        potluckItem: PotluckItem,
-        onDelete: (potluckItem: PotluckItem) -> Unit
+        signUpSheet: SignUpSheet,
+        onDelete: (signUpSheet: SignUpSheet) -> Unit
     ) {
         val context = LocalContext.current
         val dismissState = rememberSwipeToDismissBoxState(
@@ -281,8 +309,8 @@ class SecondaryInformation @Inject constructor() {
             confirmValueChange = {
                 when(it) {
                     SwipeToDismissBoxValue.EndToStart -> {
-                        onDelete(potluckItem)
-                        Toast.makeText(context, context.getString(R.string.label_remove_potluck_item), Toast.LENGTH_SHORT).show()
+                        onDelete(signUpSheet)
+                        Toast.makeText(context, context.getString(R.string.label_remove_sign_up_sheet), Toast.LENGTH_SHORT).show()
                     }
                     SwipeToDismissBoxValue.StartToEnd -> return@rememberSwipeToDismissBoxState false
                     SwipeToDismissBoxValue.Settled -> return@rememberSwipeToDismissBoxState false
@@ -301,17 +329,17 @@ class SecondaryInformation @Inject constructor() {
             },
             enableDismissFromStartToEnd = false,
             content = {
-                PotluckItemUI(
+                SignUpSheetItemUI(
                     modifier = Modifier.background(MaterialTheme.colorScheme.background),
-                    potluckItem = potluckItem
+                    signUpSheet = signUpSheet
                 )
             })
     }
 
     @Composable
-    fun PotluckItemUI(
+    fun SignUpSheetItemUI(
         modifier: Modifier = Modifier,
-        potluckItem: PotluckItem
+        signUpSheet: SignUpSheet
     ) {
         Row (
             modifier = modifier
@@ -323,7 +351,7 @@ class SecondaryInformation @Inject constructor() {
                 modifier = Modifier
                     .padding(start = 4.dp, end = 4.dp)
                     .weight(.85f),
-                text = potluckItem.itemName,
+                text = signUpSheet.sheetName,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = PBCFontFamily,
                 fontSize = 20.sp,
@@ -332,7 +360,7 @@ class SecondaryInformation @Inject constructor() {
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 4.dp)
                     .weight(.15f),
-                text = "${potluckItem.itemCount}",
+                text = "${signUpSheet.signUpAvailabilityCount}",
                 color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = PBCFontFamily,
                 fontSize = 20.sp,

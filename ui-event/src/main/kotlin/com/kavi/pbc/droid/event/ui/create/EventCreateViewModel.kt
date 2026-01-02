@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.EventType
-import com.kavi.pbc.droid.data.dto.event.PotluckItem
+import com.kavi.pbc.droid.data.dto.event.potluck.PotluckItem
 import com.kavi.pbc.droid.data.dto.event.VenueType
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheet
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper
@@ -36,6 +38,9 @@ class EventCreateViewModel @Inject constructor(
 
     private var _potluckItemList = MutableStateFlow<MutableList<PotluckItem>>(mutableListOf())
     val potluckItemList: StateFlow<List<PotluckItem>> = _potluckItemList
+
+    private var _signUpSheetItemList = MutableStateFlow<MutableList<SignUpSheet>>(mutableListOf())
+    val signUpSheetItemList: StateFlow<List<SignUpSheet>> = _signUpSheetItemList
 
     private var _eventImageUri = MutableStateFlow<Uri?>(null)
     val eventImageUri: StateFlow<Uri?> = _eventImageUri
@@ -111,6 +116,20 @@ class EventCreateViewModel @Inject constructor(
             .filterNot { it == potluckItem }
             .toMutableList()
         _newEvent.value.potluckItemList = _potluckItemList.value
+    }
+
+    fun addSignUpSheet(signUpSheet: SignUpSheet) {
+        _signUpSheetItemList.update { currentList ->
+            (currentList + signUpSheet) as MutableList<SignUpSheet>
+        }
+        _newEvent.value.signUpSheetList = _signUpSheetItemList.value
+    }
+
+    fun removeSignUpSheet(signUpSheet: SignUpSheet) {
+        _signUpSheetItemList.value = _signUpSheetItemList.value
+            .filterNot { it == signUpSheet }
+            .toMutableList()
+        _newEvent.value.signUpSheetList = _signUpSheetItemList.value
     }
 
     fun updateEventImageUrl(eventImage: Uri) {
@@ -214,6 +233,10 @@ class EventCreateViewModel @Inject constructor(
 
     fun updatePotluckAvailabilityFlag(isPotluckAvailable: Boolean) {
         _newEvent.value.potluckAvailable = isPotluckAvailable
+    }
+
+    fun updateSignUpAvailabilityFlag(isSignUpSheetAvailable: Boolean) {
+        _newEvent.value.signUpSheetAvailable = isSignUpSheetAvailable
     }
 
     fun uploadEventImageAndCreateOrUpdateEvent(isModify: Boolean = false) {

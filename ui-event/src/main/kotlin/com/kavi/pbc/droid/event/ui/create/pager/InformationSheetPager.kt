@@ -44,11 +44,11 @@ import com.kavi.pbc.droid.lib.common.ui.component.AppTimePickerDialog
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject
 
-class InitialInformation @Inject constructor() {
+class InformationSheetPager @Inject constructor() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun InitialInformationUI(viewModel: EventCreateViewModel = hiltViewModel()) {
+    fun InformationSheetUI(viewModel: EventCreateViewModel = hiltViewModel()) {
         val datePickerState = rememberDatePickerState()
         val showDatePicker = remember { mutableStateOf(false) }
 
