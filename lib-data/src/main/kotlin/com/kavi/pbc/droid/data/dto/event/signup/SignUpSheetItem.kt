@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class SignUpSheetItem(
     val sheetId: String,
     val sheetName: String,
+    val sheetDescription: String,
     val availableCount: Int,
     val contributorList: MutableList<SheetContributor> = mutableListOf()
 )

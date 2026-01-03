@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="label_pbc">PBC</string>
-    <string name="label_event">Events</string>
+    <string name="label_dashboard_event">Events</string>
     <string name="label_meditation">Meditation</string>
     <string name="label_temple">Temple</string>
     <string name="label_upcoming">Upcoming</string>

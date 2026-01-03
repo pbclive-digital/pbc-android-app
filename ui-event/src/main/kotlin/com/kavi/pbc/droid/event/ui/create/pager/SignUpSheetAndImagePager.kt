@@ -360,7 +360,7 @@ class SignUpSheetAndImagePager @Inject constructor() {
             Text(
                 modifier = Modifier.padding(start = 4.dp, end = 4.dp)
                     .weight(.15f),
-                text = "${signUpSheet.signUpAvailabilityCount}",
+                text = "${signUpSheet.availableCount}",
                 color = MaterialTheme.colorScheme.onSurface,
                 fontFamily = PBCFontFamily,
                 fontSize = 20.sp,

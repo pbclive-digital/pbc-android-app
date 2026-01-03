@@ -58,6 +58,11 @@ class EventCreateViewModel @Inject constructor(
                     _potluckItemList.value = it
                 }
             }
+            if (event.signUpSheetAvailable) {
+                event.signUpSheetList?.let {
+                    _signUpSheetItemList.value = it
+                }
+            }
         }
     }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -48,6 +49,7 @@ import com.kavi.pbc.droid.data.dto.event.EventStatus
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
+import com.kavi.pbc.droid.event.ui.common.SignUpSheetItemUI
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
@@ -82,6 +84,9 @@ class EventSelected @Inject constructor() {
 
         val registrationSheetState = rememberModalBottomSheetState()
         val showRegistrationSheet = remember { mutableStateOf(false) }
+
+        val signUpSheetBottomSheetState = rememberModalBottomSheetState()
+        val showSignUpSheetBottomSheet = remember { mutableStateOf(false) }
 
         eventData?.let {
             viewModel.setGivenEvent(givenEvent = eventData)
@@ -177,6 +182,7 @@ class EventSelected @Inject constructor() {
                         fontFamily = PBCFontFamily,
                         fontWeight = FontWeight.Bold,
                         fontSize = 36.sp,
+                        lineHeight = 40.sp,
                         color = MaterialTheme.colorScheme.onBackground
                     )
 
@@ -295,13 +301,13 @@ class EventSelected @Inject constructor() {
                     //Spacer(modifier = Modifier.weight(1f))
 
                     if (givenEvent.registrationRequired && givenEvent.eventStatus == EventStatus.PUBLISHED) {
-                        var bottomPadding = 0.dp
+                        var registrationBottomPadding = 0.dp
                         if (!givenEvent.potluckAvailable) {
-                            bottomPadding = 40.dp
+                            registrationBottomPadding = 40.dp
                         }
 
                         Column(
-                            modifier = Modifier.padding(top = 16.dp, bottom = bottomPadding)
+                            modifier = Modifier.padding(top = 16.dp, bottom = registrationBottomPadding)
                         ) {
                             Text(
                                 text = stringResource(R.string.label_event_registration),
@@ -342,8 +348,13 @@ class EventSelected @Inject constructor() {
                     }
 
                     if (givenEvent.potluckAvailable && givenEvent.eventStatus == EventStatus.PUBLISHED) {
+                        var potluckBottomPadding = 0.dp
+                        if (!givenEvent.signUpSheetAvailable) {
+                            potluckBottomPadding = 40.dp
+                        }
+
                         Column(
-                            modifier = Modifier.padding(top = 16.dp, bottom = 40.dp)
+                            modifier = Modifier.padding(top = 20.dp, bottom = potluckBottomPadding)
                         ) {
                             Text(
                                 text = stringResource(R.string.label_event_potluck),
@@ -382,6 +393,52 @@ class EventSelected @Inject constructor() {
                             }
                         }
                     }
+
+                    if (givenEvent.signUpSheetAvailable && givenEvent.eventStatus == EventStatus.PUBLISHED) {
+                        Column(
+                            modifier = Modifier.padding(top = 20.dp, bottom = 40.dp)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.label_event_additional_sign_ups),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            HorizontalDivider(
+                                modifier = Modifier.padding(2.dp),
+                                thickness = 2.dp
+                            )
+
+                            Text(
+                                text = stringResource(R.string.phrase_event_additional_sign_ups),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Justify,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            givenEvent.signUpSheetList?.forEach { signUpSheet ->
+                                Spacer(modifier = Modifier.height(8.dp))
+                                SignUpSheetItemUI(
+                                    modifier = Modifier
+                                        .clickable {
+                                            // Open up bottom sheet to register to selected sign-up sheet
+                                            if (Session.isLogIn())
+                                                showSignUpSheetBottomSheet.value = true
+                                            else
+                                                showAuthInviteSheet.value = true
+                                        },
+                                    signUpSheet = signUpSheet
+                                )
+                            }
+                        }
+                    }
                 }
             }
 
@@ -391,6 +448,10 @@ class EventSelected @Inject constructor() {
 
             if (showRegistrationSheet.value) {
                 eventFunctionBottomSheet.RegistrationSheetUI(sheetState = registrationSheetState, showSheet = showRegistrationSheet)
+            }
+
+            if (showSignUpSheetBottomSheet.value) {
+                eventFunctionBottomSheet.SignUpSheetBottomSheetUI(sheetState = signUpSheetBottomSheetState, showSheet = showSignUpSheetBottomSheet)
             }
 
             if (showAuthInviteSheet.value) {

@@ -81,7 +81,7 @@ class Event @Inject constructor() {
                 Session.user?.profilePicUrl?.let {
                     TitleWithProfile(
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                        titleText = stringResource(R.string.label_event),
+                        titleText = stringResource(R.string.label_dashboard_event),
                         profilePicUrl = it,
                         profileAction = {
                             navController.navigate("dashboard/to/profile")
@@ -90,7 +90,7 @@ class Event @Inject constructor() {
                 }?: run {
                     TitleWithAction(
                         modifier = Modifier.padding(start = 12.dp, end = 12.dp),
-                        titleText = stringResource(R.string.label_event),
+                        titleText = stringResource(R.string.label_dashboard_event),
                         actionPainter = painterResource(com.kavi.pbc.droid.lib.common.ui.R.drawable.image_dhamma_chakra),
                         action = {
                             showAuthInviteSheet.value = true

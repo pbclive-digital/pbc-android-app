@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,6 +24,7 @@ import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.lib.common.ui.component.AppBasicDialog
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineButton
+import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineMultiLineTextField
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineTextField
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import java.util.UUID
@@ -50,6 +52,7 @@ fun SignUpSheetCreateDialog(
 fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, onCancel: () -> Unit) {
 
     val signUpSheetName = remember { mutableStateOf(TextFieldValue("")) }
+    val signUpSheetDescription = remember { mutableStateOf(TextFieldValue("")) }
     val signUpAvailabilityCount = remember { mutableStateOf(TextFieldValue("")) }
 
     Box (
@@ -85,6 +88,19 @@ fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, o
                 }
             )
 
+            AppOutlineMultiLineTextField (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp)
+                    .height(150.dp),
+                headingText = stringResource(R.string.label_sheet_dec).uppercase(),
+                maxLines = 8,
+                contentText = signUpSheetDescription,
+                onValueChange = { newValue ->
+                    signUpSheetDescription.value = newValue
+                }
+            )
+
             AppOutlineTextField (
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,6 +126,7 @@ fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, o
                         SignUpSheet(
                             UUID.randomUUID().toString(),
                             signUpSheetName.value.text,
+                            signUpSheetDescription.value.text,
                             signUpAvailabilityCount.value.text.toInt()
                         )
                     )

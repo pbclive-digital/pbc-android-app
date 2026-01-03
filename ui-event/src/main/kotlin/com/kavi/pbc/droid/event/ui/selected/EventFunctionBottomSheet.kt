@@ -243,4 +243,10 @@ class EventFunctionBottomSheet @Inject constructor() {
             }
         }
     }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
+    fun SignUpSheetBottomSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>, viewModel: EventSelectedViewModel = hiltViewModel()) {
+
+    }
 }

@@ -7,5 +7,6 @@ import java.util.UUID
 data class SignUpSheet(
     val sheetId: String = UUID.randomUUID().toString(),
     val sheetName: String,
-    val signUpAvailabilityCount: Int
+    val sheetDescription: String,
+    val availableCount: Int
 )

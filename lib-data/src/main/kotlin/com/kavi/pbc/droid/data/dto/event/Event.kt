@@ -44,7 +44,7 @@ data class Event(
             VenueType.DEFAULT -> { "" }
             VenueType.VIRTUAL -> "Online"
             VenueType.PHYSICAL -> {
-               "$venue"
+               venue ?: run { "PBC" }
             }
         }
     }
