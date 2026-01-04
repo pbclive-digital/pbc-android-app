@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kavi.droid.color.palette.extension.shadow
-import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.EventPotluckItemUI
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
@@ -52,9 +52,9 @@ class EventFunctionBottomSheet @Inject constructor() {
     fun PotluckSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>,
                        viewModel: EventSelectedViewModel = hiltViewModel()) {
 
-        val eventPotluckData = viewModel.eventPotluckData.collectAsState()
+        val eventPotluckData by viewModel.eventPotluckData.collectAsState()
 
-        val potluckItemCount = eventPotluckData.value.potluckItemList.size
+        val potluckItemCount = eventPotluckData.potluckItemList.size
 
         val lazyColumHeight = if (potluckItemCount <= 3) {
             400.dp
@@ -111,7 +111,7 @@ class EventFunctionBottomSheet @Inject constructor() {
                                 .padding(top = 12.dp)
                                 .height(lazyColumHeight)
                         ) {
-                            items(eventPotluckData.value.potluckItemList) { potluckItem ->
+                            items(eventPotluckData.potluckItemList) { potluckItem ->
                                 EventPotluckItemUI(
                                     modifier = Modifier.padding(bottom = 8.dp),
                                     viewModel = viewModel,
@@ -131,6 +131,7 @@ class EventFunctionBottomSheet @Inject constructor() {
     @Composable
     fun RegistrationSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>, viewModel: EventSelectedViewModel = hiltViewModel()) {
 
+        val givenEvent by viewModel.givenEvent.collectAsState()
         val actionStatus by viewModel.actionFunctionStatus.collectAsState()
         var isLoading by remember { mutableStateOf(false) }
 
@@ -187,9 +188,9 @@ class EventFunctionBottomSheet @Inject constructor() {
 
                         Text(
                             text = if (viewModel.isCurrentUserRegistered())
-                                String.format(Locale.US, stringResource(R.string.phrase_event_unregistering), viewModel.givenEvent.value.name)
+                                String.format(Locale.US, stringResource(R.string.phrase_event_unregistering), givenEvent.name)
                             else
-                                String.format(Locale.US, stringResource(R.string.phrase_event_registering), viewModel.givenEvent.value.name),
+                                String.format(Locale.US, stringResource(R.string.phrase_event_registering), givenEvent.name),
                             fontFamily = PBCFontFamily,
                             fontSize = 14.sp,
                             textAlign = TextAlign.Center,
@@ -249,7 +250,7 @@ class EventFunctionBottomSheet @Inject constructor() {
     @Composable
     fun SignUpSheetBottomSheetUI(sheetState: SheetState,
                                  showSheet: MutableState<Boolean>,
-                                 selectedSignUpSheet: SignUpSheetItem,
+                                 selectedSignUpSheet: EventSignUpSheet,
                                  viewModel: EventSelectedViewModel = hiltViewModel()) {
         val actionStatus by viewModel.actionFunctionStatus.collectAsState()
         var isLoading by remember { mutableStateOf(false) }

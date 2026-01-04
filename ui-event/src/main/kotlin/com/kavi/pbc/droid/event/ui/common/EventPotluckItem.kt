@@ -59,13 +59,7 @@ fun EventPotluckItemUI(modifier: Modifier = Modifier,
             .fillMaxWidth()
             .border(1.dp, MaterialTheme.colorScheme.tertiary, shape = RoundedCornerShape(8.dp))
             .clip( RoundedCornerShape(8.dp))
-            .shadow(elevation = 2.dp)
-            .clickable {
-                isLoading = true
-                viewModel.signUpForPotluckItem(potluckItem) {
-                    isLoading = false
-                }
-            },
+            .shadow(elevation = 2.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column (

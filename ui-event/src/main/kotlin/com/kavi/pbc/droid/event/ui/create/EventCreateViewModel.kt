@@ -8,7 +8,6 @@ import com.kavi.pbc.droid.data.dto.event.EventType
 import com.kavi.pbc.droid.data.dto.event.potluck.PotluckItem
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheet
-import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import com.kavi.pbc.droid.event.data.repository.local.EventLocalRepository
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper

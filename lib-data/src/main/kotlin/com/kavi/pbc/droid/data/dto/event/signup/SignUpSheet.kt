@@ -5,7 +5,7 @@ import java.util.UUID
 
 @Serializable
 data class SignUpSheet(
-    val sheetId: String = UUID.randomUUID().toString(), // This ID is not sync with database. This use only for client purpose
+    val sheetId: String = UUID.randomUUID().toString(),
     val sheetName: String = "",
     val sheetDescription: String = "",
     val availableCount: Int = 0

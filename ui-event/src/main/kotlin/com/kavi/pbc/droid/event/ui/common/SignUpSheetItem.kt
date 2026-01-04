@@ -18,11 +18,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 
 @Composable
-fun SignUpSheetItemUI(modifier: Modifier = Modifier, signUpSheet: SignUpSheetItem) {
+fun SignUpSheetItemUI(modifier: Modifier = Modifier, signUpSheet: EventSignUpSheet) {
     Row(
         modifier = modifier
             .fillMaxWidth()

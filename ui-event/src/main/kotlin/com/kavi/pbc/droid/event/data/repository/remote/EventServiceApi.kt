@@ -6,9 +6,9 @@ import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetList
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetContributor
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
-import com.kavi.pbc.droid.data.dto.event.signup.SheetContributor
-import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -67,18 +67,18 @@ interface EventServiceApi {
                                    @Path("contributorId") contributorId: String): BaseResponse<EventPotluck>
 
     @GET("/event/get/sign-up-sheet/{eventId}")
-    suspend fun getSignUpSheetList(@Path("eventId") eventId: String): BaseResponse<EventSignUpSheet>
+    suspend fun getSignUpSheetList(@Path("eventId") eventId: String): BaseResponse<EventSignUpSheetList>
 
     @GET("/event/get/sign-up-sheet/{eventId}/{sheetId}")
     suspend fun getSignUpSheet(@Path("eventId") eventId: String,
-                                     @Path("sheetId") sheetId: String): BaseResponse<SignUpSheetItem>
+                                     @Path("sheetId") sheetId: String): BaseResponse<EventSignUpSheet>
 
     @POST("/event/sign-up-sheet/sign-up/{eventId}/{sheetId}")
     suspend fun signUpToSelectedSignUpSheet(@Path("eventId") eventId: String,
                                             @Path("sheetId") sheetId: String,
-                                @Body sheetContributor: SheetContributor): BaseResponse<EventSignUpSheet>
+                                @Body sheetContributor: EventSignUpSheetContributor): BaseResponse<EventSignUpSheetList>
 
     @DELETE("/event/sign-up-sheet/sign-out/{eventId}/{sheetId}/{contributorId}")
     suspend fun signOutFromSelectedSignUpSheet(@Path("eventId") eventId: String, @Path("sheetId") sheetId: String,
-                                   @Path("contributorId") contributorId: String): BaseResponse<EventSignUpSheet>
+                                   @Path("contributorId") contributorId: String): BaseResponse<EventSignUpSheetList>
 }

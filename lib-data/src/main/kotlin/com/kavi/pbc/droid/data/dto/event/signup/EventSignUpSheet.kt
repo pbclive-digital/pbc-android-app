@@ -4,6 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class EventSignUpSheet(
-    val id: String,
-    val signUpSheetItemList: MutableList<SignUpSheetItem> = mutableListOf()
+    val sheetId: String = "",
+    val sheetName: String = "",
+    val sheetDescription: String = "",
+    val availableCount: Int = 0,
+    val contributorList: MutableList<EventSignUpSheetContributor> = mutableListOf()
 )

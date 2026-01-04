@@ -47,7 +47,7 @@ import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.EventStatus
 import com.kavi.pbc.droid.data.dto.event.VenueType
-import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.SignUpSheetItemUI
@@ -88,7 +88,7 @@ class EventSelected @Inject constructor() {
 
         val signUpSheetBottomSheetState = rememberModalBottomSheetState()
         val showSignUpSheetBottomSheet = remember { mutableStateOf(false) }
-        val selectedSignUpSheetItem = remember { mutableStateOf(SignUpSheetItem()) }
+        val selectedSignUpSheetItem = remember { mutableStateOf(EventSignUpSheet()) }
 
         eventData?.let {
             viewModel.setGivenEvent(givenEvent = eventData)

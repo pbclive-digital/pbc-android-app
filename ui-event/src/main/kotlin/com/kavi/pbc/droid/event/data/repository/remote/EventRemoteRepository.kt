@@ -6,9 +6,9 @@ import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetList
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetContributor
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
-import com.kavi.pbc.droid.data.dto.event.signup.SheetContributor
-import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -79,20 +79,20 @@ class EventRemoteRepository @Inject constructor(
             potluckItemId = potluckItemId, contributorId = contributorId) }
     }
 
-    suspend fun getSignUpSheetList(eventId: String): ResultWrapper<BaseResponse<EventSignUpSheet>> {
+    suspend fun getSignUpSheetList(eventId: String): ResultWrapper<BaseResponse<EventSignUpSheetList>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.getSignUpSheetList(eventId = eventId) }
     }
 
-    suspend fun getSignUpSheet(eventId: String, sheetId: String): ResultWrapper<BaseResponse<SignUpSheetItem>> {
+    suspend fun getSignUpSheet(eventId: String, sheetId: String): ResultWrapper<BaseResponse<EventSignUpSheet>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.getSignUpSheet(eventId = eventId, sheetId = sheetId) }
     }
 
-    suspend fun signUpToSelectedSignUpSheet(eventId: String, sheetId: String, contributor: SheetContributor): ResultWrapper<BaseResponse<EventSignUpSheet>> {
+    suspend fun signUpToSelectedSignUpSheet(eventId: String, sheetId: String, contributor: EventSignUpSheetContributor): ResultWrapper<BaseResponse<EventSignUpSheetList>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.signUpToSelectedSignUpSheet(eventId = eventId,
             sheetId = sheetId, sheetContributor = contributor) }
     }
 
-    suspend fun signOutFromSelectedSignUpSheet(eventId: String, sheetId: String, contributorId: String): ResultWrapper<BaseResponse<EventSignUpSheet>> {
+    suspend fun signOutFromSelectedSignUpSheet(eventId: String, sheetId: String, contributorId: String): ResultWrapper<BaseResponse<EventSignUpSheetList>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.signOutFromSelectedSignUpSheet(eventId = eventId,
             sheetId = sheetId, contributorId = contributorId) }
     }

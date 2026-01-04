@@ -8,8 +8,8 @@ import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckItem
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
-import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
-import com.kavi.pbc.droid.data.dto.event.signup.SheetContributor
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetList
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetContributor
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -35,8 +35,8 @@ class EventSelectedViewModel @Inject constructor(
     private val _eventRegistrationData = MutableStateFlow(EventRegistration("", 0))
     val eventRegistrationData: StateFlow<EventRegistration> = _eventRegistrationData
 
-    private val _eventSignUpSheetData = MutableStateFlow(EventSignUpSheet(""))
-    val eventSignUpSheetData: StateFlow<EventSignUpSheet> = _eventSignUpSheetData
+    private val _eventSignUpSheetData = MutableStateFlow(EventSignUpSheetList(""))
+    val eventSignUpSheetData: StateFlow<EventSignUpSheetList> = _eventSignUpSheetData
 
     private val _eventPotluckData = MutableStateFlow(EventPotluck("", mutableListOf()))
     val eventPotluckData: StateFlow<EventPotluck> = _eventPotluckData
@@ -209,7 +209,7 @@ class EventSelectedViewModel @Inject constructor(
 
     fun signUpToSheet(sheetId: String) {
         Session.user?.let { sessionUser ->
-            val sheetContributor = SheetContributor(
+            val sheetContributor = EventSignUpSheetContributor(
                 sessionUser.id!!, "${sessionUser.firstName!!} ${sessionUser.lastName!!}", sessionUser.phoneNumber
             )
 
