@@ -47,6 +47,7 @@ import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.EventStatus
 import com.kavi.pbc.droid.data.dto.event.VenueType
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.SignUpSheetItemUI
@@ -87,12 +88,14 @@ class EventSelected @Inject constructor() {
 
         val signUpSheetBottomSheetState = rememberModalBottomSheetState()
         val showSignUpSheetBottomSheet = remember { mutableStateOf(false) }
+        val selectedSignUpSheetItem = remember { mutableStateOf(SignUpSheetItem()) }
 
         eventData?.let {
             viewModel.setGivenEvent(givenEvent = eventData)
         }
 
         val givenEvent by viewModel.givenEvent.collectAsState()
+        val eventSignUpSheetData by viewModel.eventSignUpSheetData.collectAsState()
 
         BoxWithConstraints (
             modifier = Modifier
@@ -423,18 +426,19 @@ class EventSelected @Inject constructor() {
                                     .fillMaxWidth()
                             )
 
-                            givenEvent.signUpSheetList?.forEach { signUpSheet ->
+                            eventSignUpSheetData.signUpSheetItemList.forEach { signUpSheetItem ->
                                 Spacer(modifier = Modifier.height(8.dp))
                                 SignUpSheetItemUI(
                                     modifier = Modifier
                                         .clickable {
                                             // Open up bottom sheet to register to selected sign-up sheet
-                                            if (Session.isLogIn())
+                                            if (Session.isLogIn()) {
+                                                selectedSignUpSheetItem.value = signUpSheetItem
                                                 showSignUpSheetBottomSheet.value = true
-                                            else
+                                            } else
                                                 showAuthInviteSheet.value = true
                                         },
-                                    signUpSheet = signUpSheet
+                                    signUpSheet = signUpSheetItem
                                 )
                             }
                         }
@@ -451,7 +455,11 @@ class EventSelected @Inject constructor() {
             }
 
             if (showSignUpSheetBottomSheet.value) {
-                eventFunctionBottomSheet.SignUpSheetBottomSheetUI(sheetState = signUpSheetBottomSheetState, showSheet = showSignUpSheetBottomSheet)
+                eventFunctionBottomSheet.SignUpSheetBottomSheetUI(
+                    sheetState = signUpSheetBottomSheetState,
+                    showSheet = showSignUpSheetBottomSheet,
+                    selectedSignUpSheet = selectedSignUpSheetItem.value
+                )
             }
 
             if (showAuthInviteSheet.value) {

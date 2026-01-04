@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class SheetContributor(
     val contributorId: String,
     val contributorName: String,
-    val contributorContactNumber: String
+    val contributorContactNumber: String?
 )

@@ -6,6 +6,9 @@ import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
+import com.kavi.pbc.droid.data.dto.event.signup.SheetContributor
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -62,4 +65,20 @@ interface EventServiceApi {
     @DELETE("/event/potluck/sign-out/{eventId}/{potluckItemId}/{contributorId}")
     suspend fun signOutFromPotluck(@Path("eventId") eventId: String, @Path("potluckItemId") potluckItemId: String,
                                    @Path("contributorId") contributorId: String): BaseResponse<EventPotluck>
+
+    @GET("/event/get/sign-up-sheet/{eventId}")
+    suspend fun getSignUpSheetList(@Path("eventId") eventId: String): BaseResponse<EventSignUpSheet>
+
+    @GET("/event/get/sign-up-sheet/{eventId}/{sheetId}")
+    suspend fun getSignUpSheet(@Path("eventId") eventId: String,
+                                     @Path("sheetId") sheetId: String): BaseResponse<SignUpSheetItem>
+
+    @POST("/event/sign-up-sheet/sign-up/{eventId}/{sheetId}")
+    suspend fun signUpToSelectedSignUpSheet(@Path("eventId") eventId: String,
+                                            @Path("sheetId") sheetId: String,
+                                @Body sheetContributor: SheetContributor): BaseResponse<EventSignUpSheet>
+
+    @DELETE("/event/sign-up-sheet/sign-out/{eventId}/{sheetId}/{contributorId}")
+    suspend fun signOutFromSelectedSignUpSheet(@Path("eventId") eventId: String, @Path("sheetId") sheetId: String,
+                                   @Path("contributorId") contributorId: String): BaseResponse<EventSignUpSheet>
 }

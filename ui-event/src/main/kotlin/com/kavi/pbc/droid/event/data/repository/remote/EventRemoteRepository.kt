@@ -6,6 +6,9 @@ import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluck
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
+import com.kavi.pbc.droid.data.dto.event.signup.SheetContributor
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import com.kavi.pbc.droid.network.Network
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import kotlinx.coroutines.CoroutineDispatcher
@@ -74,5 +77,23 @@ class EventRemoteRepository @Inject constructor(
     suspend fun signOutFromPotluck(eventId: String, potluckItemId: String, contributorId: String): ResultWrapper<BaseResponse<EventPotluck>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.signOutFromPotluck(eventId = eventId,
             potluckItemId = potluckItemId, contributorId = contributorId) }
+    }
+
+    suspend fun getSignUpSheetList(eventId: String): ResultWrapper<BaseResponse<EventSignUpSheet>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.getSignUpSheetList(eventId = eventId) }
+    }
+
+    suspend fun getSignUpSheet(eventId: String, sheetId: String): ResultWrapper<BaseResponse<SignUpSheetItem>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.getSignUpSheet(eventId = eventId, sheetId = sheetId) }
+    }
+
+    suspend fun signUpToSelectedSignUpSheet(eventId: String, sheetId: String, contributor: SheetContributor): ResultWrapper<BaseResponse<EventSignUpSheet>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.signUpToSelectedSignUpSheet(eventId = eventId,
+            sheetId = sheetId, sheetContributor = contributor) }
+    }
+
+    suspend fun signOutFromSelectedSignUpSheet(eventId: String, sheetId: String, contributorId: String): ResultWrapper<BaseResponse<EventSignUpSheet>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.signOutFromSelectedSignUpSheet(eventId = eventId,
+            sheetId = sheetId, contributorId = contributorId) }
     }
 }

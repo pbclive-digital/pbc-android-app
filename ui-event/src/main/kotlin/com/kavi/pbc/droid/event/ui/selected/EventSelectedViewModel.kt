@@ -8,6 +8,8 @@ import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckContributor
 import com.kavi.pbc.droid.data.dto.event.potluck.EventPotluckItem
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
+import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
+import com.kavi.pbc.droid.data.dto.event.signup.SheetContributor
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -33,6 +35,9 @@ class EventSelectedViewModel @Inject constructor(
     private val _eventRegistrationData = MutableStateFlow(EventRegistration("", 0))
     val eventRegistrationData: StateFlow<EventRegistration> = _eventRegistrationData
 
+    private val _eventSignUpSheetData = MutableStateFlow(EventSignUpSheet(""))
+    val eventSignUpSheetData: StateFlow<EventSignUpSheet> = _eventSignUpSheetData
+
     private val _eventPotluckData = MutableStateFlow(EventPotluck("", mutableListOf()))
     val eventPotluckData: StateFlow<EventPotluck> = _eventPotluckData
 
@@ -48,6 +53,9 @@ class EventSelectedViewModel @Inject constructor(
 
         if (_givenEvent.value.potluckAvailable)
             fetchPotluckDetails()
+
+        if (_givenEvent.value.signUpSheetAvailable)
+            fetchSignUpSheetDetails()
     }
 
     fun checkedCurrentUserContribution(potluckItem: EventPotluckItem): Int {
@@ -134,6 +142,28 @@ class EventSelectedViewModel @Inject constructor(
         }
     }
 
+    fun isCurrentUserSignUpToSignUpSheet(sheetId: String): Boolean {
+        val filteredSignUpSheetList = _eventSignUpSheetData.value.signUpSheetItemList.filter { it.sheetId == sheetId }
+        return if (filteredSignUpSheetList.isNotEmpty()) {
+            val selectedSheet = filteredSignUpSheetList[0]
+            val filtered = selectedSheet.contributorList.filter { it.contributorId == Session.user?.id }
+            filtered.isNotEmpty()
+        } else {
+            false
+        }
+    }
+
+    fun remainingSignUpCountInSignUpSheet(sheetId: String): Int {
+        val filteredSignUpSheetList = _eventSignUpSheetData.value.signUpSheetItemList.filter { it.sheetId == sheetId }
+        var remainingCount = 0
+        if (filteredSignUpSheetList.isNotEmpty()) {
+            val selectedSignUpSheet = filteredSignUpSheetList[0]
+            remainingCount = selectedSignUpSheet.availableCount - selectedSignUpSheet.contributorList.size
+        }
+
+        return remainingCount
+    }
+
     fun registerToEvent() {
         Session.user?.let { sessionUser ->
             val eventRegistrationItem = EventRegistrationItem(
@@ -177,6 +207,49 @@ class EventSelectedViewModel @Inject constructor(
         }
     }
 
+    fun signUpToSheet(sheetId: String) {
+        Session.user?.let { sessionUser ->
+            val sheetContributor = SheetContributor(
+                sessionUser.id!!, "${sessionUser.firstName!!} ${sessionUser.lastName!!}", sessionUser.phoneNumber
+            )
+
+            viewModelScope.launch {
+                when(val response = remoteDataSource.signUpToSelectedSignUpSheet(
+                    _givenEvent.value.id!!, sheetId = sheetId, contributor = sheetContributor
+                )) {
+                    is ResultWrapper.NetworkError -> {}
+                    is ResultWrapper.HttpError -> {}
+                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let {
+                            _eventSignUpSheetData.value = it
+                            _actionFunctionStatus.value = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun signOutFromSheet(sheetId: String) {
+        Session.user?.let { sessionUser ->
+            viewModelScope.launch {
+                when(val response = remoteDataSource.signOutFromSelectedSignUpSheet(
+                    _givenEvent.value.id!!, sheetId = sheetId, contributorId = sessionUser.id!!)) {
+                    is ResultWrapper.NetworkError -> {}
+                    is ResultWrapper.HttpError -> {}
+                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.Success -> {
+                        response.value.body?.let {
+                            _eventSignUpSheetData.value = it
+                            _actionFunctionStatus.value = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun fetchRegistrationDetails() {
         viewModelScope.launch {
             when(val response = remoteDataSource.getEventRegistration(_givenEvent.value.id!!)) {
@@ -201,6 +274,21 @@ class EventSelectedViewModel @Inject constructor(
                 is ResultWrapper.Success -> {
                     response.value.body?.let {
                         _eventPotluckData.value = it
+                    }
+                }
+            }
+        }
+    }
+
+    private fun fetchSignUpSheetDetails() {
+        viewModelScope.launch {
+            when(val response = remoteDataSource.getSignUpSheetList(_givenEvent.value.id!!)) {
+                is ResultWrapper.NetworkError -> {}
+                is ResultWrapper.HttpError -> {}
+                is ResultWrapper.UnAuthError -> {}
+                is ResultWrapper.Success -> {
+                    response.value.body?.let {
+                        _eventSignUpSheetData.value = it
                     }
                 }
             }

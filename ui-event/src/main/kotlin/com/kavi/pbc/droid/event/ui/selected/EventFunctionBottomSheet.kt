@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kavi.droid.color.palette.extension.shadow
+import com.kavi.pbc.droid.data.dto.event.signup.SignUpSheetItem
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.EventPotluckItemUI
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
@@ -246,7 +247,119 @@ class EventFunctionBottomSheet @Inject constructor() {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun SignUpSheetBottomSheetUI(sheetState: SheetState, showSheet: MutableState<Boolean>, viewModel: EventSelectedViewModel = hiltViewModel()) {
+    fun SignUpSheetBottomSheetUI(sheetState: SheetState,
+                                 showSheet: MutableState<Boolean>,
+                                 selectedSignUpSheet: SignUpSheetItem,
+                                 viewModel: EventSelectedViewModel = hiltViewModel()) {
+        val actionStatus by viewModel.actionFunctionStatus.collectAsState()
+        var isLoading by remember { mutableStateOf(false) }
 
+        ModalBottomSheet(
+            sheetState = sheetState,
+            onDismissRequest = {
+                showSheet.value = false
+            },
+            containerColor = MaterialTheme.colorScheme.background,
+            scrimColor = MaterialTheme.colorScheme.shadow.copy(alpha = .5f)
+        ) {
+            Box (
+                modifier = Modifier
+                    .background(MaterialTheme.colorScheme.background)
+                    .padding(start = 20.dp, end = 20.dp, bottom = 40.dp)
+                    .fillMaxWidth()
+            ) {
+                if (Session.isLogIn()) {
+                    val isSignUp = viewModel.isCurrentUserSignUpToSignUpSheet(selectedSignUpSheet.sheetId)
+                    Column {
+                        Text(
+                            text = String.format(Locale.US,
+                                stringResource(R.string.label_event_sign_up_sheet_title),
+                                selectedSignUpSheet.sheetName),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+
+                        HorizontalDivider(
+                            modifier = Modifier.padding(2.dp),
+                            thickness = 2.dp
+                        )
+
+                        Row(
+                            modifier = Modifier
+                                .padding(12.dp)
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Image(
+                                painter = if (isSignUp)
+                                    painterResource(R.drawable.icon_remove_item)
+                                else
+                                    painterResource(R.drawable.icon_add_item),
+                                contentDescription = "Provided icon",
+                                modifier = Modifier
+                                    .size(100.dp)
+                            )
+                        }
+
+                        Text(
+                            text = selectedSignUpSheet.sheetDescription,
+                            fontFamily = PBCFontFamily,
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp)
+                        )
+
+                        Text(
+                            text = String.format(Locale.US, stringResource(R.string.label_event_remaining_seats),
+                                viewModel.remainingSignUpCountInSignUpSheet(selectedSignUpSheet.sheetId)),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 8.dp)
+                        )
+
+                        if (isLoading) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(50.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                CircularProgressIndicator()
+                            }
+                        } else {
+                            AppFilledButton(
+                                modifier = Modifier.padding(top = 16.dp),
+                                label = if (isSignUp)
+                                    stringResource(R.string.label_event_sign_out) else stringResource(R.string.label_event_sign_up)) {
+
+                                isLoading = true
+
+                                if (isSignUp)
+                                    viewModel.signOutFromSheet(selectedSignUpSheet.sheetId)
+                                else
+                                    viewModel.signUpToSheet(selectedSignUpSheet.sheetId)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (actionStatus) {
+            isLoading = false // This is necessary to make it false, to stop the loading indicator.
+            viewModel.revokeActionFunctionStatus()
+        }
     }
 }
