@@ -55,7 +55,7 @@ class Dashboard @Inject constructor() {
         var selectedTabIndex by rememberSaveable { mutableIntStateOf(0) }
 
         Box(
-            modifier = Modifier.Companion
+            modifier = Modifier
                 .fillMaxSize()
                 .background(color = MaterialTheme.colorScheme.surface)
         ) {
@@ -63,11 +63,11 @@ class Dashboard @Inject constructor() {
                 bottomBar = {
                     NavigationBar(
                         containerColor = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.Companion.height(BottomNavBarHeight)
+                        modifier = Modifier.height(BottomNavBarHeight)
                     ) {
                         tabItemList.forEachIndexed { index, tabItem ->
                             NavigationBarItem(
-                                modifier = Modifier.Companion
+                                modifier = Modifier
                                     .padding(4.dp),
                                 colors = navigationBarColors(),
                                 selected = selectedTabIndex == index,
@@ -77,7 +77,7 @@ class Dashboard @Inject constructor() {
                                     Icon(
                                         painterResource(id = tabItem.icon),
                                         contentDescription = "",
-                                        modifier = Modifier.Companion
+                                        modifier = Modifier
                                             .width(45.dp)
                                             .height(45.dp)
                                             .padding(8.dp),
@@ -120,16 +120,16 @@ class Dashboard @Inject constructor() {
             selectedIconColor = MaterialTheme.colorScheme.primary,
             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
             unselectedIconColor = ColorUtil.blendColors(
-                Color.Companion.Gray,
-                Color.Companion.White
+                Color.Gray,
+                Color.White
             ),
             unselectedTextColor = ColorUtil.blendColors(
-                Color.Companion.Gray,
-                Color.Companion.White
+                Color.Gray,
+                Color.White
             ),
             selectedIndicatorColor = MaterialTheme.colorScheme.tertiary,
-            disabledIconColor = Color.Companion.Gray,
-            disabledTextColor = Color.Companion.Gray,
+            disabledIconColor = Color.Gray,
+            disabledTextColor = Color.Gray,
         )
     }
 }
