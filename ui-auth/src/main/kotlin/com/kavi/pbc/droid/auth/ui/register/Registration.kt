@@ -44,15 +44,15 @@ import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 @Composable
 fun RegisterUI(navController: NavController, email: String, viewModel: RegistrationViewModel = hiltViewModel()) {
 
-    val signedUsed by viewModel.signedUsed.collectAsState()
+    val signedUsed by viewModel.signedUser.collectAsState()
     // Create the user from sign-in email
     viewModel.createUserFromFirebaseAuth(email = email)
     val onUserCreated by viewModel.onUserCreated.collectAsState()
 
-    var firstName by remember { mutableStateOf(viewModel.signedUsed.value.firstName) }
-    var lastName by remember { mutableStateOf(viewModel.signedUsed.value.lastName) }
-    var phoneNumber by remember { mutableStateOf(viewModel.signedUsed.value.phoneNumber) }
-    var address by remember { mutableStateOf(viewModel.signedUsed.value.address) }
+    var firstName by remember { mutableStateOf(viewModel.signedUser.value.firstName) }
+    var lastName by remember { mutableStateOf(viewModel.signedUser.value.lastName) }
+    var phoneNumber by remember { mutableStateOf(viewModel.signedUser.value.phoneNumber) }
+    var address by remember { mutableStateOf(viewModel.signedUser.value.address) }
 
     val isLoading by remember { mutableStateOf(false) }
 

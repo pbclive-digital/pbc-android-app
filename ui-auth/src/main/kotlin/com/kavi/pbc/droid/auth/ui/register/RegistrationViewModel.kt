@@ -24,7 +24,7 @@ class RegistrationViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _signedUser = MutableStateFlow(User(email = ""))
-    val signedUsed: StateFlow<User> = _signedUser
+    val signedUser: StateFlow<User> = _signedUser
 
     private val _onUserCreated = MutableStateFlow(false)
     val onUserCreated: StateFlow<Boolean> = _onUserCreated
