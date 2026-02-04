@@ -51,6 +51,7 @@ import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.SignUpSheetItemUI
+import com.kavi.pbc.droid.event.ui.selected.action.EventRegistrationSheet
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
@@ -66,6 +67,9 @@ class EventSelected @Inject constructor() {
 
     @Inject
     lateinit var eventFunctionBottomSheet: EventFunctionBottomSheet
+
+    @Inject
+    lateinit var eventRegistrationAction: EventRegistrationSheet
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -451,7 +455,7 @@ class EventSelected @Inject constructor() {
             }
 
             if (showRegistrationSheet.value) {
-                eventFunctionBottomSheet.RegistrationSheetUI(sheetState = registrationSheetState, showSheet = showRegistrationSheet)
+                eventRegistrationAction.RegistrationSheetUI(sheetState = registrationSheetState, showSheet = showRegistrationSheet)
             }
 
             if (showSignUpSheetBottomSheet.value) {

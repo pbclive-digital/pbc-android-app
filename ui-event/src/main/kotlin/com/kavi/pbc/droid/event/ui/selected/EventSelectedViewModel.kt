@@ -10,6 +10,7 @@ import com.kavi.pbc.droid.data.dto.event.register.EventRegistration
 import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetList
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetContributor
+import com.kavi.pbc.droid.event.data.model.EventRegUnRegUiStatus
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -25,6 +26,9 @@ class EventSelectedViewModel @Inject constructor(
 ): ViewModel() {
     private val _actionFunctionStatus = MutableStateFlow(false)
     val actionFunctionStatus: StateFlow<Boolean> = _actionFunctionStatus
+
+    private val _eventRegUnRegStatus = MutableStateFlow(EventRegUnRegUiStatus.INITIAL)
+    val eventRegUnRegStatus: StateFlow<EventRegUnRegUiStatus> = _eventRegUnRegStatus
 
     private val _authRequiredStatus = MutableStateFlow(false)
     val authRequiredStatus: StateFlow<Boolean> = _authRequiredStatus
@@ -174,14 +178,15 @@ class EventSelectedViewModel @Inject constructor(
             )
 
             viewModelScope.launch {
+                _eventRegUnRegStatus.value = EventRegUnRegUiStatus.PENDING
                 when(val response = remoteDataSource.registerToEvent(_givenEvent.value.id!!, eventRegistrationItem = eventRegistrationItem)) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError, is ResultWrapper.HttpError, is ResultWrapper.UnAuthError -> {
+                        _eventRegUnRegStatus.value = EventRegUnRegUiStatus.FAILURE
+                    }
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
                             _eventRegistrationData.value = it
-                            _actionFunctionStatus.value = true
+                            _eventRegUnRegStatus.value = EventRegUnRegUiStatus.SUCCESS
                         }
                     }
                 }
@@ -192,19 +197,24 @@ class EventSelectedViewModel @Inject constructor(
     fun unregisterFromEvent() {
         Session.user?.let { sessionUser ->
             viewModelScope.launch {
+                _eventRegUnRegStatus.value = EventRegUnRegUiStatus.PENDING
                 when(val response = remoteDataSource.unregisterFromEvent(_givenEvent.value.id!!, userId = sessionUser.id!!)) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError, is ResultWrapper.HttpError, is ResultWrapper.UnAuthError -> {
+                        _eventRegUnRegStatus.value = EventRegUnRegUiStatus.FAILURE
+                    }
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
                             _eventRegistrationData.value = it
-                            _actionFunctionStatus.value = true
+                            _eventRegUnRegStatus.value = EventRegUnRegUiStatus.SUCCESS
                         }
                     }
                 }
             }
         }
+    }
+
+    fun revokeEventRegUnRegStatus() {
+        _eventRegUnRegStatus.value = EventRegUnRegUiStatus.INITIAL
     }
 
     fun signUpToSheet(sheetId: String) {
