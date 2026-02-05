@@ -3,15 +3,20 @@ package com.kavi.pbc.droid.event.ui.create.dialog
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -54,6 +59,7 @@ fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, o
     val signUpSheetName = remember { mutableStateOf(TextFieldValue("")) }
     val signUpSheetDescription = remember { mutableStateOf(TextFieldValue("")) }
     val signUpAvailabilityCount = remember { mutableStateOf(TextFieldValue("")) }
+    var multiSignUpStatus by remember { mutableStateOf(false) }
 
     Box (
         modifier = Modifier
@@ -114,6 +120,31 @@ fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, o
             )
 
             Row (
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, start = 4.dp, end = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    modifier = Modifier.padding(end = 12.dp),
+                    text = stringResource(R.string.label_is_allow_multi_sign_ups),
+                    fontFamily = PBCFontFamily,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.onSurface,
+                )
+
+                Spacer(modifier = Modifier.weight(1f))
+
+                Checkbox(
+                    checked = multiSignUpStatus,
+                    onCheckedChange = { newCheckedState ->
+                        multiSignUpStatus = newCheckedState
+                    }
+                )
+            }
+
+            Row (
                 modifier = Modifier.padding(top = 16.dp),
             ) {
                 AppFilledButton(
@@ -127,7 +158,8 @@ fun SignUpSheetCreateContent(onCreate: (signUpSheetItem: SignUpSheet) -> Unit, o
                             UUID.randomUUID().toString(),
                             signUpSheetName.value.text,
                             signUpSheetDescription.value.text,
-                            signUpAvailabilityCount.value.text.toInt()
+                            signUpAvailabilityCount.value.text.toInt(),
+                            multiSignUpStatus
                         )
                     )
                 }

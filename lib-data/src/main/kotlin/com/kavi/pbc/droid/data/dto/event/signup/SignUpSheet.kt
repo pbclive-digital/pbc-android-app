@@ -8,5 +8,6 @@ data class SignUpSheet(
     val sheetId: String = UUID.randomUUID().toString(),
     val sheetName: String = "",
     val sheetDescription: String = "",
-    val availableCount: Int = 0
+    val availableCount: Int = 0,
+    val allowMultiSignUps: Boolean = false,
 )

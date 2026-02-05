@@ -52,6 +52,7 @@
     <string name="label_add_new_sign_up_sheet">Add New Sign-up Sheet</string>
     <string name="label_new_sign_up_sheet">Add Sign-up Sheet to Event</string>
     <string name="phrase_new_sign_up_sheet">Enter new sign-up sheet name and it\'s relevant sign-up availability.</string>
+    <string name="label_is_allow_multi_sign_ups">Are we allow multiple sign-ups for single user?</string>
     <string name="label_sheet_name">Sheet Name</string>
     <string name="label_sheet_dec">Sheet Description</string>
     <string name="label_sheet_availability_count">Sign-up Count</string>
