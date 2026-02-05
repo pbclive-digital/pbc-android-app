@@ -34,6 +34,7 @@ import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.data.model.EventRegUnRegUiStatus
+import com.kavi.pbc.droid.event.data.model.RegUnRegType
 import com.kavi.pbc.droid.event.ui.selected.EventSelectedViewModel
 import com.kavi.pbc.droid.lib.common.ui.component.AppFilledButton
 import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
@@ -42,10 +43,6 @@ import java.util.Locale
 import javax.inject.Inject
 
 class EventRegistrationSheet @Inject constructor() {
-
-    enum class RegUnRegType {
-        REGISTER, UNREGISTER
-    }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable

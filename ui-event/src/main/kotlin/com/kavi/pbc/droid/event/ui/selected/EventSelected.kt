@@ -52,6 +52,8 @@ import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
 import com.kavi.pbc.droid.event.ui.common.SignUpSheetItemUI
 import com.kavi.pbc.droid.event.ui.selected.action.EventRegistrationSheet
+import com.kavi.pbc.droid.event.ui.selected.action.PotluckDetailsBottomSheet
+import com.kavi.pbc.droid.event.ui.selected.action.SignUpSheetRegistrationSheet
 import com.kavi.pbc.droid.lib.common.ui.component.AppButtonWithIcon
 import com.kavi.pbc.droid.lib.common.ui.component.AppIconButton
 import com.kavi.pbc.droid.lib.common.ui.component.Title
@@ -66,10 +68,11 @@ import javax.inject.Inject
 class EventSelected @Inject constructor() {
 
     @Inject
-    lateinit var eventFunctionBottomSheet: EventFunctionBottomSheet
-
+    lateinit var potluckDetailsBottomSheet: PotluckDetailsBottomSheet
     @Inject
     lateinit var eventRegistrationAction: EventRegistrationSheet
+    @Inject
+    lateinit var signUpSheetRegistrationSheet: SignUpSheetRegistrationSheet
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
@@ -451,7 +454,7 @@ class EventSelected @Inject constructor() {
             }
 
             if (showPotluckSheet.value) {
-                eventFunctionBottomSheet.PotluckSheetUI(sheetState = potluckSheetState, showSheet = showPotluckSheet)
+                potluckDetailsBottomSheet.PotluckSheetUI(sheetState = potluckSheetState, showSheet = showPotluckSheet)
             }
 
             if (showRegistrationSheet.value) {
@@ -459,7 +462,7 @@ class EventSelected @Inject constructor() {
             }
 
             if (showSignUpSheetBottomSheet.value) {
-                eventFunctionBottomSheet.SignUpSheetBottomSheetUI(
+                signUpSheetRegistrationSheet.SignUpSheetBottomSheetUI(
                     sheetState = signUpSheetBottomSheetState,
                     showSheet = showSignUpSheetBottomSheet,
                     selectedSignUpSheet = selectedSignUpSheetItem.value

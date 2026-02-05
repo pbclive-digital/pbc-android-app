@@ -96,4 +96,6 @@
     <string name="label_event_sign_up_sheet_title">Sign-up sheet - %s</string>
     <string name="label_event_sign_up">Sign-up to Sheet</string>
     <string name="label_event_sign_out">Sign-out from Sheet</string>
+    <string name="label_event_or">OR</string>
+    <string name="label_event_user_sign_up_count">You have already signed-up [%d] time(s) to this sheet</string>
 </resources>

@@ -11,6 +11,7 @@ import com.kavi.pbc.droid.data.dto.event.register.EventRegistrationItem
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetList
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheetContributor
 import com.kavi.pbc.droid.event.data.model.EventRegUnRegUiStatus
+import com.kavi.pbc.droid.event.data.model.SignUpSheetRegUnRegUiStatus
 import com.kavi.pbc.droid.event.data.repository.remote.EventRemoteRepository
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -30,8 +31,8 @@ class EventSelectedViewModel @Inject constructor(
     private val _eventRegUnRegStatus = MutableStateFlow(EventRegUnRegUiStatus.INITIAL)
     val eventRegUnRegStatus: StateFlow<EventRegUnRegUiStatus> = _eventRegUnRegStatus
 
-    private val _authRequiredStatus = MutableStateFlow(false)
-    val authRequiredStatus: StateFlow<Boolean> = _authRequiredStatus
+    private val _signUpSheetRegUnRegStatus = MutableStateFlow(SignUpSheetRegUnRegUiStatus.INITIAL)
+    val signUpSheetRegUnRegStatus: StateFlow<SignUpSheetRegUnRegUiStatus> = _signUpSheetRegUnRegStatus
 
     private val _givenEvent = MutableStateFlow(Event(creator = ""))
     val givenEvent: StateFlow<Event> = _givenEvent
@@ -157,6 +158,17 @@ class EventSelectedViewModel @Inject constructor(
         }
     }
 
+    fun currentUserSignUpCountToSignUpSheet(sheetId: String): Int {
+        val filteredSignUpSheetList = _eventSignUpSheetData.value.signUpSheetItemList.filter { it.sheetId == sheetId }
+        return if (filteredSignUpSheetList.isNotEmpty()) {
+            val selectedSheet = filteredSignUpSheetList[0]
+            val filtered = selectedSheet.contributorList.filter { it.contributorId == Session.user?.id }
+            filtered.size
+        } else {
+            0
+        }
+    }
+
     fun remainingSignUpCountInSignUpSheet(sheetId: String): Int {
         val filteredSignUpSheetList = _eventSignUpSheetData.value.signUpSheetItemList.filter { it.sheetId == sheetId }
         var remainingCount = 0
@@ -224,15 +236,17 @@ class EventSelectedViewModel @Inject constructor(
             )
 
             viewModelScope.launch {
+                _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.PENDING
                 when(val response = remoteDataSource.signUpToSelectedSignUpSheet(
                     _givenEvent.value.id!!, sheetId = sheetId, contributor = sheetContributor
                 )) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError, is ResultWrapper.HttpError, is ResultWrapper.UnAuthError -> {
+                        _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.FAILURE
+                    }
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
                             _eventSignUpSheetData.value = it
+                            _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.REG_SUCCESS
                             _actionFunctionStatus.value = true
                         }
                     }
@@ -244,20 +258,26 @@ class EventSelectedViewModel @Inject constructor(
     fun signOutFromSheet(sheetId: String) {
         Session.user?.let { sessionUser ->
             viewModelScope.launch {
+                _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.PENDING
                 when(val response = remoteDataSource.signOutFromSelectedSignUpSheet(
                     _givenEvent.value.id!!, sheetId = sheetId, contributorId = sessionUser.id!!)) {
-                    is ResultWrapper.NetworkError -> {}
-                    is ResultWrapper.HttpError -> {}
-                    is ResultWrapper.UnAuthError -> {}
+                    is ResultWrapper.NetworkError, is ResultWrapper.HttpError, is ResultWrapper.UnAuthError -> {
+                        _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.FAILURE
+                    }
                     is ResultWrapper.Success -> {
                         response.value.body?.let {
                             _eventSignUpSheetData.value = it
+                            _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.UN_REG_SUCCESS
                             _actionFunctionStatus.value = true
                         }
                     }
                 }
             }
         }
+    }
+
+    fun revokeSignUpSheetRegUnRegStatus() {
+        _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.INITIAL
     }
 
     private fun fetchRegistrationDetails() {

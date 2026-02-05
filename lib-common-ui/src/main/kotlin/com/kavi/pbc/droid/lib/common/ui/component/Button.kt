@@ -45,9 +45,8 @@ import com.kavi.pbc.droid.lib.common.ui.model.IconSide
 import com.kavi.pbc.droid.lib.common.ui.theme.GrayText
 
 @Composable
-fun AppFilledButton(label: String,
+fun AppFilledButton(modifier: Modifier = Modifier, label: String,
                     labelTextSize: TextUnit? = null,
-                    modifier: Modifier = Modifier,
                     onClick: () -> Unit) {
     Button(
         onClick = onClick,
@@ -56,27 +55,27 @@ fun AppFilledButton(label: String,
         colors = ButtonDefaults.buttonColors(contentColor = MaterialTheme.colorScheme.onPrimary, containerColor = MaterialTheme.colorScheme.primary)
     ) {
         Text(
+            modifier = Modifier.padding(4.dp),
             text = label.uppercase(),
+            textAlign = TextAlign.Center,
             fontSize = labelTextSize ?: run { 14.sp },
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(4.dp),
         )
     }
 }
 
 @Composable
-fun AppButtonWithIcon(label: String,
+fun AppButtonWithIcon(modifier: Modifier = Modifier, label: String,
                       icon: Painter,
                       buttonHeight: Dp = 50.dp,
                       iconSide: IconSide = IconSide.LEFT,
                       labelTextSize: TextUnit? = null,
-                      modifier: Modifier = Modifier,
                       onClick: () -> Unit) {
 
     Button(
-        onClick = onClick,
         modifier = modifier.fillMaxWidth().height(buttonHeight),
+        onClick = onClick,
         shape = RoundedCornerShape(5.dp),
         colors = ButtonDefaults.buttonColors(
             contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -126,9 +125,9 @@ fun AppButtonWithIcon(label: String,
 
 @Composable
 fun AppDatePickerButton(
+    modifier: Modifier = Modifier,
     label: MutableState<String>,
     labelTextSize: TextUnit? = null,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit) {
 
     OutlinedButton(
@@ -165,9 +164,9 @@ fun AppDatePickerButton(
 
 @Composable
 fun AppTimePickerButton(
+    modifier: Modifier = Modifier,
     label: MutableState<String>,
     labelTextSize: TextUnit? = null,
-    modifier: Modifier = Modifier,
     onClick: () -> Unit) {
 
     OutlinedButton(
@@ -224,9 +223,8 @@ fun AppDisabledFilledButton(label: String,
 }
 
 @Composable
-fun AppOutlineButton(label: String,
+fun AppOutlineButton(modifier: Modifier = Modifier, label: String,
                      labelTextSize: TextUnit? = null,
-                     modifier: Modifier = Modifier,
                      onClick: () -> Unit) {
     OutlinedButton(
         onClick = onClick,
@@ -238,12 +236,13 @@ fun AppOutlineButton(label: String,
         )
     ) {
         Text(
+            modifier = Modifier.padding(4.dp),
             text = label.uppercase(),
+            textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.quaternary,
             fontSize = labelTextSize ?: run { 14.sp },
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Normal,
-            modifier = Modifier.padding(4.dp),
         )
     }
 }
