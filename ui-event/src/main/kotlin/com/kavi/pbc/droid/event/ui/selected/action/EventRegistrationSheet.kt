@@ -126,7 +126,7 @@ class EventRegistrationSheet @Inject constructor() {
                 horizontalArrangement = Arrangement.Center
             ) {
                 Image(
-                    painter = if (viewModel.isCurrentUserRegistered())
+                    painter = if (isCurrentUserRegistered)
                         painterResource(R.drawable.icon_remove_item)
                     else
                         painterResource(R.drawable.icon_add_item),
@@ -137,7 +137,7 @@ class EventRegistrationSheet @Inject constructor() {
             }
 
             Text(
-                text = if (viewModel.isCurrentUserRegistered())
+                text = if (isCurrentUserRegistered)
                     String.format(Locale.US, stringResource(R.string.phrase_event_unregistering), givenEvent.name)
                 else
                     String.format(Locale.US, stringResource(R.string.phrase_event_registering), givenEvent.name),
