@@ -6,12 +6,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -35,7 +33,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.event.R
-import com.kavi.pbc.droid.event.data.model.EventRegUnRegUiStatus
 import com.kavi.pbc.droid.event.data.model.RegUnRegType
 import com.kavi.pbc.droid.event.data.model.SignUpSheetRegUnRegUiStatus
 import com.kavi.pbc.droid.event.ui.selected.EventSelectedViewModel
@@ -222,7 +219,7 @@ class SignUpSheetRegistrationSheet @Inject constructor() {
                                 .padding(end = 4.dp)
                                 .weight(.5f),
                             label = stringResource(R.string.label_event_sign_out),
-                            labelTextSize = 12.sp
+                            labelTextSize = 10.sp
                         ) {
                             viewModel.signOutFromSheet(selectedSignUpSheet.sheetId)
                         }
@@ -231,7 +228,7 @@ class SignUpSheetRegistrationSheet @Inject constructor() {
                                 .padding(start = 4.dp)
                                 .weight(.5f),
                             label = stringResource(R.string.label_event_sign_up),
-                            labelTextSize = 12.sp
+                            labelTextSize = 10.sp
                         ) {
                             viewModel.signUpToSheet(selectedSignUpSheet.sheetId)
                         }

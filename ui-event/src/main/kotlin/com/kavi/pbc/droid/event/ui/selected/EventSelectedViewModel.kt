@@ -25,30 +25,23 @@ import javax.inject.Inject
 class EventSelectedViewModel @Inject constructor(
     private val remoteDataSource: EventRemoteRepository
 ): ViewModel() {
-    private val _actionFunctionStatus = MutableStateFlow(false)
-    val actionFunctionStatus: StateFlow<Boolean> = _actionFunctionStatus
+
+    private val _givenEvent = MutableStateFlow(Event(creator = ""))
+    val givenEvent: StateFlow<Event> = _givenEvent
+
+    private val _eventRegistrationData = MutableStateFlow(EventRegistration("", 0))
+
+    private val _eventPotluckData = MutableStateFlow(EventPotluck("", mutableListOf()))
+    val eventPotluckData: StateFlow<EventPotluck> = _eventPotluckData
+
+    private val _eventSignUpSheetData = MutableStateFlow(EventSignUpSheetList(""))
+    val eventSignUpSheetData: StateFlow<EventSignUpSheetList> = _eventSignUpSheetData
 
     private val _eventRegUnRegStatus = MutableStateFlow(EventRegUnRegUiStatus.INITIAL)
     val eventRegUnRegStatus: StateFlow<EventRegUnRegUiStatus> = _eventRegUnRegStatus
 
     private val _signUpSheetRegUnRegStatus = MutableStateFlow(SignUpSheetRegUnRegUiStatus.INITIAL)
     val signUpSheetRegUnRegStatus: StateFlow<SignUpSheetRegUnRegUiStatus> = _signUpSheetRegUnRegStatus
-
-    private val _givenEvent = MutableStateFlow(Event(creator = ""))
-    val givenEvent: StateFlow<Event> = _givenEvent
-
-    private val _eventRegistrationData = MutableStateFlow(EventRegistration("", 0))
-    val eventRegistrationData: StateFlow<EventRegistration> = _eventRegistrationData
-
-    private val _eventSignUpSheetData = MutableStateFlow(EventSignUpSheetList(""))
-    val eventSignUpSheetData: StateFlow<EventSignUpSheetList> = _eventSignUpSheetData
-
-    private val _eventPotluckData = MutableStateFlow(EventPotluck("", mutableListOf()))
-    val eventPotluckData: StateFlow<EventPotluck> = _eventPotluckData
-
-    fun revokeActionFunctionStatus() {
-        _actionFunctionStatus.value = false
-    }
 
     fun setGivenEvent(givenEvent: Event) {
         _givenEvent.value = givenEvent
@@ -247,7 +240,6 @@ class EventSelectedViewModel @Inject constructor(
                         response.value.body?.let {
                             _eventSignUpSheetData.value = it
                             _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.REG_SUCCESS
-                            _actionFunctionStatus.value = true
                         }
                     }
                 }
@@ -268,7 +260,6 @@ class EventSelectedViewModel @Inject constructor(
                         response.value.body?.let {
                             _eventSignUpSheetData.value = it
                             _signUpSheetRegUnRegStatus.value = SignUpSheetRegUnRegUiStatus.UN_REG_SUCCESS
-                            _actionFunctionStatus.value = true
                         }
                     }
                 }
