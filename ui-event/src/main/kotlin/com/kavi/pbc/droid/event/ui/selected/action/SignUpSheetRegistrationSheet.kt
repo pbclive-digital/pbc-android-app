@@ -193,7 +193,7 @@ class SignUpSheetRegistrationSheet @Inject constructor() {
                         .padding(top = 8.dp)
                 )
 
-                if (selectedSignUpSheet.allowMultiSignUps) {
+                if (selectedSignUpSheet.allowMultiSignUps && signUpCount > 0) {
                     Text(
                         text = String.format(Locale.US, stringResource(R.string.label_event_user_sign_up_count),
                             signUpCount),
