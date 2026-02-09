@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.ask.question.data.model.QuestionModifyOrCreateStatus
 import com.kavi.pbc.droid.ask.question.data.repository.local.QuestionLocalRepository
 import com.kavi.pbc.droid.ask.question.data.repository.remote.QuestionRemoteRepository
+import com.kavi.pbc.droid.data.dto.question.PrivacyStatus
 import com.kavi.pbc.droid.data.dto.question.Question
 import com.kavi.pbc.droid.network.model.ResultWrapper
 import com.kavi.pbc.droid.network.session.Session
@@ -47,6 +48,13 @@ class AskOrModifyViewModel @Inject constructor(
 
     fun updateQuestionContent(content: String) {
         _askOrModifyQuestion.value.content = content
+    }
+
+    fun updatePrivacyStatus(isPrivate: Boolean) {
+        if (isPrivate)
+            _askOrModifyQuestion.value.privacy = PrivacyStatus.PRIVATE
+        else
+            _askOrModifyQuestion.value.privacy = PrivacyStatus.PUBLIC
     }
 
     fun createOrModifyQuestion(isModify: Boolean) {

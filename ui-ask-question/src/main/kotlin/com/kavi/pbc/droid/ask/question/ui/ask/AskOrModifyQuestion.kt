@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -22,8 +25,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.kavi.pbc.droid.ask.question.R
@@ -33,6 +39,7 @@ import com.kavi.pbc.droid.lib.common.ui.component.AppFullScreenLoader
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineMultiLineTextField
 import com.kavi.pbc.droid.lib.common.ui.component.AppOutlineTextField
 import com.kavi.pbc.droid.lib.common.ui.component.Title
+import com.kavi.pbc.droid.lib.common.ui.theme.PBCFontFamily
 import javax.inject.Inject
 
 class AskOrModifyQuestion @Inject constructor() {
@@ -52,6 +59,7 @@ class AskOrModifyQuestion @Inject constructor() {
 
         val askQuestionTitle = remember { mutableStateOf(TextFieldValue(viewModel.askOrModifyQuestion.value.title)) }
         val askQuestionContent = remember { mutableStateOf(TextFieldValue(viewModel.askOrModifyQuestion.value.content)) }
+        var isPrivateQuestion by remember { mutableStateOf(false) }
 
         val questionCreateOrModifyStatus by viewModel.questionCreateOrModifyStatus.collectAsState()
 
@@ -102,6 +110,43 @@ class AskOrModifyQuestion @Inject constructor() {
                                 askQuestionContent.value = newValue
                                 viewModel.updateQuestionContent(askQuestionContent.value.text)
                             }
+                        )
+
+                        Row (
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 16.dp, start = 4.dp, end = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                modifier = Modifier.padding(end = 12.dp),
+                                text = stringResource(R.string.label_question_create_privacy),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Normal,
+                                color = MaterialTheme.colorScheme.onSurface,
+                            )
+
+                            Spacer(modifier = Modifier.weight(1f))
+
+                            Switch(
+                                checked = isPrivateQuestion, // The current state of the switch
+                                onCheckedChange = { newState ->
+                                    isPrivateQuestion = newState // Update the state when the user interacts with the switch
+                                    viewModel.updatePrivacyStatus(isPrivateQuestion)
+                                }
+                            )
+                        }
+
+                        Text(
+                            text = stringResource(R.string.phrase_question_create_privacy),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 12.sp,
+                            textAlign = TextAlign.Justify,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier
+                                .padding(start = 12.dp)
+                                .fillMaxWidth()
                         )
 
                         Spacer(modifier = Modifier.weight(1f))

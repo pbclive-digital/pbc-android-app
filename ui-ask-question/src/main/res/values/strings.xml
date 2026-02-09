@@ -18,6 +18,8 @@
     <string name="label_question_modify_success">Successfully to modified your question.</string>
     <string name="label_question_create_success">Successfully to created your question.</string>
     <string name="label_question_create_failed">Failed to create your question at this time. Please try again later</string>
+    <string name="label_question_create_privacy">Question Privacy On/Off</string>
+    <string name="phrase_question_create_privacy">Once you turn on privacy, you question will treat as a private question and only Bhathes can see and answer to your question. If you keep your question as public, then devotees also can see and answer for your question.</string>
 
     <string name="label_question_answers">Answers \/ Comments:</string>
     <string name="label_question_your_answer">Your Answer</string>
