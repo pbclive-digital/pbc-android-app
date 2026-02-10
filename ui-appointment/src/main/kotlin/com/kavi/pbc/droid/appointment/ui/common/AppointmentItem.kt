@@ -43,7 +43,8 @@ fun AppointmentItem(modifier: Modifier = Modifier, appointment: Appointment,
     BoxWithConstraints (
         modifier = modifier.padding(top = 2.dp)
     ) {
-        val textLength = (maxWidth.value * .65f).dp
+        val maxWith = this.maxWidth
+        val textLength = (maxWith.value * .65f).dp
 
         Row (
             modifier = Modifier
