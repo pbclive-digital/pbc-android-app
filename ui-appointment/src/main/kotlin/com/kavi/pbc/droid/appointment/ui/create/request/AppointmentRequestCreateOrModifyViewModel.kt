@@ -45,6 +45,7 @@ class AppointmentRequestCreateOrModifyViewModel @Inject constructor(
 
     fun getResidentMonkList() {
         val monkList = mutableListOf<String>()
+        monkList.add("0 - Any")
         localRepository.retrieveResidenceMonkList()
             .onSuccess { config ->
                 config.residentMonkList.forEachIndexed { index, monk ->
@@ -115,6 +116,9 @@ class AppointmentRequestCreateOrModifyViewModel @Inject constructor(
         monkMapping[selectedMonkName]?.let {
             _newAppointmentRequest.value.selectedMonkId = it.id!!
             _newAppointmentRequest.value.selectedMonk = it
+        }?: run {
+            _newAppointmentRequest.value.selectedMonkId = "none"
+            _newAppointmentRequest.value.selectedMonk = null
         }
     }
 
@@ -133,7 +137,7 @@ class AppointmentRequestCreateOrModifyViewModel @Inject constructor(
         return _newAppointmentRequest.value.selectedMonk?.let {
             "Bhanthe ${it.lastName}"
         }?: run {
-            ""
+            "none"
         }
     }
 }
