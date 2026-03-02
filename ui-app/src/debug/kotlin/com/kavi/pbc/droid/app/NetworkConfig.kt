@@ -6,6 +6,6 @@ object NetworkConfig {
 
     //val networkConfig = NetConfig("http://10.0.2.2:8082", networkInterceptor)
     val networkConfig = NetConfig(
-        schema = "http", domain = "192.168.40.37:8082"
+        scheme = "http", domain = "192.168.40.37:8082"
     )
 }
