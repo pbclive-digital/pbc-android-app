@@ -206,11 +206,11 @@ class EventSelected @Inject constructor() {
                     )
 
                     Row (
-                        modifier = Modifier.padding(top = 12.dp),
+                        modifier = Modifier.padding(top = 16.dp),
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Start
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.Center,
                         ) {
                             Text(
                                 text = stringResource(R.string.label_on),
@@ -232,9 +232,9 @@ class EventSelected @Inject constructor() {
 
                         Spacer(modifier = Modifier.weight(1f))
 
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.End
+                        Column(
+                            horizontalAlignment = Alignment.Start,
+                            verticalArrangement = Arrangement.Center,
                         ) {
                             Text(
                                 text = stringResource(R.string.label_from),
@@ -256,7 +256,7 @@ class EventSelected @Inject constructor() {
                     }
 
                     Row (
-                        modifier = Modifier.padding(top = 12.dp),
+                        modifier = Modifier.padding(top = 16.dp, bottom = 12.dp),
                     ) {
                         if (givenEvent.venueType == VenueType.PHYSICAL) {
                             Text(
@@ -317,7 +317,7 @@ class EventSelected @Inject constructor() {
                         }
 
                         Column(
-                            modifier = Modifier.padding(top = 16.dp, bottom = registrationBottomPadding)
+                            modifier = Modifier.padding(top = 8.dp, bottom = registrationBottomPadding)
                         ) {
                             Text(
                                 text = stringResource(R.string.label_event_registration),
