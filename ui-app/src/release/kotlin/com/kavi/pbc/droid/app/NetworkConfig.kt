@@ -6,6 +6,6 @@ object NetworkConfig {
 
     // TODO - Till the production deployment creates, this points to staging end-points
     val networkConfig = NetConfig(
-        schema = "https", domain = "pbc-api-staging-1f3fe32cb947.herokuapp.com"
+        scheme = "https", domain = "pbc-api-staging-1f3fe32cb947.herokuapp.com"
     )
 }
