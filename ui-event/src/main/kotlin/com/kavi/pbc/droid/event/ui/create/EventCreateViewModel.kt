@@ -105,7 +105,10 @@ class EventCreateViewModel @Inject constructor(
     }
 
     fun formatTime(hour: Int, minute: Int): String {
-        return String.format(Locale.US, "%02d:%02d", hour, minute)
+        return if (hour >= 12)
+            String.format(Locale.US, "%02d:%02d PM", hour, minute)
+        else
+            String.format(Locale.US, "%02d:%02d AM", hour, minute)
     }
 
     fun addPotluckItem(potluckItem: PotluckItem) {
