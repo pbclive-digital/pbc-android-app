@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kavi.pbc.droid.data.dto.event.Event
+import com.kavi.pbc.droid.data.dto.event.EventRecurringDay
 import com.kavi.pbc.droid.data.dto.event.EventType
 import com.kavi.pbc.droid.data.dto.event.potluck.PotluckItem
 import com.kavi.pbc.droid.data.dto.event.VenueType
@@ -66,10 +67,19 @@ class EventCreateViewModel @Inject constructor(
     }
 
     fun validateFirstPage(): Boolean {
-        return !(_newEvent.value.name.isEmpty() || _newEvent.value.description.isEmpty()
-                || _newEvent.value.eventType == EventType.DEFAULT
-                || _newEvent.value.eventDate.toInt() == 0 || _newEvent.value.startTime.isEmpty() || _newEvent.value.endTime.isEmpty()
-                || _newEvent.value.venueType == VenueType.DEFAULT)
+        if (_newEvent.value.name.isEmpty()) return false
+        if (_newEvent.value.description.isEmpty()) return false
+        if (_newEvent.value.eventType == EventType.DEFAULT) return false
+        if (_newEvent.value.eventType == EventType.RECURRING) {
+            if (_newEvent.value.recurringDay == EventRecurringDay.NONE) return false
+        } else {
+            if (_newEvent.value.eventDate.toInt() == 0) return false
+        }
+        if (_newEvent.value.startTime.isEmpty()) return false
+        if (_newEvent.value.endTime.isEmpty()) return false
+        if (_newEvent.value.venueType == VenueType.DEFAULT) return false
+
+        return true
     }
 
     fun validateSecondPage(): Boolean {
@@ -161,6 +171,19 @@ class EventCreateViewModel @Inject constructor(
             EventType.BUDDHISM_CLASS.name -> _newEvent.value.eventType = EventType.BUDDHISM_CLASS
             EventType.MEDITATION.name -> _newEvent.value.eventType = EventType.MEDITATION
             EventType.DHAMMA_TALK.name -> _newEvent.value.eventType = EventType.DHAMMA_TALK
+            EventType.RECURRING.name -> _newEvent.value.eventType = EventType.RECURRING
+        }
+    }
+
+    fun updateEventRecurringDay(eventRecurringDay: String) {
+        when(eventRecurringDay) {
+            EventRecurringDay.MONDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.MONDAY
+            EventRecurringDay.TUESDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.TUESDAY
+            EventRecurringDay.WEDNESDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.WEDNESDAY
+            EventRecurringDay.THURSDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.THURSDAY
+            EventRecurringDay.FRIDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.FRIDAY
+            EventRecurringDay.SATURDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.SATURDAY
+            EventRecurringDay.SUNDAY.name -> _newEvent.value.recurringDay = EventRecurringDay.SUNDAY
         }
     }
 
@@ -182,6 +205,13 @@ class EventCreateViewModel @Inject constructor(
             "SELECT DATE"
         else
             _newEvent.value.getFormatDate()
+    }
+
+    fun getInitialEventRecurringDay(): String {
+        return if (_newEvent.value.recurringDay == EventRecurringDay.NONE)
+            ""
+        else
+            _newEvent.value.recurringDay.name
     }
 
     fun updateStartTime(startTime: String) {

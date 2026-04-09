@@ -46,6 +46,7 @@ import coil.compose.AsyncImage
 import com.kavi.droid.color.palette.extension.shadow
 import com.kavi.pbc.droid.data.dto.event.Event
 import com.kavi.pbc.droid.data.dto.event.EventStatus
+import com.kavi.pbc.droid.data.dto.event.EventType
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.data.dto.user.UserType
@@ -220,14 +221,25 @@ class EventSelected @Inject constructor() {
                                 color = MaterialTheme.colorScheme.onBackground
                             )
 
-                            Text(
-                                modifier = Modifier.padding(start = 4.dp),
-                                text = givenEvent.getFormatDate(),
-                                fontFamily = PBCFontFamily,
-                                fontWeight = FontWeight.SemiBold,
-                                fontSize = 20.sp,
-                                color = MaterialTheme.colorScheme.onBackground
-                            )
+                            if (givenEvent.eventType == EventType.RECURRING) {
+                                Text(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    text = "every ${givenEvent.recurringDay.name}",
+                                    fontFamily = PBCFontFamily,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            } else {
+                                Text(
+                                    modifier = Modifier.padding(start = 4.dp),
+                                    text = givenEvent.getFormatDate(),
+                                    fontFamily = PBCFontFamily,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
                         }
 
                         Spacer(modifier = Modifier.weight(1f))

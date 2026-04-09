@@ -33,10 +33,12 @@ class EventList @Inject constructor(
         val isLoading by viewModel.isLoading.collectAsState()
 
         val upcomingEventList by viewModel.upcomingEventList.collectAsState()
+        val recurringEventList by viewModel.recurringEventList.collectAsState()
         val pastEventList by viewModel.pastEventList.collectAsState()
 
         LaunchedEffect(Unit) {
             viewModel.fetchUpcomingEvents()
+            viewModel.fetchRecurringEvents()
             viewModel.fetchPastEvents()
         }
 
@@ -49,6 +51,25 @@ class EventList @Inject constructor(
                         modifier = Modifier.height(maxHeight - BottomNavBarHeight)
                     ) {
                         items(upcomingEventList) { eventItem ->
+                            EventListItem(
+                                event = eventItem,
+                                modifier = Modifier.clickable {
+                                    val tempEventKey = eventLocalDataSource.setSelectedEvent(eventItem)
+                                    /**
+                                     * This is coming from ui-dashboard, because this EventList views embedded in
+                                     * ui-dashboard EventUI. Therefore, the navigation graph is still in ui-dashboard navGraph
+                                     */
+                                    navController.navigate("dashboard/to/event/$tempEventKey")
+                                }
+                            )
+                        }
+                    }
+                }
+                EventListViewMode.RECURRING -> {
+                    LazyColumn (
+                        modifier = Modifier.height(maxHeight - BottomNavBarHeight)
+                    ) {
+                        items(recurringEventList) { eventItem ->
                             EventListItem(
                                 event = eventItem,
                                 modifier = Modifier.clickable {

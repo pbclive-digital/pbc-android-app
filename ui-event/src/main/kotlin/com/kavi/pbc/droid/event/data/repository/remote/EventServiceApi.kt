@@ -24,6 +24,9 @@ interface EventServiceApi {
     @GET("/event/get/upcoming")
     suspend fun getUpcomingEvents(): BaseResponse<MutableList<Event>>
 
+    @GET("/event/get/recurring")
+    suspend fun getRecurringEvents(): BaseResponse<MutableList<Event>>
+
     @GET("/event/get/past")
     suspend fun getPastEvents(): BaseResponse<MutableList<Event>>
 

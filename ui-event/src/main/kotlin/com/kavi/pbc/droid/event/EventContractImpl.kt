@@ -44,6 +44,11 @@ class EventContractImpl @Inject constructor(
     }
 
     @Composable
+    override fun GetRecurringEventList(navController: NavController) {
+        eventList.EventListUI(navController = navController, viewMode = EventListViewMode.RECURRING)
+    }
+
+    @Composable
     override fun GetPastEventList(navController: NavController) {
         eventList.EventListUI(navController = navController, viewMode = EventListViewMode.PAST)
     }

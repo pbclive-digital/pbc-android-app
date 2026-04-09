@@ -17,6 +17,7 @@
     <string name="label_event_type">Event Type</string>
     <string name="label_when">When</string>
     <string name="label_date">Event Date: </string>
+    <string name="label_day_of_recurring">Day of recurring</string>
     <string name="label_from">From: </string>
     <string name="label_to">To: </string>
     <string name="label_on">On: </string>

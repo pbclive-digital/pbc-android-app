@@ -15,5 +15,8 @@ interface EventContract: CommonContract {
     fun GetUpcomingEventList(navController: NavController)
 
     @Composable
+    fun GetRecurringEventList(navController: NavController)
+
+    @Composable
     fun GetPastEventList(navController: NavController)
 }

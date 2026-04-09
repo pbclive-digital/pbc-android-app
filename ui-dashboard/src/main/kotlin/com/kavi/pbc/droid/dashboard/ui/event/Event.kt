@@ -61,7 +61,7 @@ class Event @Inject constructor() {
         val showAuthInviteSheet = remember { mutableStateOf(false) }
 
         var selectedPagerIndex by rememberSaveable { mutableIntStateOf(0) }
-        val state = rememberPagerState { 2 }
+        val state = rememberPagerState { 3 }
 
         LaunchedEffect(selectedPagerIndex) {
             state.animateScrollToPage(selectedPagerIndex)
@@ -129,6 +129,22 @@ class Event @Inject constructor() {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
+                                text = stringResource(R.string.label_recurring),
+                                fontFamily = PBCFontFamily,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
+
+                        Column(
+                            modifier = Modifier
+                                .weight(1f)
+                                .clickable {
+                                    selectedPagerIndex = 2
+                                },
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
                                 text = stringResource(R.string.label_past),
                                 fontFamily = PBCFontFamily,
                                 color = MaterialTheme.colorScheme.onSurface,
@@ -150,7 +166,7 @@ class Event @Inject constructor() {
                                 modifier = Modifier
                                     .padding(top = 12.dp)
                                     .height(2.dp)
-                                    .width((screenWidth - 20.dp) / 2)
+                                    .width((screenWidth - 20.dp) / 3)
                                     .fillMaxWidth()
                                     .background(color)
                             )
@@ -168,7 +184,8 @@ class Event @Inject constructor() {
                 ) { page ->
                     when (page) {
                         0 -> eventPager.UpcomingEventPager(navController = navController)
-                        1 -> eventPager.PastEventPager(navController = navController)
+                        1 -> eventPager.RecurringEventPager(navController = navController)
+                        2 -> eventPager.PastEventPager(navController = navController)
                     }
                 }
             }

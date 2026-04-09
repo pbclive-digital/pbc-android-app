@@ -29,6 +29,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kavi.pbc.droid.data.dto.event.EventRecurringDay
 import com.kavi.pbc.droid.data.dto.event.EventType
 import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.event.R
@@ -58,6 +59,7 @@ class InformationSheetPager @Inject constructor() {
         val eventDescription = remember { mutableStateOf(TextFieldValue(viewModel.newEvent.value.description)) }
         val eventType = remember { mutableStateOf(viewModel.getInitialEventType()) }
         val eventDate = remember { mutableStateOf(viewModel.getInitialEventDate()) }
+        val eventRecurringDay = remember { mutableStateOf(viewModel.getInitialEventRecurringDay()) }
         val eventFrom = remember { mutableStateOf(viewModel.getInitialStartTime()) }
         val eventTo = remember { mutableStateOf(viewModel.getInitialEndTime()) }
         val venueType = remember { mutableStateOf(viewModel.getInitialVenueType()) }
@@ -69,6 +71,11 @@ class InformationSheetPager @Inject constructor() {
 
         LaunchedEffect(eventType.value) {
             viewModel.updateEventType(eventType = eventType.value)
+        }
+
+        // Update viewModel with local changes of event-recurring-day
+        LaunchedEffect(eventRecurringDay.value) {
+            viewModel.updateEventRecurringDay(eventRecurringDay = eventRecurringDay.value)
         }
 
         LaunchedEffect(venueType.value) {
@@ -117,7 +124,7 @@ class InformationSheetPager @Inject constructor() {
                         .padding(top = 4.dp),
                     title = stringResource(R.string.label_event_type).uppercase(),
                     selectableItems = listOf(EventType.BUDDHISM_CLASS.name, EventType.MEDITATION.name,
-                        EventType.DHAMMA_TALK.name, EventType.SPECIAL.name),
+                        EventType.DHAMMA_TALK.name, EventType.SPECIAL.name, EventType.RECURRING.name),
                     selectedItem = eventType,
                 )
 
@@ -137,28 +144,60 @@ class InformationSheetPager @Inject constructor() {
                     thickness = 2.dp
                 )
 
-                Row (
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp, start = 4.dp, end = 4.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.label_date),
-                        fontFamily = PBCFontFamily,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-
-                    Spacer(modifier = Modifier.weight(1f))
-
-                    AppDatePickerButton (
-                        modifier = Modifier.width(200.dp),
-                        label = eventDate
+                if (eventType.value == EventType.RECURRING.name) {
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp, start = 4.dp, end = 4.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        showDatePicker.value = true
+                        Text(
+                            text = "${stringResource(R.string.label_day_of_recurring)}:",
+                            fontFamily = PBCFontFamily,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        AppDropDownMenu(
+                            modifier = Modifier.padding(start = 12.dp),
+                            title = stringResource(R.string.label_day_of_recurring).uppercase(),
+                            selectableItems = listOf(
+                                EventRecurringDay.MONDAY.name, EventRecurringDay.TUESDAY.name,
+                                EventRecurringDay.WEDNESDAY.name, EventRecurringDay.THURSDAY.name,
+                                EventRecurringDay.FRIDAY.name, EventRecurringDay.SATURDAY.name,
+                                EventRecurringDay.SUNDAY.name
+                            ),
+                            selectedItem = eventRecurringDay,
+                        )
+                    }
+                } else {
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp, start = 4.dp, end = 4.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = stringResource(R.string.label_date),
+                            fontFamily = PBCFontFamily,
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+
+                        Spacer(modifier = Modifier.weight(1f))
+
+                        AppDatePickerButton (
+                            modifier = Modifier.width(200.dp),
+                            label = eventDate
+                        ) {
+                            showDatePicker.value = true
+                        }
                     }
                 }
 

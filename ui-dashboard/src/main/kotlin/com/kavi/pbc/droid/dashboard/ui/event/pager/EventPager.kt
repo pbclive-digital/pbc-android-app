@@ -14,6 +14,12 @@ class EventPager @Inject constructor() {
     }
 
     @Composable
+    fun RecurringEventPager(navController: NavController) {
+        ContractServiceLocator.locate(EventContract::class)
+            .GetRecurringEventList(navController = navController)
+    }
+
+    @Composable
     fun PastEventPager(navController: NavController) {
         ContractServiceLocator.locate(EventContract::class)
             .GetPastEventList(navController = navController)

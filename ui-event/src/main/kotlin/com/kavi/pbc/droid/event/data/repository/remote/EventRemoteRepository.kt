@@ -25,6 +25,10 @@ class EventRemoteRepository @Inject constructor(
         return network.invokeApiCall(dispatcher) { eventServiceApi.getUpcomingEvents() }
     }
 
+    suspend fun getRecurringEvents(): ResultWrapper<BaseResponse<MutableList<Event>>> {
+        return network.invokeApiCall(dispatcher) { eventServiceApi.getRecurringEvents() }
+    }
+
     suspend fun getPastEvents(): ResultWrapper<BaseResponse<MutableList<Event>>> {
         return network.invokeApiCall(dispatcher) { eventServiceApi.getPastEvents() }
     }
