@@ -51,6 +51,7 @@ import com.kavi.pbc.droid.data.dto.event.VenueType
 import com.kavi.pbc.droid.data.dto.event.signup.EventSignUpSheet
 import com.kavi.pbc.droid.data.dto.user.UserType
 import com.kavi.pbc.droid.event.R
+import com.kavi.pbc.droid.event.ui.common.EventAgendaItem
 import com.kavi.pbc.droid.event.ui.common.SignUpSheetItemUI
 import com.kavi.pbc.droid.event.ui.selected.action.EventRegistrationSheet
 import com.kavi.pbc.droid.event.ui.selected.action.PotluckDetailsBottomSheet
@@ -321,6 +322,61 @@ class EventSelected @Inject constructor() {
                     }
 
                     //Spacer(modifier = Modifier.weight(1f))
+
+                    if (givenEvent.agendaAvailable) {
+                        var agendaBottomPadding = 0.dp
+                        if (!givenEvent.registrationRequired) {
+                            agendaBottomPadding = 40.dp
+                        }
+
+                        Column(
+                            modifier = Modifier.padding(top = 8.dp, bottom = agendaBottomPadding)
+                        ) {
+                            Text(
+                                text = stringResource(R.string.label_event_agenda),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            HorizontalDivider(
+                                modifier = Modifier.padding(2.dp),
+                                thickness = 2.dp
+                            )
+
+                            Text(
+                                text = stringResource(R.string.phrase_event_agenda),
+                                fontFamily = PBCFontFamily,
+                                fontSize = 16.sp,
+                                textAlign = TextAlign.Justify,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                            )
+
+                            Column (
+                                modifier = Modifier.padding(top = 8.dp)
+                            ) {
+                                givenEvent.agendaItemList?.let { itemList ->
+                                    itemList.forEachIndexed { index, agendaItem ->
+                                        EventAgendaItem(modifier = Modifier.padding(8.dp), agendaItem = agendaItem)
+                                        if (index < itemList.lastIndex) {
+                                            HorizontalDivider(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .padding(start = 16.dp, end = 8.dp),
+                                                thickness = 1.dp,
+                                                color = MaterialTheme.colorScheme.shadow
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
 
                     if (givenEvent.registrationRequired && givenEvent.eventStatus == EventStatus.PUBLISHED) {
                         var registrationBottomPadding = 0.dp
