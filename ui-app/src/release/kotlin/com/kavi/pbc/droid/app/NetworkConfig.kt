@@ -4,8 +4,7 @@ import com.kavi.pbc.droid.network.model.NetConfig
 
 object NetworkConfig {
 
-    // TODO - Till the production deployment creates, this points to staging end-points
     val networkConfig = NetConfig(
-        scheme = "https", domain = "pbc-api-staging-1f3fe32cb947.herokuapp.com"
+        scheme = "https", domain = "api.pittsburghbuddhistcenter.org"
     )
 }

@@ -34,10 +34,16 @@ android {
         * `pbc-app-secrets` private repository.
         * */
         create("staging-release") {
-            storeFile = file("../../pbc-app-secrets/android-staging-sign-in-certificate/PBCLive-staging-keystore.jks")
+            storeFile = file("../../pbc-app-secrets/android-sign-in-keystores/staging-release/PBCLive-staging-keystore.jks")
             storePassword = "PBC123!"
             keyAlias = "PBCLive_alias"
             keyPassword = "PBC123!"
+        }
+        create("prod-release") {
+            storeFile = file("../../pbc-app-secrets/android-sign-in-keystores/prod-release/PBCLive-prod-keystore.jks")
+            storePassword = "PBCProd123!"
+            keyAlias = "PBCLive_prod_alias"
+            keyPassword = "PBCProd123!"
         }
     }
 
@@ -72,6 +78,9 @@ android {
         release {
             isMinifyEnabled = false
             isDebuggable = false
+
+            signingConfig = signingConfigs.getByName("prod-release")
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
