@@ -260,6 +260,10 @@ class EventCreateViewModel @Inject constructor(
         _newEvent.value.meetingUrl = meetingUrl
     }
 
+    fun updateAgendaFlag(isAgendaAvailable: Boolean) {
+        _newEvent.value.agendaAvailable = isAgendaAvailable
+    }
+
     fun updateRegistrationRequiredFlag(isRegistrationRequired: Boolean) {
         _newEvent.value.registrationRequired = isRegistrationRequired
     }

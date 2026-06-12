@@ -28,7 +28,7 @@
     <string name="label_venue_address">Venue Address</string>
     <string name="label_meeting_url">Meeting URL</string>
     <string name="phrase_validation_failure_form_one">One or more required information is missing here to continue.</string>
-    <string name="label_event_agenda">Event Agenda</string>
+    <string name="label_event_agenda">Agenda</string>
     <string name="phrase_event_agenda">This is the agenda for our event. We are always trying to be on time and take our event according to following schedule.</string>
     <string name="label_event_registration">Registration</string>
     <string name="phrase_event_registration">Is this event required user pre-registration? If yes, add the opening seat count for the event.</string>
@@ -72,6 +72,10 @@
     <string name="phrase_event_delete_confirmation">Do you want to delete this Event? Once you delete it, all the data related to this event will delete.</string>
     <string name="label_event_publish_confirmation">Publishing Ready?</string>
     <string name="phrase_event_publish_confirmation">Is this event ready to publish?. Once you published it, all users will see this as an event.</string>
+
+    <string name="label_event_agenda_in_admin">Event Agenda</string>
+    <string name="phrase_event_agenda_in_admin">Do we have an agenda to display in event description? If yes, add the agenda as steps in here.</string>
+    <string name="label_event_agenda_available">Is agenda available?</string>
 
     <string name="label_event_register">Register</string>
     <string name="label_event_unregister">Un-Register</string>
